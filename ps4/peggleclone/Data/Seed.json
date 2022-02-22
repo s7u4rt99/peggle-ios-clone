@@ -1,0 +1,56 @@
+[
+   {
+      "id":"B24EB2CF-80D0-46E9-A190-19D49B4D7AC6",
+      "name":"Default level 1",
+      "pegs":[
+         {
+            "radius":25,
+            "id":"31BBD1B6-3220-4668-85CA-82B5CB6F4F1C",
+            "type":"peg-orange",
+            "center":[
+               410,
+               590
+            ]
+         },
+         {
+            "radius":25,
+            "id":"B413DF74-4A99-42E1-8750-AD132C2E18F6",
+            "type":"peg-blue",
+            "center":[
+               615,
+               590
+            ]
+         }
+      ]
+   },
+   {
+      "id":"8F3BF393-8126-4F3B-B6CA-9B60343B92E3",
+      "name":"Default level 2",
+      "pegs":[
+         {
+            "radius":25,
+            "id":"36D93CE7-2F53-45BA-AB3E-638CA0EEAA6C",
+            "type":"peg-orange",
+            "center":[
+               164,
+               826
+            ]
+         }
+      ]
+   },
+   {
+      "id":"0DB69827-5066-40D6-9F85-F47992AD69B4",
+      "name":"Default level 3",
+      "pegs":[
+         {
+            "radius":25,
+            "id":"70C6B916-58FC-4276-AAC7-EF48B866BF1A",
+            "type":"peg-blue",
+            "center":[
+               246,
+               472
+            ]
+         }
+      ]
+   }
+]
