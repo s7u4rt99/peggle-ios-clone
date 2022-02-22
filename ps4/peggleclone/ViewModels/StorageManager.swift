@@ -35,6 +35,7 @@ class StorageManager {
         guard let levels = try? decoder.decode([Level].self, from: data) else {
             fatalError("Failed to decode JSON from data")
         }
+        print(url)
 
         return levels
     }

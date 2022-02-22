@@ -12,19 +12,19 @@ class SLPhysicsCircle: SLPhysicsBody {
     var height: Double
     var width: Double
     var mass: Double
-    var velocity: CGVector
-    var position: CGPoint
-    var gravity: CGVector
+    var velocity: Vector
+    var position: Point
+    var gravity: Vector
     var isDynamic: Bool
-    var forces: [CGVector] = []
+    var forces: [Vector] = []
     var collisionsWith: [SLPhysicsBody] = []
     var radius: Double
     var hasCollided = false
     var canIgnore = false
 
-    init(velocity: CGVector,
-         position: CGPoint,
-         gravity: CGVector = CGVector(dx: 0, dy: 9.81),
+    init(velocity: Vector,
+         position: Point,
+         gravity: Vector = Vector(xDirection: 0, yDirection: 9.81),
          isDynamic: Bool,
          radius: Double) {
         self.velocity = velocity
@@ -37,10 +37,10 @@ class SLPhysicsCircle: SLPhysicsBody {
         self.width = radius * 2
     }
 
-    init(position: CGPoint, isDynamic: Bool, radius: Double) {
-        self.velocity = CGVector()
+    init(position: Point, isDynamic: Bool, radius: Double) {
+        self.velocity = Vector()
         self.position = position
-        self.gravity = CGVector(dx: 0, dy: 9.81)
+        self.gravity = Vector(xDirection: 0, yDirection: 9.81)
         self.isDynamic = isDynamic
         self.radius = radius
         self.mass = Double.pi * radius * radius
@@ -48,11 +48,11 @@ class SLPhysicsCircle: SLPhysicsBody {
         self.width = radius * 2
     }
 
-    func moveTo(position: CGPoint) {
+    func moveTo(position: Point) {
         self.position = position
     }
 
-    func setVelocity(newVelocity: CGVector) {
+    func setVelocity(newVelocity: Vector) {
         self.velocity = newVelocity
     }
 
@@ -64,14 +64,14 @@ class SLPhysicsCircle: SLPhysicsBody {
     }
 
     private func isColliding(collidingCircle: SLPhysicsCircle) -> Bool {
-        let xDistance = self.position.x - collidingCircle.position.x
-        let yDistance = self.position.y - collidingCircle.position.y
+        let xDistance = self.position.xCoordinate - collidingCircle.position.xCoordinate
+        let yDistance = self.position.yCoordinate - collidingCircle.position.yCoordinate
         let closestRange = self.radius + collidingCircle.radius
         return (xDistance * xDistance + yDistance * yDistance) <= (closestRange * closestRange)
     }
 
     func resolveForces() {
-        var resultantForce = CGVector()
+        var resultantForce = Vector()
         for force in forces {
             resultantForce = resultantForce.addTo(vector: force)
         }

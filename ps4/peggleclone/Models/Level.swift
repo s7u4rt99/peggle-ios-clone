@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct Level: Identifiable, Codable {
     var id: UUID
@@ -27,7 +26,7 @@ struct Level: Identifiable, Codable {
         }
     }
 
-    mutating func movePeg(peg: Peg, newLocation: CGPoint) {
+    mutating func movePeg(peg: Peg, newLocation: Point) {
         for pegObject in pegs where pegObject.id == peg.id {
             pegObject.shiftTo(location: newLocation)
         }

@@ -18,7 +18,7 @@ class SLGameEngine {
     private var canvasDimensions: CGRect
     private var cannonBall: Peg?
     private var similarPositionCounter = 0
-    private var mostRecentPosition: CGPoint?
+    private var mostRecentPosition: Point?
 
     init(canvasDimensions: CGRect) {
         self.canvasDimensions = canvasDimensions
@@ -44,11 +44,15 @@ class SLGameEngine {
             return
         }
         let middleOfTopScreen = CGPoint(x: 400, y: 50)
-        let cannonBall = Peg(type: PegType.cannonPeg, center: middleOfTopScreen)
+        let cannonBall = Peg(type: PegType.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
 
         pegManager.addCannonBall(cannonBall: cannonBall)
         self.mostRecentPosition = cannonBall.center
+    }
+
+    func toPoint(point: CGPoint) -> Point {
+        return Point(xCoordinate: point.x, yCoordinate: point.y)
     }
 
     func createDisplayLink() {
@@ -105,8 +109,13 @@ class SLGameEngine {
             if isCannonBallSamePosition() {
                 if similarPositionCounter > similarPositionLimit {
                     for peg in currentCollisions {
-                        mappings[peg]?.ignore()
-                        pegManager.delete(peg: peg)
+                        guard let pegInTouch = mappings[peg] else {
+                            continue
+                        }
+                        if pegInTouch.hasCollided {
+                            pegInTouch.ignore()
+                            pegManager.delete(peg: peg)
+                        }
                     }
                 } else {
                     similarPositionCounter += 1
@@ -126,8 +135,8 @@ class SLGameEngine {
                 let mostRecentPosition = mostRecentPosition else {
             return false
         }
-        return abs(cannonBallPhysicBody.position.x - mostRecentPosition.x) < allowance &&
-            abs(cannonBallPhysicBody.position.y - mostRecentPosition.y) < allowance
+        return abs(cannonBallPhysicBody.position.xCoordinate - mostRecentPosition.xCoordinate) < allowance &&
+            abs(cannonBallPhysicBody.position.yCoordinate - mostRecentPosition.yCoordinate) < allowance
     }
 
     private func contains(arr: [SLPhysicsBody], physicsBody: SLPhysicsBody) -> Bool {
@@ -137,7 +146,7 @@ class SLGameEngine {
         return false
     }
 
-    func fireCannonBall(directionOf: CGPoint) {
+    func fireCannonBall(directionOf: Point) {
         guard let cannonBall = cannonBall else {
             return
         }
@@ -147,11 +156,13 @@ class SLGameEngine {
         }
 
         var modifiedDirection = directionOf
-        if directionOf.y < cannonBall.center.y {
-            modifiedDirection = CGPoint(x: directionOf.x, y: cannonBall.center.y)
+        if directionOf.yCoordinate < cannonBall.center.yCoordinate {
+            modifiedDirection = Point(xCoordinate: directionOf.xCoordinate,
+                                      yCoordinate: cannonBall.center.yCoordinate)
         }
-        let cannonBallPhysics = SLPhysicsCircle(velocity: CGVector(dx: modifiedDirection.x - cannonBall.center.x,
-                                                                   dy: modifiedDirection.y - cannonBall.center.y)
+        let cannonBallPhysics = SLPhysicsCircle(
+            velocity: Vector(xDirection: modifiedDirection.xCoordinate - cannonBall.center.xCoordinate,
+                             yDirection: modifiedDirection.yCoordinate - cannonBall.center.yCoordinate)
                                                     .multiplyWithScalar(scalar: 1.5),
                                                 position: cannonBall.center,
                                                 isDynamic: true,

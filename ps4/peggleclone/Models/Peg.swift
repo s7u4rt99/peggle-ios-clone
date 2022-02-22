@@ -11,17 +11,17 @@ import SwiftUI
 class Peg: Identifiable, Codable {
     var id: UUID
     var type: PegType
-    var center: CGPoint
+    var center: Point
     var radius: Double
 
-    init(type: PegType, center: CGPoint, radius: Double = 25) {
+    init(type: PegType, center: Point, radius: Double = 25) {
         self.id = UUID()
         self.type = type
         self.center = center
         self.radius = radius
     }
 
-    func shiftTo(location: CGPoint) {
+    func shiftTo(location: Point) {
         self.center = location
     }
 
@@ -30,8 +30,8 @@ class Peg: Identifiable, Codable {
     }
 
     private func distanceSquared(peg: Peg) -> Double {
-        let width = peg.center.x - self.center.x
-        let height = peg.center.y - self.center.y
+        let width = peg.center.xCoordinate - self.center.xCoordinate
+        let height = peg.center.yCoordinate - self.center.yCoordinate
 
         return width * width + height * height
     }

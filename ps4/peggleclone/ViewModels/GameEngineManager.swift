@@ -24,6 +24,6 @@ class GameEngineManager: ObservableObject {
     }
 
     func fireCannonBall(directionOf: CGPoint) {
-        gameEngine.fireCannonBall(directionOf: directionOf)
+        gameEngine.fireCannonBall(directionOf: Point(xCoordinate: directionOf.x, yCoordinate: directionOf.y))
     }
 }

@@ -25,11 +25,11 @@ struct GameCanvasView: View {
 //            CannonView()
 
             ForEach(pegManager.level.pegs) { peg in
-                PegView(location: .constant(peg.center),
+                PegView(location: .constant(toCGPoint(point: peg.center)),
                         pegType: peg.type,
                         pegRadius: peg.radius)
                     .onTapGesture {
-                        gameEngineManager.fireCannonBall(directionOf: peg.center)
+                        gameEngineManager.fireCannonBall(directionOf: toCGPoint(point: peg.center))
                     }
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
             }
@@ -47,6 +47,10 @@ struct GameCanvasView: View {
                 )
             }
         }
+    }
+
+    func toCGPoint(point: Point) -> CGPoint {
+        return CGPoint(x: point.xCoordinate, y: point.yCoordinate)
     }
 }
 

@@ -30,7 +30,8 @@ struct LevelDesignerCanvasView: View {
                     )
 
                 ForEach(pegManager.level.pegs) { peg in
-                    PegView(location: .constant(peg.center), pegType: peg.type, pegRadius: peg.radius)
+                    PegView(location: .constant(CGPoint(x: peg.center.xCoordinate, y: peg.center.yCoordinate)),
+                            pegType: peg.type, pegRadius: peg.radius)
                         .onTapGesture {
                             if keyboardResponder.currentHeight == 0 && pegManager.isDeleteSelected {
                                 pegManager.delete(peg: peg)

@@ -63,7 +63,7 @@ class SLPhysicsWorld {
             fatalError("No canvas dimensions included")
         }
 
-        return physicsBody.position.y >= canvasDimensions.height * 2
+        return physicsBody.position.yCoordinate >= canvasDimensions.height * 2
     }
 
     private func getCollisions() {
@@ -99,15 +99,18 @@ class SLPhysicsWorld {
         let restitution = 0.9
 
         for physicsBody in physicsBodies where physicsBody.isDynamic {
-            if physicsBody.position.x < physicsBody.width / 2 {
-                physicsBody.setVelocity(newVelocity: CGVector(dx: abs(physicsBody.velocity.dx) * restitution,
-                                                              dy: physicsBody.velocity.dy))
-                physicsBody.moveTo(position: CGPoint(x: physicsBody.width / 2, y: physicsBody.position.y))
-            } else if physicsBody.position.x > canvasDimensions.width - physicsBody.width / 2 {
-                physicsBody.setVelocity(newVelocity: CGVector(dx: -abs(physicsBody.velocity.dx) * restitution,
-                                                              dy: physicsBody.velocity.dy))
-                physicsBody.moveTo(position: CGPoint(x: canvasDimensions.width - physicsBody.width / 2,
-                                                     y: physicsBody.position.y))
+            if physicsBody.position.xCoordinate < physicsBody.width / 2 {
+                physicsBody
+                    .setVelocity(newVelocity: Vector(xDirection: abs(physicsBody.velocity.xDirection) * restitution,
+                                                     yDirection: physicsBody.velocity.yDirection))
+                physicsBody.moveTo(position: Point(xCoordinate: physicsBody.width / 2,
+                                                   yCoordinate: physicsBody.position.yCoordinate))
+            } else if physicsBody.position.xCoordinate > canvasDimensions.width - physicsBody.width / 2 {
+                physicsBody
+                    .setVelocity(newVelocity: Vector(xDirection: -abs(physicsBody.velocity.xDirection) * restitution,
+                                                     yDirection: physicsBody.velocity.yDirection))
+                physicsBody.moveTo(position: Point(xCoordinate: canvasDimensions.width - physicsBody.width / 2,
+                                                   yCoordinate: physicsBody.position.yCoordinate))
             }
         }
     }
@@ -138,8 +141,8 @@ class SLPhysicsWorld {
     }
 
     private func getCircleIntersectAmount(_ firstBody: SLPhysicsBody, _ secondBody: SLPhysicsBody) -> Double {
-        let xDistance = firstBody.position.x - secondBody.position.x
-        let yDistance = firstBody.position.y - secondBody.position.y
+        let xDistance = firstBody.position.xCoordinate - secondBody.position.xCoordinate
+        let yDistance = firstBody.position.yCoordinate - secondBody.position.yCoordinate
         let closestRange = firstBody.width / 2 + secondBody.width / 2
 
         return closestRange - sqrt((xDistance * xDistance + yDistance * yDistance))

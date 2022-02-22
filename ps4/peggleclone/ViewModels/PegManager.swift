@@ -47,7 +47,7 @@ class PegManager: ObservableObject, Identifiable {
 
     func addPeg(center: CGPoint, canvasDimensions: CGRect) {
         if let selectedPeg = selectedPeg, safeToPlacePegAt(center: center, canvasDimensions: canvasDimensions) {
-            level.addPeg(peg: Peg(type: selectedPeg, center: center))
+            level.addPeg(peg: Peg(type: selectedPeg, center: Point(xCoordinate: center.x, yCoordinate: center.y)))
         }
     }
 
@@ -57,7 +57,7 @@ class PegManager: ObservableObject, Identifiable {
         }
 
         // arbituary peg to check if overlaps with any other pegs
-        let pegObject = Peg(type: PegType.bluePeg, center: center)
+        let pegObject = Peg(type: PegType.bluePeg, center: Point(xCoordinate: center.x, yCoordinate: center.y))
 
         for peg in level.pegs {
             if peg.overlap(peg: pegObject) {
@@ -77,7 +77,7 @@ class PegManager: ObservableObject, Identifiable {
 
     func dragPeg(peg pegToMove: Peg, newLocation: CGPoint, canvasDimensions: CGRect) {
         if safeToDragPegTo(peg: pegToMove, location: newLocation, canvasDimensions: canvasDimensions) {
-            level.movePeg(peg: pegToMove, newLocation: newLocation)
+            level.movePeg(peg: pegToMove, newLocation: Point(xCoordinate: newLocation.x, yCoordinate: newLocation.y))
         }
     }
 
@@ -86,7 +86,7 @@ class PegManager: ObservableObject, Identifiable {
             return false
         }
 
-        let pegObject = Peg(type: pegToDrag.type, center: location)
+        let pegObject = Peg(type: pegToDrag.type, center: Point(xCoordinate: location.x, yCoordinate: location.y))
 
         for peg in level.pegs {
             if peg != pegToDrag && peg.overlap(peg: pegObject) {
@@ -118,7 +118,7 @@ class PegManager: ObservableObject, Identifiable {
         unselectDelete()
     }
 
-    func movePeg(peg: Peg, newLocation: CGPoint) {
+    func movePeg(peg: Peg, newLocation: Point) {
         self.level.movePeg(peg: peg, newLocation: newLocation)
     }
 

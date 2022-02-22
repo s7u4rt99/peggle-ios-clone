@@ -21,13 +21,14 @@ class SLPhysicsCollision {
 
     // assuming circle
     func resolve() {
-        let collisionVector = CGVector(dx: secondBody.position.x - firstBody.position.x,
-                                       dy: secondBody.position.y - firstBody.position.y)
+        let collisionVector = Vector(xDirection: secondBody.position.xCoordinate - firstBody.position.xCoordinate,
+                                     yDirection: secondBody.position.yCoordinate - firstBody.position.yCoordinate)
         let distance = distanceBetween(firstPoint: firstBody.position, secondPoint: secondBody.position)
-        let collisionNormalVector = CGVector(dx: collisionVector.dx / (distance),
-                                             dy: collisionVector.dy / (distance))
+        let collisionNormalVector = Vector(xDirection: collisionVector.xDirection / (distance),
+                                           yDirection: collisionVector.yDirection / (distance))
         let relativeVelocity = firstBody.velocity.subtract(vector: secondBody.velocity)
-        let tempSpeed = (relativeVelocity.dx * collisionVector.dx + relativeVelocity.dy * collisionVector.dy)
+        let tempSpeed = (relativeVelocity.xDirection * collisionVector.xDirection +
+                         relativeVelocity.yDirection * collisionVector.yDirection)
         let speedAfterScale = Double(tempSpeed) * speedScale
         let speedAfterRestitution = speedAfterScale * restitution
         let impulse = 2 * speedAfterRestitution / (firstBody.mass + secondBody.mass)
@@ -37,9 +38,9 @@ class SLPhysicsCollision {
         }
     }
 
-    private func distanceBetween(firstPoint: CGPoint, secondPoint: CGPoint) -> Double {
-        let xDist = firstPoint.x - secondPoint.x
-        let yDist = firstPoint.y - secondPoint.y
+    private func distanceBetween(firstPoint: Point, secondPoint: Point) -> Double {
+        let xDist = firstPoint.xCoordinate - secondPoint.xCoordinate
+        let yDist = firstPoint.yCoordinate - secondPoint.yCoordinate
         return Double(sqrt(xDist * xDist + yDist * yDist))
     }
 }

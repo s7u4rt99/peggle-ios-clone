@@ -10,20 +10,20 @@ import SwiftUI
 
 protocol SLPhysicsBody {
     var mass: Double { get }
-    var velocity: CGVector { get set }
-    var position: CGPoint { get set }
-    var gravity: CGVector { get set }
+    var velocity: Vector { get set }
+    var position: Point { get set }
+    var gravity: Vector { get set }
     var isDynamic: Bool { get set }
-    var forces: [CGVector] { get set }
+    var forces: [Vector] { get set }
     var collisionsWith: [SLPhysicsBody] { get set }
     var height: Double { get set }
     var width: Double { get set }
     var hasCollided: Bool { get set }
     var canIgnore: Bool { get set }
 
-    func moveTo(position: CGPoint)
+    func moveTo(position: Point)
 
-    func setVelocity(newVelocity: CGVector)
+    func setVelocity(newVelocity: Vector)
 
     func intersectWithCircle(circleBody: SLPhysicsBody) -> Bool
 
