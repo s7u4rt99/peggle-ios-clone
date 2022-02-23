@@ -19,14 +19,16 @@ class SLGameEngine {
     private var cannonBall: Peg?
     private var similarPositionCounter = 0
     private var mostRecentPosition: Point?
+    private var bucket: Bucket?
 
     init(canvasDimensions: CGRect) {
         self.canvasDimensions = canvasDimensions
     }
 
-    func loadLevel(gameLogicDelegate: GameLogicDelegate, level: Level) {
+    func loadLevel(gameLogicDelegate: GameLogicDelegate, level: Level, bucket: Bucket) {
         // create physics body for each object, loads to physics engine
         self.gameLogicDelegate = gameLogicDelegate
+        self.bucket = bucket
 
         var physicsObjects: [SLPhysicsBody] = []
         for peg in level.pegs {
@@ -34,7 +36,13 @@ class SLGameEngine {
             physicsObjects.append(physicsBody)
             mappings[peg] = physicsBody
         }
-
+        // create body for bucket
+        let bucketPhysicsBody = SLPhysicsBucket(position: bucket.center,
+                                                height: bucket.size,
+                                                width: bucket.size)
+        // add bucket to mappings
+        mappings[bucket] = bucketPhysicsBody
+        physicsObjects.append(bucketPhysicsBody)
         physicsEngine.load(physicsBodies: physicsObjects, canvasDimensions: canvasDimensions)
         addCannonBall()
     }
@@ -77,7 +85,15 @@ class SLGameEngine {
     }
 
     func render(cannonBallCount: Int) {
-        guard let gameLogicDelegate = gameLogicDelegate, let cannonBall = cannonBall,
+        guard let gameLogicDelegate = gameLogicDelegate,
+              let bucket = bucket,
+              let bucketPhysicsBody = mappings[bucket] else {
+            return
+        }
+
+        moveBucket(bucket, bucketPhysicsBody, gameLogicDelegate)
+
+        guard let cannonBall = cannonBall,
               let cannonBallPhysicsBody = mappings[cannonBall] else {
             return
         }
@@ -117,6 +133,12 @@ class SLGameEngine {
         }
     }
 
+    private func moveBucket(
+        _ bucket: Bucket, _ bucketPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
+        bucket.center = bucketPhysicsBody.position
+        gameLogicDelegate.didMove(peggleObject: bucket, newLocation: bucketPhysicsBody.position)
+    }
+
     private func handleCollisions(
         _ collisions: [SLPhysicsBody], _ gameLogicDelegate: GameLogicDelegate, _ cannonBallCount: Int) -> [Peg] {
         var currentCollisions: [Peg] = []
@@ -135,7 +157,7 @@ class SLGameEngine {
             }
         }
 
-        if mappings.count == 0 {
+        if mappings.count == 1 {
             gameLogicDelegate.gameEnded()
         }
 
@@ -145,7 +167,7 @@ class SLGameEngine {
     private func moveCannonBall(
         _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
         cannonBall.center = cannonBallPhysicsBody.position
-        gameLogicDelegate.didMove(peg: cannonBall, newLocation: cannonBallPhysicsBody.position)
+        gameLogicDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
     }
 
     private func isCannonBallSamePosition() -> Bool {

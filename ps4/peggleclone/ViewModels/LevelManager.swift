@@ -12,6 +12,7 @@ class LevelManager: ObservableObject, Identifiable {
 
     @Published var level: Level
     @Published var isGameEnd: Bool
+    @Published var bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
     var selectedPeg: PegType?
     var isDeleteSelected = false
 
@@ -124,5 +125,10 @@ class LevelManager: ObservableObject, Identifiable {
 
     func movePeg(peg: Peg, newLocation: Point) {
         self.level.movePeg(peg: peg, newLocation: newLocation)
+    }
+    
+    func moveBucket(newLocation: Point) {
+        objectWillChange.send()
+        bucket.shiftTo(location: newLocation)
     }
 }

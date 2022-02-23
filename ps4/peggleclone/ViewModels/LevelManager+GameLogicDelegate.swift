@@ -8,8 +8,13 @@
 import Foundation
 
 extension LevelManager: GameLogicDelegate {
-    func didMove(peg: Peg, newLocation: Point) {
-        movePeg(peg: peg, newLocation: newLocation)
+    func didMove(peggleObject: PeggleObject, newLocation: Point) {
+        if let peg = peggleObject as? Peg {
+            movePeg(peg: peg, newLocation: newLocation)
+        } else if peggleObject is Bucket {
+//            print("bucket at \(newLocation)")
+            moveBucket(newLocation: newLocation)
+        }
     }
 
     func didRemove(peg: Peg) {

@@ -42,6 +42,9 @@ struct GameCanvasView: View {
                 .rotationEffect(.radians(rotation))
                 .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
 
+            BucketView(size: levelManager.bucket.size)
+                .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
+
             if load {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,

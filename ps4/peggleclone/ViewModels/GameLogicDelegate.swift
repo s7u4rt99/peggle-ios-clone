@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GameLogicDelegate: AnyObject {
-    func didMove(peg: Peg, newLocation: Point)
+    func didMove(peggleObject: PeggleObject, newLocation: Point)
     func didRemove(peg: Peg)
     func didAddCannonBall(cannonBall: Peg)
     func gameEnded()

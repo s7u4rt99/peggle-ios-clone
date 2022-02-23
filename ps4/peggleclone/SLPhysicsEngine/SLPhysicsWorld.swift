@@ -39,7 +39,9 @@ class SLPhysicsWorld {
                 count += 1
                 body.setNotDynamic()
             } else if body.isDynamic {
-                cannonBallCount += 1
+                if body is SLPhysicsCircle {
+                    cannonBallCount += 1
+                }
                 generateNewPosition(physicsBody: body, duration: duration)
             }
         }

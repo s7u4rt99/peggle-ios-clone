@@ -21,10 +21,10 @@ class PeggleObject: Identifiable {
         self.center = center
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case center
-    }
+//    private enum CodingKeys: String, CodingKey {
+//        case id
+//        case center
+//    }
 
     func shiftTo(location: Point) {
         self.center = location
