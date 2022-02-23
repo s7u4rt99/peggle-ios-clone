@@ -9,29 +9,31 @@ import SwiftUI
 
 struct ContentView: View {
 
-    @StateObject var levelManager = LevelManager()
+    @StateObject var allLevelsManager = AllLevelsManager()
     @StateObject var keyboardResponder = KeyboardResponder()
     @State var start = false
     @State var editLevels = false
 
     var body: some View {
-        let pegManager = levelManager.initialisePegManager()
+        let levelManager = allLevelsManager.initialiseLevelManager()
         GeometryReader { geometry in
             ZStack {
                 if !start && !editLevels {
                     PeggleHomeView(start: $start, editLevels: $editLevels)
                 }
 
-                if start {
-                    GameCanvasView(pegManager: pegManager,
-                                   gameEngineManager: GameEngineManager(canvasDimension: geometry.frame(in: .global)))
-                        .environmentObject(levelManager)
+                if editLevels {
+                    LevelDesignerView(levelManager: levelManager,
+                                      levelName: levelManager.level.name,
+                                      start: $start,
+                                      editLevels: $editLevels)
+                        .environmentObject(allLevelsManager)
                 }
 
-                if editLevels {
-                    LevelDesignerView(pegManager: pegManager,
-                                      levelName: pegManager.level.name)
-                        .environmentObject(levelManager)
+                if start {
+                    GameCanvasView(levelManager: levelManager,
+                                   gameEngineManager: GameEngineManager(canvasDimension: geometry.frame(in: .global)))
+                        .environmentObject(allLevelsManager)
                 }
             }
         }
@@ -40,6 +42,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(levelManager: LevelManager())
+        ContentView(allLevelsManager: AllLevelsManager())
     }
 }

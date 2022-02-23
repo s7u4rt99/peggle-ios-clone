@@ -12,7 +12,7 @@
 		68143567279EE7D700A16058 /* PegsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68143566279EE7D700A16058 /* PegsRowView.swift */; };
 		6814356E279FD9C900A16058 /* PegView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6814356D279FD9C900A16058 /* PegView.swift */; };
 		68143574279FEE2100A16058 /* Peg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68143573279FEE2100A16058 /* Peg.swift */; };
-		68143576279FEEDF00A16058 /* PegManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68143575279FEEDF00A16058 /* PegManager.swift */; };
+		68143576279FEEDF00A16058 /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68143575279FEEDF00A16058 /* LevelManager.swift */; };
 		68143578279FF0FB00A16058 /* LevelDesignerCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68143577279FF0FB00A16058 /* LevelDesignerCanvasView.swift */; };
 		6831831527B4FECA00732E00 /* SLGameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831831427B4FEC900732E00 /* SLGameEngine.swift */; };
 		6831831927B53F6500732E00 /* CannonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6831831827B53F6500732E00 /* CannonView.swift */; };
@@ -28,13 +28,19 @@
 		688064E927B8E01400EC1501 /* LevelLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688064E827B8E01400EC1501 /* LevelLoaderView.swift */; };
 		688064EB27B8FFD200EC1501 /* PeggleHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688064EA27B8FFD100EC1501 /* PeggleHomeView.swift */; };
 		689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A49FF27A2CD0D00A2E4E6 /* Level.swift */; };
-		689A4A0227A2CD7C00A2E4E6 /* LevelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0127A2CD7C00A2E4E6 /* LevelManager.swift */; };
+		689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */; };
 		689A4A0427A2DBD700A2E4E6 /* LevelSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0327A2DBD700A2E4E6 /* LevelSelectorView.swift */; };
 		689A4A0627A47F0D00A2E4E6 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0527A47F0D00A2E4E6 /* StorageManager.swift */; };
 		689A4A0D27A4888600A2E4E6 /* Seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 689A4A0C27A4888600A2E4E6 /* Seed.json */; };
 		689A4A1027A6AE2100A2E4E6 /* LevelDesignerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0F27A6AE2100A2E4E6 /* LevelDesignerView.swift */; };
 		689A4A1727A6D72E00A2E4E6 /* KeyboardResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A1627A6D72E00A2E4E6 /* KeyboardResponder.swift */; };
 		68B6B8CE27C4F33D004CE9E2 /* PeggleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8CD27C4F33D004CE9E2 /* PeggleObject.swift */; };
+		68B6B8D127C540C5004CE9E2 /* LevelPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8D027C540C5004CE9E2 /* LevelPersistance.swift */; };
+		68B6B8D327C54117004CE9E2 /* PegPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8D227C54117004CE9E2 /* PegPersistance.swift */; };
+		68B6B8D527C54138004CE9E2 /* PeggleObjectPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8D427C54138004CE9E2 /* PeggleObjectPersistance.swift */; };
+		68B6B8D727C558FE004CE9E2 /* PointPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8D627C558FE004CE9E2 /* PointPersistance.swift */; };
+		68B6B8D927C5E30A004CE9E2 /* GameLogicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8D827C5E30A004CE9E2 /* GameLogicDelegate.swift */; };
+		68B6B8DB27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B6B8DA27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift */; };
 		68C1B1E0279DCCCC002DF357 /* PeggleCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C1B1DF279DCCCC002DF357 /* PeggleCloneApp.swift */; };
 		68C1B1E2279DCCCC002DF357 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C1B1E1279DCCCC002DF357 /* ContentView.swift */; };
 		68C1B1E4279DCCD3002DF357 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C1B1E3279DCCD3002DF357 /* Assets.xcassets */; };
@@ -47,7 +53,7 @@
 		68143566279EE7D700A16058 /* PegsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegsRowView.swift; sourceTree = "<group>"; };
 		6814356D279FD9C900A16058 /* PegView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegView.swift; sourceTree = "<group>"; };
 		68143573279FEE2100A16058 /* Peg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peg.swift; sourceTree = "<group>"; };
-		68143575279FEEDF00A16058 /* PegManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegManager.swift; sourceTree = "<group>"; };
+		68143575279FEEDF00A16058 /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
 		68143577279FF0FB00A16058 /* LevelDesignerCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDesignerCanvasView.swift; sourceTree = "<group>"; };
 		6831831427B4FEC900732E00 /* SLGameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLGameEngine.swift; sourceTree = "<group>"; };
 		6831831827B53F6500732E00 /* CannonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonView.swift; sourceTree = "<group>"; };
@@ -63,13 +69,19 @@
 		688064E827B8E01400EC1501 /* LevelLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelLoaderView.swift; sourceTree = "<group>"; };
 		688064EA27B8FFD100EC1501 /* PeggleHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleHomeView.swift; sourceTree = "<group>"; };
 		689A49FF27A2CD0D00A2E4E6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
-		689A4A0127A2CD7C00A2E4E6 /* LevelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelManager.swift; sourceTree = "<group>"; };
+		689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLevelsManager.swift; sourceTree = "<group>"; };
 		689A4A0327A2DBD700A2E4E6 /* LevelSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectorView.swift; sourceTree = "<group>"; };
 		689A4A0527A47F0D00A2E4E6 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		689A4A0C27A4888600A2E4E6 /* Seed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Seed.json; sourceTree = "<group>"; };
 		689A4A0F27A6AE2100A2E4E6 /* LevelDesignerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelDesignerView.swift; sourceTree = "<group>"; };
 		689A4A1627A6D72E00A2E4E6 /* KeyboardResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardResponder.swift; sourceTree = "<group>"; };
 		68B6B8CD27C4F33D004CE9E2 /* PeggleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleObject.swift; sourceTree = "<group>"; };
+		68B6B8D027C540C5004CE9E2 /* LevelPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelPersistance.swift; sourceTree = "<group>"; };
+		68B6B8D227C54117004CE9E2 /* PegPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PegPersistance.swift; sourceTree = "<group>"; };
+		68B6B8D427C54138004CE9E2 /* PeggleObjectPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleObjectPersistance.swift; sourceTree = "<group>"; };
+		68B6B8D627C558FE004CE9E2 /* PointPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointPersistance.swift; sourceTree = "<group>"; };
+		68B6B8D827C5E30A004CE9E2 /* GameLogicDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogicDelegate.swift; sourceTree = "<group>"; };
+		68B6B8DA27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LevelManager+GameLogicDelegate.swift"; sourceTree = "<group>"; };
 		68C1B1DC279DCCCC002DF357 /* peggleclone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = peggleclone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68C1B1DF279DCCCC002DF357 /* PeggleCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleCloneApp.swift; sourceTree = "<group>"; };
 		68C1B1E1279DCCCC002DF357 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -117,10 +129,11 @@
 		68143570279FED3900A16058 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				68143575279FEEDF00A16058 /* PegManager.swift */,
-				689A4A0127A2CD7C00A2E4E6 /* LevelManager.swift */,
-				689A4A0527A47F0D00A2E4E6 /* StorageManager.swift */,
+				68143575279FEEDF00A16058 /* LevelManager.swift */,
+				68B6B8D827C5E30A004CE9E2 /* GameLogicDelegate.swift */,
+				689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */,
 				687C2B3E27B61ABF00D1BB1E /* GameEngineManager.swift */,
+				68B6B8DA27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -182,6 +195,18 @@
 			path = Others;
 			sourceTree = "<group>";
 		};
+		68B6B8CF27C540A8004CE9E2 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				689A4A0527A47F0D00A2E4E6 /* StorageManager.swift */,
+				68B6B8D027C540C5004CE9E2 /* LevelPersistance.swift */,
+				68B6B8D227C54117004CE9E2 /* PegPersistance.swift */,
+				68B6B8D427C54138004CE9E2 /* PeggleObjectPersistance.swift */,
+				68B6B8D627C558FE004CE9E2 /* PointPersistance.swift */,
+			);
+			path = Persistance;
+			sourceTree = "<group>";
+		};
 		68C1B1D3279DCCCC002DF357 = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +226,7 @@
 		68C1B1DE279DCCCC002DF357 /* peggleclone */ = {
 			isa = PBXGroup;
 			children = (
+				68B6B8CF27C540A8004CE9E2 /* Persistance */,
 				6831831327B4F8ED00732E00 /* SLGameEngine */,
 				68686A9827B371B000B97394 /* SLPhysicsEngine */,
 				689A4A1327A6CBF500A2E4E6 /* Others */,
@@ -319,11 +345,12 @@
 				689A4A1027A6AE2100A2E4E6 /* LevelDesignerView.swift in Sources */,
 				687C2B4127B61CF500D1BB1E /* PegType.swift in Sources */,
 				68143567279EE7D700A16058 /* PegsRowView.swift in Sources */,
+				68B6B8D527C54138004CE9E2 /* PeggleObjectPersistance.swift in Sources */,
 				684FFA3C27C4C4EA000CD3D5 /* Point.swift in Sources */,
 				68143578279FF0FB00A16058 /* LevelDesignerCanvasView.swift in Sources */,
-				689A4A0227A2CD7C00A2E4E6 /* LevelManager.swift in Sources */,
+				689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */,
 				687C2B3F27B61ABF00D1BB1E /* GameEngineManager.swift in Sources */,
-				68143576279FEEDF00A16058 /* PegManager.swift in Sources */,
+				68143576279FEEDF00A16058 /* LevelManager.swift in Sources */,
 				68C1B1E2279DCCCC002DF357 /* ContentView.swift in Sources */,
 				6831831527B4FECA00732E00 /* SLGameEngine.swift in Sources */,
 				688064EB27B8FFD200EC1501 /* PeggleHomeView.swift in Sources */,
@@ -332,16 +359,21 @@
 				688064E927B8E01400EC1501 /* LevelLoaderView.swift in Sources */,
 				689A4A1727A6D72E00A2E4E6 /* KeyboardResponder.swift in Sources */,
 				689A4A0427A2DBD700A2E4E6 /* LevelSelectorView.swift in Sources */,
+				68B6B8DB27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift in Sources */,
 				68686A9A27B371CE00B97394 /* SLPhysicsWorld.swift in Sources */,
 				68686A9C27B373EC00B97394 /* SLPhysicsBody.swift in Sources */,
 				684FFA3E27C4D547000CD3D5 /* Vector.swift in Sources */,
+				68B6B8D127C540C5004CE9E2 /* LevelPersistance.swift in Sources */,
 				68B6B8CE27C4F33D004CE9E2 /* PeggleObject.swift in Sources */,
 				6831831927B53F6500732E00 /* CannonView.swift in Sources */,
 				68143565279EE77400A16058 /* ButtonsRowView.swift in Sources */,
+				68B6B8D727C558FE004CE9E2 /* PointPersistance.swift in Sources */,
 				68143574279FEE2100A16058 /* Peg.swift in Sources */,
+				68B6B8D927C5E30A004CE9E2 /* GameLogicDelegate.swift in Sources */,
 				689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */,
 				68143563279EE71700A16058 /* BackgroundView.swift in Sources */,
 				68686A9327B2E0D800B97394 /* GameCanvasView.swift in Sources */,
+				68B6B8D327C54117004CE9E2 /* PegPersistance.swift in Sources */,
 				68686AA827B3A1E700B97394 /* SLPhysicsCircle.swift in Sources */,
 				689A4A0627A47F0D00A2E4E6 /* StorageManager.swift in Sources */,
 			);

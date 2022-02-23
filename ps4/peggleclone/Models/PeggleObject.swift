@@ -7,12 +7,46 @@
 
 import Foundation
 
-class PeggleObject {
+class PeggleObject: Identifiable {
     var id: UUID
     var center: Point
 
-    init() {
+    init(center: Point) {
         self.id = UUID()
-        self.center = Point()
+        self.center = center
+    }
+
+    init(id: UUID, center: Point) {
+        self.id = id
+        self.center = center
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case center
+    }
+
+    func shiftTo(location: Point) {
+        self.center = location
+    }
+
+    func copy() -> PeggleObject {
+        PeggleObject(center: self.center)
+    }
+
+    func overlap(peg: Peg) -> Bool {
+        fatalError("This method must be overridden")
+    }
+}
+
+extension PeggleObject: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
+extension PeggleObject: Equatable {
+    static func == (lhs: PeggleObject, rhs: PeggleObject) -> Bool {
+        lhs.id == rhs.id
     }
 }

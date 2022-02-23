@@ -10,8 +10,8 @@ import SwiftUI
 // Level Selector -> For selecting levels in the edit level mode
 struct LevelSelectorView: View {
 
+    @ObservedObject var allLevelsManager: AllLevelsManager
     @ObservedObject var levelManager: LevelManager
-    @ObservedObject var pegManager: PegManager
     @Binding var load: Bool
     @Binding var levelName: String
 
@@ -20,18 +20,18 @@ struct LevelSelectorView: View {
 
             Text("Select a level to load").font(.headline)
 
-            ForEach(levelManager.levels) { level in
-                    Button() {
-                        pegManager.changeLevel(level: level)
-                        levelName = pegManager.level.name
-                    } label: {
-                        Text(level.name).foregroundColor(.red).padding()
-                    }
+            ForEach(allLevelsManager.levels) { level in
+                Button() {
+                    levelManager.changeLevel(level: level)
+                    levelName = levelManager.level.name
+                } label: {
+                    Text(level.name).foregroundColor(.red).padding()
+                }
             }
 
             Button() {
-                pegManager.changeLevel(level: levelManager.createNewLevel())
-                levelName = pegManager.level.name
+                levelManager.changeLevel(level: allLevelsManager.createNewLevel())
+                levelName = levelManager.level.name
                 load.toggle()
             } label: {
                 Text("+ New Level")
@@ -45,8 +45,8 @@ struct LevelSelectorView: View {
 
 struct LevelSelector_Previews: PreviewProvider {
     static var previews: some View {
-        LevelSelectorView(levelManager: LevelManager(),
-                      pegManager: PegManager(level: Level(name: "default", pegs: [])),
+        LevelSelectorView(allLevelsManager: AllLevelsManager(),
+                          levelManager: LevelManager(level: Level(name: "default", pegs: [])),
                       load: .constant(true),
                       levelName: .constant("default"))
     }

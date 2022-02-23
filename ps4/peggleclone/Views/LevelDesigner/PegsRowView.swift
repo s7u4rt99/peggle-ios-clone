@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PegsRowView: View {
 
-    @EnvironmentObject var pegManager: PegManager
+    @EnvironmentObject var levelManager: LevelManager
     @ObservedObject var keyboardResponder: KeyboardResponder
     @State var blueOpacity: Double = 0.3
     @State var orangeOpacity: Double = 0.3
@@ -22,10 +22,10 @@ struct PegsRowView: View {
                     blueOpacity = 1
                     orangeOpacity = 0.3
                     deleteOpacity = 0.3
-                    pegManager.select(peg: PegType.bluePeg)
+                    levelManager.select(peg: PegType.bluePeg)
                 } else {
                     blueOpacity = 0.3
-                    pegManager.unselectPeg()
+                    levelManager.unselectPeg()
                 }
             } label: {
                 Image("peg-blue")
@@ -40,10 +40,10 @@ struct PegsRowView: View {
                     orangeOpacity = 1
                     blueOpacity = 0.3
                     deleteOpacity = 0.3
-                    pegManager.select(peg: PegType.orangePeg)
+                    levelManager.select(peg: PegType.orangePeg)
                 } else {
                     orangeOpacity = 0.3
-                    pegManager.unselectPeg()
+                    levelManager.unselectPeg()
                 }
             } label: {
                 Image("peg-orange")
@@ -59,10 +59,10 @@ struct PegsRowView: View {
                     deleteOpacity = 1
                     blueOpacity = 0.3
                     orangeOpacity = 0.3
-                    pegManager.selectDelete()
+                    levelManager.selectDelete()
                 } else {
                     deleteOpacity = 0.3
-                    pegManager.unselectDelete()
+                    levelManager.unselectDelete()
                 }
             } label: {
                 Image("delete")

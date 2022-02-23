@@ -1,23 +1,22 @@
 //
-//  Point.swift
+//  PointPersistance.swift
 //  peggleclone
 //
-//  Created by Stuart Long on 22/2/22.
+//  Created by Stuart Long on 23/2/22.
 //
 
 import Foundation
 
-struct Point: Equatable {
+struct PointPersistance: Codable {
     var xCoordinate: Double
     var yCoordinate: Double
-
-    init() {
-        self.xCoordinate = 0
-        self.yCoordinate = 0
-    }
 
     init(xCoordinate: Double, yCoordinate: Double) {
         self.xCoordinate = xCoordinate
         self.yCoordinate = yCoordinate
+    }
+
+    func convertToPoint() -> Point {
+        Point(xCoordinate: self.xCoordinate, yCoordinate: self.yCoordinate)
     }
 }

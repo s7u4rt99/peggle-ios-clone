@@ -32,17 +32,40 @@ class StorageManager {
             fatalError("Unable to decode data")
         }
 
-        guard let levels = try? decoder.decode([Level].self, from: data) else {
+        print(url)
+        guard let persistanceLevels = try? decoder.decode([LevelPersistance].self, from: data) else {
             fatalError("Failed to decode JSON from data")
         }
-        print(url)
 
+        var levels: [Level] = []
+
+        for persistanceLevel in persistanceLevels {
+            levels.append(persistanceLevel.convertToLevel())
+        }
+//        print(levels)
+//        for level in levels {
+//            for peg in level.pegs {
+////                if let peg1 = peg as? Peg {
+////                    print(true)
+//                print("peg \(peg.radius), \(peg.center)")
+////                } else {
+////                    print(false)
+////                }
+//            }
+//        }
         return levels
     }
 
     static func saveLevels(levels: [Level]) {
         let encoder = JSONEncoder()
-        guard let levelJSONData = try? encoder.encode(levels) else {
+
+        var persistanceLevels: [LevelPersistance] = []
+
+        for level in levels {
+            persistanceLevels.append(LevelPersistance(level: level))
+        }
+
+        guard let levelJSONData = try? encoder.encode(persistanceLevels) else {
             fatalError("Could not encode data")
         }
 

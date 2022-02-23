@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LevelLoaderView: View {
+    @ObservedObject var allLevelsManager: AllLevelsManager
     @ObservedObject var levelManager: LevelManager
-    @ObservedObject var pegManager: PegManager
     @Binding var load: Bool
     var gameEngineManager: GameEngineManager
 
@@ -18,11 +18,11 @@ struct LevelLoaderView: View {
 
             Text("Select a level to play").font(.headline)
 
-            ForEach(levelManager.levels) { level in
+            ForEach(allLevelsManager.levels) { level in
                     Button() {
-                        pegManager.changeLevel(level: level)
+                        levelManager.changeLevel(level: level)
                         load = false
-                        gameEngineManager.loadLevel(pegManager: pegManager)
+                        gameEngineManager.loadLevel(levelManager: levelManager)
                         gameEngineManager.start()
                     } label: {
                         Text(level.name).foregroundColor(.red).padding()
@@ -36,8 +36,8 @@ struct LevelLoaderView: View {
 
 struct LevelLoaderView_Previews: PreviewProvider {
     static var previews: some View {
-        LevelLoaderView(levelManager: LevelManager(),
-                        pegManager: PegManager(level: Level(name: "default", pegs: [])),
+        LevelLoaderView(allLevelsManager: AllLevelsManager(),
+                        levelManager: LevelManager(level: Level(name: "default", pegs: [])),
                         load: .constant(true),
                         gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }

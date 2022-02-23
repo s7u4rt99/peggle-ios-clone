@@ -15,8 +15,8 @@ class GameEngineManager: ObservableObject {
         gameEngine = SLGameEngine(canvasDimensions: canvasDimension)
     }
 
-    func loadLevel(pegManager: PegManager) {
-        gameEngine.loadLevel(pegManager: pegManager)
+    func loadLevel(levelManager: LevelManager) {
+        gameEngine.loadLevel(levelManager: levelManager)
     }
 
     func start() {

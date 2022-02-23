@@ -10,7 +10,7 @@ import Foundation
 struct Vector {
     var xDirection: Double
     var yDirection: Double
-    
+
     init() {
         self.xDirection = 0
         self.yDirection = 0

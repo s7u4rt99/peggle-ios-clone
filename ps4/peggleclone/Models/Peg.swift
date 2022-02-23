@@ -8,24 +8,28 @@
 import Foundation
 import SwiftUI
 
-class Peg: Identifiable, Codable {
-    var id: UUID
+class Peg: PeggleObject {
     var type: PegType
-    var center: Point
     var radius: Double
 
     init(type: PegType, center: Point, radius: Double = 25) {
-        self.id = UUID()
         self.type = type
-        self.center = center
         self.radius = radius
+        super.init(center: center)
     }
 
-    func shiftTo(location: Point) {
-        self.center = location
+    init(id: UUID, center: Point, type: PegType, radius: Double = 25) {
+        self.type = type
+        self.radius = radius
+        super.init(id: id, center: center)
     }
 
-    func overlap(peg: Peg) -> Bool {
+    private enum CodingKeys: String, CodingKey {
+        case type
+        case radius
+    }
+
+    override func overlap(peg: Peg) -> Bool {
         return distanceSquared(peg: peg) < self.radius * 2 * self.radius * 2
     }
 
@@ -43,17 +47,8 @@ class Peg: Identifiable, Codable {
             self.type = PegType.orangeGlow
         }
     }
-}
 
-extension Peg: Equatable {
-    static func == (lhs: Peg, rhs: Peg) -> Bool {
-        let isEqual = lhs.id == rhs.id && lhs.type == rhs.type && lhs.center == rhs.center && lhs.radius == rhs.radius
-        return isEqual
-    }
-}
-
-extension Peg: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+    override func copy() -> Peg {
+        Peg(type: self.type, center: self.center, radius: self.radius)
     }
 }

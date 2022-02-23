@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct GameCanvasView: View {
-    @EnvironmentObject var levelManager: LevelManager
-    @StateObject var pegManager: PegManager
+    @EnvironmentObject var allLevelsManager: AllLevelsManager
+    @StateObject var levelManager: LevelManager
     @State private var load = true
     var gameEngineManager: GameEngineManager
 
@@ -24,7 +24,8 @@ struct GameCanvasView: View {
 
 //            CannonView()
 
-            ForEach(pegManager.level.pegs) { peg in
+            ForEach(levelManager.level.pegs) { peg in
+//                if let peg = peggleObject as? Peg {
                 PegView(location: .constant(toCGPoint(point: peg.center)),
                         pegType: peg.type,
                         pegRadius: peg.radius)
@@ -32,12 +33,16 @@ struct GameCanvasView: View {
                         gameEngineManager.fireCannonBall(directionOf: toCGPoint(point: peg.center))
                     }
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                    .onAppear(perform: {
+                        print("hello \(peg)")
+                    })
+//                }
             }
 
             if load {
                 GeometryReader { geometry in
-                    LevelLoaderView(levelManager: levelManager,
-                                    pegManager: pegManager,
+                    LevelLoaderView(allLevelsManager: allLevelsManager,
+                                    levelManager: levelManager,
                                     load: $load,
                                     gameEngineManager: gameEngineManager)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
@@ -56,7 +61,7 @@ struct GameCanvasView: View {
 
 struct GameCanvasView_Previews: PreviewProvider {
     static var previews: some View {
-        GameCanvasView(pegManager: PegManager(level: Level(name: "default", pegs: [])),
+        GameCanvasView(levelManager: LevelManager(level: Level(name: "default", pegs: [])),
                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }
 }

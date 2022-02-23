@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ButtonsRowView: View {
+    @EnvironmentObject var allLevelsManager: AllLevelsManager
     @EnvironmentObject var levelManager: LevelManager
-    @EnvironmentObject var pegManager: PegManager
     @Binding var load: Bool
     @Binding var levelName: String
+    @Binding var start: Bool
+    @Binding var editLevels: Bool
 
     var body: some View {
         HStack {
@@ -22,12 +24,12 @@ struct ButtonsRowView: View {
             .padding(.leading)
 
             Button("SAVE") {
-                pegManager.save(name: levelName, levelManager: levelManager)
+                levelManager.save(name: levelName, allLevelsManager: allLevelsManager)
             }
             .foregroundColor(.blue)
 
             Button("RESET") {
-                pegManager.deleteAll()
+                levelManager.deleteAll()
             }
             .foregroundColor(.blue)
 
@@ -39,7 +41,8 @@ struct ButtonsRowView: View {
             .padding()
 
             Button("START") {
-
+                start = true
+                editLevels = false
             }
             .foregroundColor(.blue)
             .padding(.trailing)
@@ -53,6 +56,8 @@ struct ButtonsRow_Previews: PreviewProvider {
 
     static var previews: some View {
         ButtonsRowView(load: .constant(true),
-                   levelName: .constant(""))
+                       levelName: .constant(""),
+                       start: .constant(false),
+                       editLevels: .constant(true))
     }
 }

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LevelDesignerCanvasView: View {
+    @EnvironmentObject var allLevelsManager: AllLevelsManager
     @EnvironmentObject var levelManager: LevelManager
-    @EnvironmentObject var pegManager: PegManager
     @ObservedObject var keyboardResponder: KeyboardResponder
 
     var body: some View {
@@ -24,33 +24,35 @@ struct LevelDesignerCanvasView: View {
                             .onEnded { value in
                                 if keyboardResponder.currentHeight == 0 {
                                     let locationOfPeg = value.location
-                                    pegManager.addPeg(center: locationOfPeg, canvasDimensions: canvasDimensions)
+                                    levelManager.addPeg(center: locationOfPeg, canvasDimensions: canvasDimensions)
                                 }
                             }
                     )
 
-                ForEach(pegManager.level.pegs) { peg in
+                ForEach(levelManager.level.pegs) { peg in
+//                    if let peg = peggleObject as? Peg {
                     PegView(location: .constant(CGPoint(x: peg.center.xCoordinate, y: peg.center.yCoordinate)),
                             pegType: peg.type, pegRadius: peg.radius)
                         .onTapGesture {
-                            if keyboardResponder.currentHeight == 0 && pegManager.isDeleteSelected {
-                                pegManager.delete(peg: peg)
+                            if keyboardResponder.currentHeight == 0 && levelManager.isDeleteSelected {
+                                levelManager.delete(peg: peg)
                             }
                         }
                         .onLongPressGesture(minimumDuration: 1.5) {
                             if keyboardResponder.currentHeight == 0 {
-                                pegManager.delete(peg: peg)
+                                levelManager.delete(peg: peg)
                             }
                         }
                         .gesture(DragGesture().onChanged({ value in
                             if keyboardResponder.currentHeight == 0 {
                                 let locationOfPeg = value.location
-                                pegManager.dragPeg(peg: peg,
+                                levelManager.dragPeg(peg: peg,
                                                    newLocation: locationOfPeg,
                                                    canvasDimensions: canvasDimensions)
                             }
                         }))
                         .offset(y: -keyboardResponder.currentHeight * 0.9)
+//                    }
                 }
             }
         }

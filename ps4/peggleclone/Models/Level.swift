@@ -7,13 +7,19 @@
 
 import Foundation
 
-struct Level: Identifiable, Codable {
+struct Level: Identifiable {
     var id: UUID
     var name: String
     var pegs: [Peg]
 
     init(name: String, pegs: [Peg]) {
         self.id = UUID()
+        self.name = name
+        self.pegs = pegs
+    }
+
+    init(id: UUID, name: String, pegs: [Peg]) {
+        self.id = id
         self.name = name
         self.pegs = pegs
     }
@@ -32,7 +38,7 @@ struct Level: Identifiable, Codable {
         }
     }
 
-    mutating func delete(peg: Peg) {
+    mutating func deletePeg(peg: Peg) {
         if let index = pegs.firstIndex(of: peg) {
             pegs.remove(at: index)
         }
