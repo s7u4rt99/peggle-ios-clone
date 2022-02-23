@@ -24,11 +24,9 @@ struct GameCanvasView: View {
                     }))
                 .gesture(
                     DragGesture(minimumDistance: 0)
-                        .onEnded { value in
-                            gameEngineManager.fireCannonBall(directionOf: value.location)
+                        .onEnded { _ in
+                            gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                         })
-
-//            Slider(value: $rotation, in: 0...360)
 
             CannonView()
                 .rotationEffect(.radians(rotation))
@@ -39,12 +37,9 @@ struct GameCanvasView: View {
                         pegType: peg.type,
                         pegRadius: peg.radius)
                     .onTapGesture {
-                        gameEngineManager.fireCannonBall(directionOf: toCGPoint(point: peg.center))
+                        gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                     }
                     .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                    .onAppear(perform: {
-                        print("hello \(peg)")
-                    })
             }
 
             if load {
@@ -89,11 +84,31 @@ struct GameCanvasView: View {
     }
 
     private func calculateRotation(_ firstVector: Vector, _ secondVector: Vector) -> Double {
-//        acos(firstVector.dotProductWith(vector: secondVector) /
-//              (firstVector.magnitude * secondVector.magnitude))
-//        * 180 / Double.pi
-        -atan2(firstVector.yDirection*secondVector.xDirection - firstVector.xDirection*secondVector.yDirection,
-              firstVector.xDirection*secondVector.xDirection + firstVector.yDirection*secondVector.yDirection)
+        let output = -atan2(
+            firstVector.yDirection*secondVector.xDirection - firstVector.xDirection*secondVector.yDirection,
+            firstVector.xDirection*secondVector.xDirection + firstVector.yDirection*secondVector.yDirection)
+        if output > Double.pi / 2 {
+            return Double.pi / 2
+        } else if output < -Double.pi / 2 {
+            return -Double.pi / 2
+        } else {
+            return output
+        }
+    }
+
+    private func getFireDirection() -> CGPoint {
+        let centerHorizontalAxis = Vector(
+            xDirection: 0,
+            yDirection: CannonView.positionOfCannon.yCoordinate * 2)
+
+        let directionOfFire = Vector(
+            xDirection: centerHorizontalAxis.xDirection * cos(rotation)
+            - centerHorizontalAxis.yDirection * sin(rotation),
+            yDirection: centerHorizontalAxis.xDirection * sin(rotation)
+            + centerHorizontalAxis.yDirection * cos(rotation))
+            .multiplyWithScalar(scalar: 50)
+
+        return toCGPoint(point: directionOfFire.movePointBy(point: CannonView.positionOfCannon, distance: 250))
     }
 }
 
