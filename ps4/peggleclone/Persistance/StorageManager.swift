@@ -45,12 +45,12 @@ class StorageManager {
 //        print(levels)
 //        for level in levels {
 //            for peg in level.pegs {
-////                if let peg1 = peg as? Peg {
-////                    print(true)
+//                if let peg1 = peg as? Peg {
+//                    print(true)
 //                print("peg \(peg.radius), \(peg.center)")
-////                } else {
-////                    print(false)
-////                }
+//                } else {
+//                    print(false)
+//                }
 //            }
 //        }
         return levels

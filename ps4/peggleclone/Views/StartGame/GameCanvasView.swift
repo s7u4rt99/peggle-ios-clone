@@ -12,21 +12,29 @@ struct GameCanvasView: View {
     @StateObject var levelManager: LevelManager
     @Binding var start: Bool
     @State private var load = true
+    @State private var rotation = 0.0
     var gameEngineManager: GameEngineManager
 
     var body: some View {
         ZStack {
             BackgroundView()
                 .gesture(
+                    DragGesture().onChanged({ value in
+                        setRotation(value.location)
+                    }))
+                .gesture(
                     DragGesture(minimumDistance: 0)
                         .onEnded { value in
                             gameEngineManager.fireCannonBall(directionOf: value.location)
                         })
 
-//            CannonView()
+//            Slider(value: $rotation, in: 0...360)
+
+            CannonView()
+                .rotationEffect(.radians(rotation))
+                .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
 
             ForEach(levelManager.level.pegs) { peg in
-//                if let peg = peggleObject as? Peg {
                 PegView(location: .constant(toCGPoint(point: peg.center)),
                         pegType: peg.type,
                         pegRadius: peg.radius)
@@ -37,7 +45,6 @@ struct GameCanvasView: View {
                     .onAppear(perform: {
                         print("hello \(peg)")
                     })
-//                }
             }
 
             if load {
@@ -60,13 +67,33 @@ struct GameCanvasView: View {
         }
     }
 
-    func goToHome() {
+    private func goToHome() {
         start = false
-        // clean up the engines
+        // TODO: clean up the engines
     }
 
-    func toCGPoint(point: Point) -> CGPoint {
+    private func toCGPoint(point: Point) -> CGPoint {
         return CGPoint(x: point.xCoordinate, y: point.yCoordinate)
+    }
+
+    private func setRotation(_ aim: CGPoint) {
+        let centerHorizontalAxis = Vector(
+            xDirection: 0,
+            yDirection: CannonView.positionOfCannon.yCoordinate * 2)
+        let directionOfAim = Vector(
+            xDirection: aim.x - CannonView.positionOfCannon.xCoordinate,
+            yDirection: aim.y - CannonView.positionOfCannon.yCoordinate)
+        let angleOfRotation = calculateRotation(centerHorizontalAxis,
+                                                directionOfAim)
+        rotation = angleOfRotation
+    }
+
+    private func calculateRotation(_ firstVector: Vector, _ secondVector: Vector) -> Double {
+//        acos(firstVector.dotProductWith(vector: secondVector) /
+//              (firstVector.magnitude * secondVector.magnitude))
+//        * 180 / Double.pi
+        -atan2(firstVector.yDirection*secondVector.xDirection - firstVector.xDirection*secondVector.yDirection,
+              firstVector.xDirection*secondVector.xDirection + firstVector.yDirection*secondVector.yDirection)
     }
 }
 
