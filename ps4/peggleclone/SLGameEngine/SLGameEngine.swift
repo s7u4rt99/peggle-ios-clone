@@ -82,22 +82,10 @@ class SLGameEngine {
             return
         }
 
-        cannonBall.center = cannonBallPhysicsBody.position
-        gameLogicDelegate.didMove(peg: cannonBall, newLocation: cannonBallPhysicsBody.position)
+        moveCannonBall(cannonBall, cannonBallPhysicsBody, gameLogicDelegate)
+
         let collisions = cannonBallPhysicsBody.collisionsWith
-        var currentCollisions: [Peg] = []
-        for (key, value) in mappings where value.hasCollided {
-            if let peg = key as? Peg {
-                peg.glow()
-                if contains(arr: collisions, physicsBody: value) {
-                    currentCollisions.append(peg)
-                }
-                if cannonBallCount == 0 {
-                    gameLogicDelegate.didRemove(peg: peg)
-                    value.ignore()
-                }
-            }
-        }
+        let currentCollisions = handleCollisions(collisions, gameLogicDelegate, cannonBallCount)
 
         let similarPositionLimit = 75
 
@@ -127,6 +115,37 @@ class SLGameEngine {
                 similarPositionCounter = 0
             }
         }
+    }
+
+    private func handleCollisions(
+        _ collisions: [SLPhysicsBody], _ gameLogicDelegate: GameLogicDelegate, _ cannonBallCount: Int) -> [Peg] {
+        var currentCollisions: [Peg] = []
+
+        for (key, value) in mappings where value.hasCollided {
+            if let peg = key as? Peg {
+                peg.glow()
+                if contains(arr: collisions, physicsBody: value) {
+                    currentCollisions.append(peg)
+                }
+                if cannonBallCount == 0 {
+                    gameLogicDelegate.didRemove(peg: peg)
+                    mappings.removeValue(forKey: peg)
+                    value.ignore()
+                }
+            }
+        }
+
+        if mappings.count == 0 {
+            gameLogicDelegate.gameEnded()
+        }
+
+        return currentCollisions
+    }
+
+    private func moveCannonBall(
+        _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
+        cannonBall.center = cannonBallPhysicsBody.position
+        gameLogicDelegate.didMove(peg: cannonBall, newLocation: cannonBallPhysicsBody.position)
     }
 
     private func isCannonBallSamePosition() -> Bool {

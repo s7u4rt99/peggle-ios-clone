@@ -32,6 +32,7 @@ struct ContentView: View {
 
                 if start {
                     GameCanvasView(levelManager: levelManager,
+                                   start: $start,
                                    gameEngineManager: GameEngineManager(canvasDimension: geometry.frame(in: .global)))
                         .environmentObject(allLevelsManager)
                 }

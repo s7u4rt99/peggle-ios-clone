@@ -20,4 +20,8 @@ extension LevelManager: GameLogicDelegate {
         // add cannon ball at center
         level.addPeg(peg: cannonBall)
     }
+
+    func gameEnded() {
+        self.isGameEnd = true
+    }
 }

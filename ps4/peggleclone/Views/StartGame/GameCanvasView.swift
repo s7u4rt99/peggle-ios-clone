@@ -10,6 +10,7 @@ import SwiftUI
 struct GameCanvasView: View {
     @EnvironmentObject var allLevelsManager: AllLevelsManager
     @StateObject var levelManager: LevelManager
+    @Binding var start: Bool
     @State private var load = true
     var gameEngineManager: GameEngineManager
 
@@ -52,6 +53,16 @@ struct GameCanvasView: View {
                 )
             }
         }
+        .alert("Congratulations, you completed the level", isPresented: .constant(levelManager.isGameEnd)) {
+            Button("Home") {
+                goToHome()
+            }
+        }
+    }
+
+    func goToHome() {
+        start = false
+        // clean up the engines
     }
 
     func toCGPoint(point: Point) -> CGPoint {
@@ -62,6 +73,7 @@ struct GameCanvasView: View {
 struct GameCanvasView_Previews: PreviewProvider {
     static var previews: some View {
         GameCanvasView(levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+                       start: .constant(true),
                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }
 }

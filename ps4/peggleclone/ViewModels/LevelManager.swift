@@ -11,11 +11,13 @@ import SwiftUI
 class LevelManager: ObservableObject, Identifiable {
 
     @Published var level: Level
+    @Published var isGameEnd: Bool
     var selectedPeg: PegType?
     var isDeleteSelected = false
 
     init(level: Level) {
         self.level = level
+        self.isGameEnd = level.pegs.isEmpty
         copyPegs()
     }
 
@@ -103,6 +105,7 @@ class LevelManager: ObservableObject, Identifiable {
 
     func changeLevel(level: Level) {
         self.level = level
+        self.isGameEnd = level.pegs.isEmpty
         copyPegs()
     }
 
