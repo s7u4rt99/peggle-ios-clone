@@ -19,22 +19,63 @@ class SLPhysicsCollision {
         self.secondBody = secondBody
     }
 
-    // assuming circle
     func resolve() {
-        let collisionVector = Vector(xDirection: secondBody.position.xCoordinate - firstBody.position.xCoordinate,
-                                     yDirection: secondBody.position.yCoordinate - firstBody.position.yCoordinate)
-        let distance = distanceBetween(firstPoint: firstBody.position, secondPoint: secondBody.position)
+        if let firstCircle = firstBody as? SLPhysicsCircle,
+           let secondCircle = secondBody as? SLPhysicsCircle {
+            resolveCircleCircleCollision(firstCircle: firstCircle, secondCircle: secondCircle)
+        } else if let bucket = firstBody as? SLPhysicsBucket,
+            let circle = secondBody as? SLPhysicsCircle {
+            resolveCircleBucketCollision(bucket: bucket, circle: circle)
+        } else if let bucket = secondBody as? SLPhysicsBucket,
+            let circle = firstBody as? SLPhysicsCircle {
+            resolveCircleBucketCollision(bucket: bucket, circle: circle)
+        }
+    }
+
+    private func resolveCircleBucketCollision(bucket: SLPhysicsBucket, circle: SLPhysicsCircle) {
+        let restitution = 0.9
+
+        circle.setVelocity(newVelocity: Vector(xDirection: -abs(circle.position.xCoordinate) * restitution,
+                                               yDirection: circle.position.yCoordinate))
+
+        if circle.position.xCoordinate < bucket.position.xCoordinate - bucket.width / 2 {
+            circle.moveTo(position: Point(
+                xCoordinate: bucket.position.xCoordinate - bucket.width / 2 - circle.width / 2,
+                yCoordinate: circle.position.yCoordinate))
+        } else if circle.position.xCoordinate > bucket.position.xCoordinate + bucket.width / 2 {
+            circle.moveTo(position: Point(
+                xCoordinate: bucket.position.xCoordinate + bucket.width / 2 + circle.width / 2,
+                yCoordinate: circle.position.yCoordinate))
+        } else if circle.position.xCoordinate < bucket.position.xCoordinate {
+            circle.moveTo(position: Point(
+                xCoordinate: bucket.position.xCoordinate - bucket.width / 2 + circle.width / 2,
+                yCoordinate: circle.position.yCoordinate))
+        } else if circle.position.xCoordinate > bucket.position.xCoordinate {
+            circle.moveTo(position: Point(
+                xCoordinate: bucket.position.xCoordinate + bucket.width / 2 - circle.width / 2,
+                yCoordinate: circle.position.yCoordinate))
+        }
+    }
+
+    private func resolveCircleCircleCollision(firstCircle: SLPhysicsCircle, secondCircle: SLPhysicsCircle) {
+        let collisionVector = Vector(xDirection: secondCircle.position.xCoordinate
+                                     - firstCircle.position.xCoordinate,
+                                     yDirection: secondCircle.position.yCoordinate
+                                     - firstCircle.position.yCoordinate)
+        let distance = distanceBetween(firstPoint: firstCircle.position, secondPoint: secondCircle.position)
         let collisionNormalVector = Vector(xDirection: collisionVector.xDirection / (distance),
                                            yDirection: collisionVector.yDirection / (distance))
-        let relativeVelocity = firstBody.velocity.subtract(vector: secondBody.velocity)
+        let relativeVelocity = firstCircle.velocity.subtract(vector: secondCircle.velocity)
         let tempSpeed = (relativeVelocity.xDirection * collisionVector.xDirection +
                          relativeVelocity.yDirection * collisionVector.yDirection)
         let speedAfterScale = Double(tempSpeed) * speedScale
         let speedAfterRestitution = speedAfterScale * restitution
-        let impulse = 2 * speedAfterRestitution / (firstBody.mass + secondBody.mass)
+        let impulse = 2 * speedAfterRestitution / (firstCircle.mass + secondCircle.mass)
         if speedAfterRestitution >= 0 {
-            firstBody.forces.append(collisionNormalVector.multiplyWithScalar(scalar: -1 * impulse * secondBody.mass))
-            secondBody.forces.append(collisionNormalVector.multiplyWithScalar(scalar: impulse * firstBody.mass))
+            firstCircle.forces.append(collisionNormalVector
+                                        .multiplyWithScalar(scalar: -1 * impulse * secondCircle.mass))
+            secondCircle.forces.append(collisionNormalVector
+                                        .multiplyWithScalar(scalar: impulse * firstCircle.mass))
         }
     }
 

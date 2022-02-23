@@ -56,12 +56,11 @@ class SLPhysicsCircle: SLPhysicsBody {
         self.velocity = newVelocity
     }
 
-    func intersectWithCircle(circleBody: SLPhysicsBody) -> Bool {
-        if let collidingCircle = circleBody as? SLPhysicsCircle {
+    func intersectWith(physicsBody: SLPhysicsBody) -> Bool {
+        if let collidingCircle = physicsBody as? SLPhysicsCircle {
             return isColliding(collidingCircle: collidingCircle)
-        } else if let collidingBucket = circleBody as? SLPhysicsBucket {
-            // TODO: implement
-            return false
+        } else if let collidingBucket = physicsBody as? SLPhysicsBucket {
+            return collidingBucket.intersectWith(physicsBody: self)
         }
         fatalError("Argument is not a circle or bucket")
     }

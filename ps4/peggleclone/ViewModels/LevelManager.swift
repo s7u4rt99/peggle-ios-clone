@@ -126,7 +126,7 @@ class LevelManager: ObservableObject, Identifiable {
     func movePeg(peg: Peg, newLocation: Point) {
         self.level.movePeg(peg: peg, newLocation: newLocation)
     }
-    
+
     func moveBucket(newLocation: Point) {
         objectWillChange.send()
         bucket.shiftTo(location: newLocation)

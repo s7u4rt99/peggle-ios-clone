@@ -74,7 +74,7 @@ class SLPhysicsWorld {
             for secondIndex in (firstIndex + 1)..<physicsBodies.count {
                 let nextBody = physicsBodies[secondIndex]
                 let canIgnore = currentBody.canIgnore || nextBody.canIgnore
-                if !canIgnore && currentBody.intersectWithCircle(circleBody: nextBody) {
+                if !canIgnore && currentBody.intersectWith(physicsBody: nextBody) {
                     currentBody.setCollided()
                     nextBody.setCollided()
                     collisions.append(SLPhysicsCollision(firstBody: currentBody,
@@ -127,7 +127,7 @@ class SLPhysicsWorld {
         for collision in collisions.reversed() {
             let firstBody = collision.firstBody
             let secondBody = collision.secondBody
-            if firstBody.intersectWithCircle(circleBody: secondBody) {
+            if firstBody.intersectWith(physicsBody: secondBody) {
                 // translate them
                 let intersectAmount = getCircleIntersectAmount(firstBody, secondBody)
                 // move the dynamic one only

@@ -34,9 +34,52 @@ class SLPhysicsBucket: SLPhysicsBody {
         self.velocity = newVelocity
     }
 
-    func intersectWithCircle(circleBody: SLPhysicsBody) -> Bool {
-        // TODO: implement this
-        return false
+    func intersectWith(physicsBody: SLPhysicsBody) -> Bool {
+        // 2 points for each line
+        let leftTop = Point(xCoordinate: position.xCoordinate - width / 2,
+                            yCoordinate: position.yCoordinate + height / 2)
+        let leftBottom = Point(xCoordinate: position.xCoordinate - width / 2,
+                               yCoordinate: position.yCoordinate - height / 2)
+        let rightTop = Point(xCoordinate: position.xCoordinate + width / 2,
+                             yCoordinate: position.yCoordinate + height / 2)
+        let rightBottom = Point(xCoordinate: position.xCoordinate + width / 2,
+                                yCoordinate: position.yCoordinate - height / 2)
+
+        if let circleBody = physicsBody as? SLPhysicsCircle {
+            return lineIntersectWithCircle(lineTop: leftTop, lineBottom: leftBottom, circle: circleBody)
+            || lineIntersectWithCircle(lineTop: rightTop, lineBottom: rightBottom, circle: circleBody)
+        }
+        fatalError("Shape not implemented yet")
+    }
+
+    private func lineIntersectWithCircle(lineTop: Point, lineBottom: Point, circle: SLPhysicsCircle) -> Bool {
+        let circleCenter = circle.position
+        let centerToTop = Vector(xDirection: lineTop.xCoordinate - circleCenter.xCoordinate,
+                                 yDirection: lineTop.yCoordinate - circleCenter.yCoordinate)
+        let centerToBottom = Vector(xDirection: lineBottom.xCoordinate - circleCenter.xCoordinate,
+                                    yDirection: lineBottom.yCoordinate - circleCenter.yCoordinate)
+        let topToBottom = Vector(xDirection: lineBottom.xCoordinate - lineTop.xCoordinate,
+                                 yDirection: lineBottom.yCoordinate - lineTop.yCoordinate)
+        let bottomToTop = Vector(xDirection: lineTop.xCoordinate - lineBottom.xCoordinate,
+                                 yDirection: lineTop.yCoordinate - lineBottom.yCoordinate)
+
+        if centerToTop.dotProductWith(vector: bottomToTop) > 0 &&
+            centerToBottom.dotProductWith(vector: topToBottom) > 0 {
+            let crossProduct = abs(centerToTop.xDirection * centerToBottom.yDirection
+                                   - centerToTop.yDirection * centerToBottom.xDirection)
+            let areaOfTriangle = crossProduct / 2
+            let shortestDistance = 2 * areaOfTriangle / topToBottom.magnitude
+            if shortestDistance <= circle.radius {
+                print(true)
+            }
+            return shortestDistance <= circle.radius
+        } else {
+//            let shortestDistance = min(centerToTop.magnitude, centerToBottom.magnitude)
+            if centerToTop.magnitude <= circle.radius || centerToBottom.magnitude <= circle.radius {
+                print(true)
+            }
+            return centerToTop.magnitude <= circle.radius || centerToBottom.magnitude <= circle.radius
+        }
     }
 
     func resolveForces() {

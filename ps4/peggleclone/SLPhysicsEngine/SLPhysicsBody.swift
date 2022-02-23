@@ -25,7 +25,7 @@ protocol SLPhysicsBody {
 
     func setVelocity(newVelocity: Vector)
 
-    func intersectWithCircle(circleBody: SLPhysicsBody) -> Bool
+    func intersectWith(physicsBody: SLPhysicsBody) -> Bool
 
     func resolveForces()
 

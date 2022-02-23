@@ -39,7 +39,7 @@ class SLGameEngine {
         // create body for bucket
         let bucketPhysicsBody = SLPhysicsBucket(position: bucket.center,
                                                 height: bucket.size,
-                                                width: bucket.size)
+                                                width: bucket.size * 1.05)
         // add bucket to mappings
         mappings[bucket] = bucketPhysicsBody
         physicsObjects.append(bucketPhysicsBody)

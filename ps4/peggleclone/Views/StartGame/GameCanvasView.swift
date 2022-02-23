@@ -28,6 +28,9 @@ struct GameCanvasView: View {
                             gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                         })
 
+            BucketView(size: levelManager.bucket.size)
+                .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
+
             ForEach(levelManager.level.pegs) { peg in
                 PegView(location: .constant(toCGPoint(point: peg.center)),
                         pegType: peg.type,
@@ -41,9 +44,6 @@ struct GameCanvasView: View {
             CannonView()
                 .rotationEffect(.radians(rotation))
                 .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
-
-            BucketView(size: levelManager.bucket.size)
-                .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
 
             if load {
                 GeometryReader { geometry in
