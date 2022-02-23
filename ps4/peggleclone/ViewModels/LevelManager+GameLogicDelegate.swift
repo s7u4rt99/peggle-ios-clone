@@ -8,11 +8,16 @@
 import Foundation
 
 extension LevelManager: GameLogicDelegate {
-    override func didMove() {
-        
+    func didMove(peg: Peg, newLocation: Point) {
+        movePeg(peg: peg, newLocation: newLocation)
     }
-    
-    override func didRemove() {
-        
+
+    func didRemove(peg: Peg) {
+        delete(peg: peg)
+    }
+
+    func didAddCannonBall(cannonBall: Peg) {
+        // add cannon ball at center
+        level.addPeg(peg: cannonBall)
     }
 }

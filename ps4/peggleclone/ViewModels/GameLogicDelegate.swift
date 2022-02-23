@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol GameLogicDelegate {
-    func didMove()
-    func didRemove()
+protocol GameLogicDelegate: AnyObject {
+    func didMove(peg: Peg, newLocation: Point)
+    func didRemove(peg: Peg)
+    func didAddCannonBall(cannonBall: Peg)
 }

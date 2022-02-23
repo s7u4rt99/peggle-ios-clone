@@ -14,7 +14,7 @@ class SLGameEngine {
     private let msPerUpdate = TimeInterval(0.016)
     private var lag = 0.0
     private var previous = Date()
-    private var levelManager: LevelManager?
+    private weak var gameLogicDelegate: GameLogicDelegate?
     private var canvasDimensions: CGRect
     private var cannonBall: Peg?
     private var similarPositionCounter = 0
@@ -24,12 +24,12 @@ class SLGameEngine {
         self.canvasDimensions = canvasDimensions
     }
 
-    func loadLevel(levelManager: LevelManager) {
+    func loadLevel(gameLogicDelegate: GameLogicDelegate, level: Level) {
         // create physics body for each object, loads to physics engine
-        self.levelManager = levelManager
+        self.gameLogicDelegate = gameLogicDelegate
 
         var physicsObjects: [SLPhysicsBody] = []
-        for peg in levelManager.level.pegs {
+        for peg in level.pegs {
             let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
             physicsObjects.append(physicsBody)
             mappings[peg] = physicsBody
@@ -40,14 +40,14 @@ class SLGameEngine {
     }
 
     func addCannonBall() {
-        guard let levelManager = levelManager else {
+        guard let gameLogicDelegate = gameLogicDelegate else {
             return
         }
         let middleOfTopScreen = CGPoint(x: 400, y: 50)
         let cannonBall = Peg(type: PegType.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
 
-        levelManager.addCannonBall(cannonBall: cannonBall)
+        gameLogicDelegate.didAddCannonBall(cannonBall: cannonBall)
         self.mostRecentPosition = cannonBall.center
     }
 
@@ -77,13 +77,13 @@ class SLGameEngine {
     }
 
     func render(cannonBallCount: Int) {
-        guard let levelManager = levelManager, let cannonBall = cannonBall,
+        guard let gameLogicDelegate = gameLogicDelegate, let cannonBall = cannonBall,
               let cannonBallPhysicsBody = mappings[cannonBall] else {
             return
         }
 
         cannonBall.center = cannonBallPhysicsBody.position
-        levelManager.movePeg(peg: cannonBall, newLocation: cannonBallPhysicsBody.position)
+        gameLogicDelegate.didMove(peg: cannonBall, newLocation: cannonBallPhysicsBody.position)
         let collisions = cannonBallPhysicsBody.collisionsWith
         var currentCollisions: [Peg] = []
         for (key, value) in mappings where value.hasCollided {
@@ -93,7 +93,7 @@ class SLGameEngine {
                     currentCollisions.append(peg)
                 }
                 if cannonBallCount == 0 {
-                    levelManager.delete(peg: peg)
+                    gameLogicDelegate.didRemove(peg: peg)
                     value.ignore()
                 }
             }
@@ -104,7 +104,7 @@ class SLGameEngine {
         if cannonBallCount == 0 {
             cannonBallPhysicsBody.ignore()
             mappings.removeValue(forKey: cannonBall)
-            levelManager.delete(peg: cannonBall)
+            gameLogicDelegate.didRemove(peg: cannonBall)
             addCannonBall()
             self.similarPositionCounter = 0
         } else {
@@ -116,7 +116,7 @@ class SLGameEngine {
                         }
                         if pegInTouch.hasCollided {
                             pegInTouch.ignore()
-                            levelManager.delete(peg: peg)
+                            gameLogicDelegate.didRemove(peg: peg)
                         }
                     }
                 } else {

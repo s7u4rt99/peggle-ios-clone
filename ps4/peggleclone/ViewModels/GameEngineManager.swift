@@ -16,7 +16,7 @@ class GameEngineManager: ObservableObject {
     }
 
     func loadLevel(levelManager: LevelManager) {
-        gameEngine.loadLevel(levelManager: levelManager)
+        gameEngine.loadLevel(gameLogicDelegate: levelManager, level: levelManager.level)
     }
 
     func start() {

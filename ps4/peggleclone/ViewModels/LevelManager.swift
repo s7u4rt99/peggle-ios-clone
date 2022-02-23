@@ -122,9 +122,4 @@ class LevelManager: ObservableObject, Identifiable {
     func movePeg(peg: Peg, newLocation: Point) {
         self.level.movePeg(peg: peg, newLocation: newLocation)
     }
-
-    func addCannonBall(cannonBall: Peg) {
-        // add cannon ball at center
-        level.addPeg(peg: cannonBall)
-    }
 }
