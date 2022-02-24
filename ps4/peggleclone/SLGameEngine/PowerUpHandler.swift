@@ -36,7 +36,7 @@ class PowerUpHandler {
                 if isWithinExplosionRadius(kaboomPeg: kaboomPeg, physicsBody: cannonBallPhysicsBody) {
                     let forceDirection = kaboomPeg.center.vectorTo(point: cannonBallPhysicsBody.position)
                     let distance = kaboomPeg.center.distanceFrom(point: cannonBallPhysicsBody.position)
-                    let ratio = 15 * (1 - distance / kaboomPeg.radiusOfExplosion)
+                    let ratio = 25 * (1 - distance / kaboomPeg.radiusOfExplosion)
                     cannonBallPhysicsBody.addForceToVelocity(force: forceDirection.multiplyWithScalar(scalar: ratio))
                 }
                 kaboomPeg.setActivated()
