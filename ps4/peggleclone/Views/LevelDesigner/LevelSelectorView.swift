@@ -46,7 +46,7 @@ struct LevelSelectorView: View {
 struct LevelSelector_Previews: PreviewProvider {
     static var previews: some View {
         LevelSelectorView(allLevelsManager: AllLevelsManager(),
-                          levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+                          levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
                       load: .constant(true),
                       levelName: .constant("default"))
     }

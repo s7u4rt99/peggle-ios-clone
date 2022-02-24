@@ -38,12 +38,14 @@ class SLGameEngine {
         self.numOfOrangePegs = 0
 
         var physicsObjects: [SLPhysicsBody] = []
-        for peg in level.pegs {
-            let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
-            physicsObjects.append(physicsBody)
-            mappings[peg] = physicsBody
-            if peg.color == PegColor.orangePeg {
-                numOfOrangePegs += 1
+        for peggleObject in level.peggleObjects {
+            if let peg = peggleObject as? Peg {
+                let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
+                physicsObjects.append(physicsBody)
+                mappings[peg] = physicsBody
+                if peg.color == PegColor.orangePeg {
+                    numOfOrangePegs += 1
+                }
             }
         }
         // create body for bucket

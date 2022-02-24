@@ -18,12 +18,12 @@ extension LevelManager: GameLogicDelegate {
     }
 
     func didRemove(peg: Peg) {
-        delete(peg: peg)
+        delete(peggleObject: peg)
     }
 
     func didAddCannonBall(cannonBall: Peg) {
         // add cannon ball at center
-        level.addPeg(peg: cannonBall)
+        level.addPeggleObject(peggleObject: cannonBall)
     }
 
     func gameWin() {

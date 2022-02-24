@@ -19,25 +19,25 @@ class LevelManager: ObservableObject, Identifiable {
 
     init(level: Level) {
         self.level = level
-        self.isGameWon = level.pegs.isEmpty
+        self.isGameWon = level.peggleObjects.isEmpty
         self.isGameLost = false
         copyPegs()
     }
 
     private func copyPegs() {
-        var copiedPegs: [Peg] = []
-        for peg in self.level.pegs {
-            copiedPegs.append(peg.copy())
+        var copiedPeggleObjects: [PeggleObject] = []
+        for peg in self.level.peggleObjects {
+            copiedPeggleObjects.append(peg.copy())
         }
-        self.level.pegs = copiedPegs
+        self.level.peggleObjects = copiedPeggleObjects
     }
 
-    func delete(peg: Peg) {
-        level.deletePeg(peg: peg)
+    func delete(peggleObject: PeggleObject) {
+        level.delete(peggleObject: peggleObject)
     }
 
     func deleteAll() {
-        level.removeAllPegs()
+        level.removeAllPeggleObjects()
     }
 
     func select(peg: PegColor) {
@@ -53,11 +53,14 @@ class LevelManager: ObservableObject, Identifiable {
     func addPeg(center: CGPoint, canvasDimensions: CGRect) {
         if let selectedPeg = selectedPeg, safeToPlacePegAt(center: center, canvasDimensions: canvasDimensions) {
             if selectedPeg == .spookyPeg {
-                level.addPeg(peg: SpookyPeg(center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+                level.addPeggleObject(peggleObject: SpookyPeg(center:
+                                                                Point(xCoordinate: center.x, yCoordinate: center.y)))
             } else if selectedPeg == .kaboomPeg {
-                level.addPeg(peg: KaboomPeg(center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+                level.addPeggleObject(peggleObject: KaboomPeg(center:
+                                                                Point(xCoordinate: center.x, yCoordinate: center.y)))
             } else {
-                level.addPeg(peg: Peg(color: selectedPeg, center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+                level.addPeggleObject(peggleObject: Peg(color: selectedPeg, center:
+                                                            Point(xCoordinate: center.x, yCoordinate: center.y)))
             }
         }
     }
@@ -70,8 +73,8 @@ class LevelManager: ObservableObject, Identifiable {
         // arbituary peg to check if overlaps with any other pegs
         let pegObject = Peg(color: PegColor.bluePeg, center: Point(xCoordinate: center.x, yCoordinate: center.y))
 
-        for peg in level.pegs {
-            if peg.overlap(peg: pegObject) {
+        for peggleObject in level.peggleObjects {
+            if peggleObject.overlap(peg: pegObject) {
                 return false
             }
         }
@@ -88,7 +91,7 @@ class LevelManager: ObservableObject, Identifiable {
 
     func dragPeg(peg pegToMove: Peg, newLocation: CGPoint, canvasDimensions: CGRect) {
         if safeToDragPegTo(peg: pegToMove, location: newLocation, canvasDimensions: canvasDimensions) {
-            level.movePeg(peg: pegToMove,
+            level.move(peggleObject: pegToMove,
                           newLocation: Point(xCoordinate: newLocation.x, yCoordinate: newLocation.y))
         }
     }
@@ -100,8 +103,8 @@ class LevelManager: ObservableObject, Identifiable {
 
         let pegObject = Peg(color: pegToDrag.color, center: Point(xCoordinate: location.x, yCoordinate: location.y))
 
-        for peg in level.pegs {
-            if peg != pegToDrag && peg.overlap(peg: pegObject) {
+        for peggleObject in level.peggleObjects {
+            if peggleObject != pegToDrag && peggleObject.overlap(peg: pegObject) {
                 return false
             }
         }
@@ -114,7 +117,7 @@ class LevelManager: ObservableObject, Identifiable {
 
     func changeLevel(level: Level) {
         self.level = level
-        self.isGameWon = level.pegs.isEmpty
+        self.isGameWon = level.peggleObjects.isEmpty
         self.isGameLost = false
         copyPegs()
     }
@@ -133,7 +136,7 @@ class LevelManager: ObservableObject, Identifiable {
     }
 
     func movePeg(peg: Peg, newLocation: Point) {
-        self.level.movePeg(peg: peg, newLocation: newLocation)
+        self.level.move(peggleObject: peg, newLocation: newLocation)
     }
 
     func moveBucket(newLocation: Point) {

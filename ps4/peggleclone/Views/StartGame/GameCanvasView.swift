@@ -31,16 +31,18 @@ struct GameCanvasView: View {
             BucketView(size: levelManager.bucket.size)
                 .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
 
-            ForEach(levelManager.level.pegs) { peg in
-                PegView(location: .constant(toCGPoint(point: peg.center)),
-                        pegType: peg.color,
-                        pegRadius: peg.radius,
-                        pegShadow: peg.shadow,
-                        pegShadowRadius: peg.shadowRadius)
-                    .onTapGesture {
-                        gameEngineManager.fireCannonBall(directionOf: getFireDirection())
-                    }
-                    .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+            ForEach(levelManager.level.peggleObjects) { peggleObject in
+                if let peg = peggleObject as? Peg {
+                    PegView(location: .constant(toCGPoint(point: peg.center)),
+                            pegType: peg.color,
+                            pegRadius: peg.radius,
+                            pegShadow: peg.shadow,
+                            pegShadowRadius: peg.shadowRadius)
+                        .onTapGesture {
+                            gameEngineManager.fireCannonBall(directionOf: getFireDirection())
+                        }
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
+                }
             }
 
             CannonView()
@@ -124,7 +126,7 @@ struct GameCanvasView: View {
 
 struct GameCanvasView_Previews: PreviewProvider {
     static var previews: some View {
-        GameCanvasView(levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+        GameCanvasView(levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
                        start: .constant(true),
                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }

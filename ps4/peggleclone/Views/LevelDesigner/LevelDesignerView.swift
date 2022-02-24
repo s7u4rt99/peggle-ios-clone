@@ -51,7 +51,7 @@ struct LevelDesignerView: View {
 
 struct LevelDesigner_Previews: PreviewProvider {
     static var previews: some View {
-        LevelDesignerView(levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+        LevelDesignerView(levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
                           levelName: "default",
                           start: .constant(false),
                           editLevels: .constant(true))

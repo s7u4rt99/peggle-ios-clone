@@ -10,52 +10,52 @@ import Foundation
 struct Level: Identifiable {
     var id: UUID
     var name: String
-    var pegs: [Peg]
+    var peggleObjects: [PeggleObject]
 
-    init(name: String, pegs: [Peg]) {
+    init(name: String, peggleObjects: [PeggleObject]) {
         self.id = UUID()
         self.name = name
-        self.pegs = pegs
+        self.peggleObjects = peggleObjects
     }
 
-    init(id: UUID, name: String, pegs: [Peg]) {
+    init(id: UUID, name: String, peggleObjects: [PeggleObject]) {
         self.id = id
         self.name = name
-        self.pegs = pegs
+        self.peggleObjects = peggleObjects
     }
 
-    mutating func save(name: String, pegs: [Peg]) {
-        self.pegs = pegs
+    mutating func save(name: String, peggleObjects: [PeggleObject]) {
+        self.peggleObjects = peggleObjects
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedName.isEmpty {
             self.name = trimmedName
         }
     }
 
-    mutating func movePeg(peg: Peg, newLocation: Point) {
-        for pegObject in pegs where pegObject.id == peg.id {
-            pegObject.shiftTo(location: newLocation)
+    mutating func move(peggleObject: PeggleObject, newLocation: Point) {
+        for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
+            peggleObj.shiftTo(location: newLocation)
         }
     }
 
-    mutating func deletePeg(peg: Peg) {
-        if let index = pegs.firstIndex(of: peg) {
-            pegs.remove(at: index)
+    mutating func delete(peggleObject: PeggleObject) {
+        if let index = peggleObjects.firstIndex(of: peggleObject) {
+            peggleObjects.remove(at: index)
         }
     }
 
-    mutating func removeAllPegs() {
-        pegs.removeAll()
+    mutating func removeAllPeggleObjects() {
+        peggleObjects.removeAll()
     }
 
-    mutating func addPeg(peg: Peg) {
-        pegs.append(peg)
+    mutating func addPeggleObject(peggleObject: PeggleObject) {
+        peggleObjects.append(peggleObject)
     }
 }
 
 extension Level: Equatable {
     static func == (lhs: Level, rhs: Level) -> Bool {
-        let isEqual = lhs.id == rhs.id && lhs.name == rhs.name && lhs.pegs == rhs.pegs
+        let isEqual = lhs.id == rhs.id && lhs.name == rhs.name && lhs.peggleObjects == rhs.peggleObjects
         return isEqual
     }
 }

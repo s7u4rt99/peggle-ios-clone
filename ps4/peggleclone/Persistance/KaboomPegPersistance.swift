@@ -1,29 +1,17 @@
 //
-//  PegPersistance.swift
+//  KaboomPegPersistance.swift
 //  peggleclone
 //
-//  Created by Stuart Long on 23/2/22.
+//  Created by Stuart Long on 24/2/22.
 //
 
 import Foundation
-import SwiftUI
 
-class PegPersistance: PeggleObjectPersistance {
-    var color: PegColor
-    var radius: Double
-    var shadow: Color = .white
-    var shadowRadius: Double = 0.0
-
-    init(_ peg: Peg) {
-        self.color = peg.color
-        self.radius = peg.radius
-        super.init(peg)
-    }
-
-    init(id: UUID, center: PointPersistance, color: PegColor, radius: Double) {
-        self.color = color
-        self.radius = radius
-        super.init(id: id, center: center)
+class KaboomPegPersistance: PegPersistance {
+    init(_ kaboomPeg: KaboomPeg) {
+        super.init(kaboomPeg)
+        self.shadow = kaboomPeg.shadow
+        self.shadowRadius = kaboomPeg.shadowRadius
     }
 
     private enum CodingKeys: String, CodingKey {
@@ -35,13 +23,13 @@ class PegPersistance: PeggleObjectPersistance {
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.color = try container.decode(PegColor.self, forKey: .color)
-        self.radius = try container.decode(Double.self, forKey: .radius)
-        self.shadow = .white
-        self.shadowRadius = 0.0
+        let color = try container.decode(PegColor.self, forKey: .color)
+        let radius = try container.decode(Double.self, forKey: .radius)
         let id = try container.decode(UUID.self, forKey: .id)
         let center = try container.decode(PointPersistance.self, forKey: .center)
-        super.init(id: id, center: center)
+        super.init(id: id, center: center, color: color, radius: radius)
+        self.shadow = .red
+        self.shadowRadius = 10.0
     }
 
     override public func encode(to encoder: Encoder) throws {

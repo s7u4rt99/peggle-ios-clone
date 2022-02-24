@@ -37,7 +37,7 @@ struct LevelLoaderView: View {
 struct LevelLoaderView_Previews: PreviewProvider {
     static var previews: some View {
         LevelLoaderView(allLevelsManager: AllLevelsManager(),
-                        levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+                        levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
                         load: .constant(true),
                         gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }

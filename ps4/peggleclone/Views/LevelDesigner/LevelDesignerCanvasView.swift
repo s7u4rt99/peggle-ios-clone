@@ -29,33 +29,33 @@ struct LevelDesignerCanvasView: View {
                             }
                     )
 
-                ForEach(levelManager.level.pegs) { peg in
-//                    if let peg = peggleObject as? Peg {
-                    PegView(location: .constant(CGPoint(x: peg.center.xCoordinate, y: peg.center.yCoordinate)),
-                            pegType: peg.color,
-                            pegRadius: peg.radius,
-                            pegShadow: peg.shadow,
-                            pegShadowRadius: peg.shadowRadius)
-                        .onTapGesture {
-                            if keyboardResponder.currentHeight == 0 && levelManager.isDeleteSelected {
-                                levelManager.delete(peg: peg)
+                ForEach(levelManager.level.peggleObjects) { peggleObject in
+                    if let peg = peggleObject as? Peg {
+                        PegView(location: .constant(CGPoint(x: peg.center.xCoordinate, y: peg.center.yCoordinate)),
+                                pegType: peg.color,
+                                pegRadius: peg.radius,
+                                pegShadow: peg.shadow,
+                                pegShadowRadius: peg.shadowRadius)
+                            .onTapGesture {
+                                if keyboardResponder.currentHeight == 0 && levelManager.isDeleteSelected {
+                                    levelManager.delete(peggleObject: peg)
+                                }
                             }
-                        }
-                        .onLongPressGesture(minimumDuration: 1.5) {
-                            if keyboardResponder.currentHeight == 0 {
-                                levelManager.delete(peg: peg)
+                            .onLongPressGesture(minimumDuration: 1.5) {
+                                if keyboardResponder.currentHeight == 0 {
+                                    levelManager.delete(peggleObject: peg)
+                                }
                             }
-                        }
-                        .gesture(DragGesture().onChanged({ value in
-                            if keyboardResponder.currentHeight == 0 {
-                                let locationOfPeg = value.location
-                                levelManager.dragPeg(peg: peg,
-                                                   newLocation: locationOfPeg,
-                                                   canvasDimensions: canvasDimensions)
-                            }
-                        }))
-                        .offset(y: -keyboardResponder.currentHeight * 0.9)
-//                    }
+                            .gesture(DragGesture().onChanged({ value in
+                                if keyboardResponder.currentHeight == 0 {
+                                    let locationOfPeg = value.location
+                                    levelManager.dragPeg(peg: peg,
+                                                       newLocation: locationOfPeg,
+                                                       canvasDimensions: canvasDimensions)
+                                }
+                            }))
+                            .offset(y: -keyboardResponder.currentHeight * 0.9)
+                    }
                 }
             }
         }
