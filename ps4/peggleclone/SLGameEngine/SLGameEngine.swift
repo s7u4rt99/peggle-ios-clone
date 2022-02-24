@@ -13,7 +13,7 @@ class SLGameEngine {
     private var mappings: [PeggleObject: SLPhysicsBody] = [:]
     private let msPerUpdate = TimeInterval(0.016)
     private var lag = 0.0
-    private var previous = Date()
+    private var previous: Date?
     private weak var gameLogicDelegate: GameLogicDelegate?
     private var canvasDimensions: CGRect
     private var cannonBall: Peg?
@@ -57,6 +57,9 @@ class SLGameEngine {
         physicsObjects.append(bucketPhysicsBody)
         physicsEngine.load(physicsBodies: physicsObjects, canvasDimensions: canvasDimensions)
         addCannonBall()
+        if numOfOrangePegs == 0 {
+            gameLogicDelegate.gameWin()
+        }
     }
 
     func addCannonBall() {
@@ -76,14 +79,19 @@ class SLGameEngine {
     }
 
     func createDisplayLink() {
+        self.previous = Date()
         let displayLink = CADisplayLink(target: self, selector: #selector(start))
         displayLink.add(to: .current, forMode: .common)
     }
 
     @objc func start() {
+        guard let previous = previous else {
+            return
+        }
+
         let current = Date()
         let elapsed = current.timeIntervalSince(previous)
-        previous = current
+        self.previous = current
         lag += elapsed
 
         var numberOfCannonBalls = 1

@@ -19,14 +19,14 @@ struct LevelLoaderView: View {
             Text("Select a level to play").font(.headline)
 
             ForEach(allLevelsManager.levels) { level in
-                    Button() {
-                        levelManager.changeLevel(level: level)
-                        load = false
-                        gameEngineManager.loadLevel(levelManager: levelManager)
-                        gameEngineManager.start()
-                    } label: {
-                        Text(level.name).foregroundColor(.red).padding()
-                    }
+                Button() {
+                    levelManager.changeLevel(level: level)
+                    load = false
+                    gameEngineManager.loadLevel(levelManager: levelManager)
+                    gameEngineManager.start()
+                } label: {
+                    Text(level.name).foregroundColor(.red).padding()
+                }
             }
         }.padding()
             .background(.white)
