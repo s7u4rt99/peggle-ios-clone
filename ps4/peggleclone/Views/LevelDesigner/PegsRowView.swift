@@ -121,7 +121,6 @@ struct PegsRowView: View {
                     .resizable()
                     .opacity(triangleOpacity)
                     .frame(width: 95, height: 95)
-                    .shadow(color: .red, radius: 10)
             }
 
             Spacer()

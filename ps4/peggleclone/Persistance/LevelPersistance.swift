@@ -13,6 +13,7 @@ struct LevelPersistance: Codable {
     var normalPegPersistances: [PegPersistance] = []
     var spookyPegPersistances: [SpookyPegPersitance] = []
     var kaboomPegPersistances: [KaboomPegPersistance] = []
+    var trianglePegPersistances: [TrianglePegPersistance] = []
 
     init(level: Level) {
         self.id = level.id
@@ -28,6 +29,8 @@ struct LevelPersistance: Codable {
                 spookyPegPersistances.append(SpookyPegPersitance(spookyPeg))
             } else if let peg = peggleObject as? Peg {
                 normalPegPersistances.append(PegPersistance(peg))
+            } else if let triangle = peggleObject as? TriangleBlock {
+                trianglePegPersistances.append(TrianglePegPersistance(triangle: triangle))
             }
         }
     }
@@ -51,6 +54,13 @@ struct LevelPersistance: Codable {
             peggleObjects.append(KaboomPeg(id: kaboomPegPersistance.id,
                                            center: kaboomPegPersistance.center.convertToPoint(),
                                            radius: kaboomPegPersistance.radius))
+        }
+
+        for trianglePegPersistance in trianglePegPersistances {
+            peggleObjects.append(TriangleBlock(id: trianglePegPersistance.id,
+                                               center: trianglePegPersistance.center.convertToPoint(),
+                                               base: trianglePegPersistance.base,
+                                               height: trianglePegPersistance.height))
         }
 
         return Level(id: self.id, name: self.name, peggleObjects: peggleObjects)
