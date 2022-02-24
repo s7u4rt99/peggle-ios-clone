@@ -16,6 +16,7 @@ struct PegsRowView: View {
     @State var deleteOpacity: Double = 0.3
     @State var spookyOpacity: Double = 0.3
     @State var kaboomOpacity: Double = 0.3
+    @State var triangleOpacity: Double = 0.3
 
     var body: some View {
         HStack {
@@ -26,6 +27,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     kaboomOpacity = 0.3
+                    triangleOpacity = 0.3
                     levelManager.select(peg: PegColor.bluePeg)
                 } else {
                     blueOpacity = 0.3
@@ -46,6 +48,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     kaboomOpacity = 0.3
+                    triangleOpacity = 0.3
                     levelManager.select(peg: PegColor.orangePeg)
                 } else {
                     orangeOpacity = 0.3
@@ -65,6 +68,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     orangeOpacity = 0.3
                     kaboomOpacity = 0.3
+                    triangleOpacity = 0.3
                     levelManager.select(peg: PegColor.spookyPeg)
                 } else {
                     spookyOpacity = 0.3
@@ -85,6 +89,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     orangeOpacity = 0.3
+                    triangleOpacity = 0.3
                     levelManager.select(peg: PegColor.kaboomPeg)
                 } else {
                     kaboomOpacity = 0.3
@@ -98,6 +103,27 @@ struct PegsRowView: View {
                     .shadow(color: .red, radius: 10)
             }
 
+            Button {
+                if triangleOpacity == 0.3 {
+                    triangleOpacity = 1
+                    blueOpacity = 0.3
+                    deleteOpacity = 0.3
+                    spookyOpacity = 0.3
+                    orangeOpacity = 0.3
+                    kaboomOpacity = 0.3
+                    levelManager.selectTriangle()
+                } else {
+                    triangleOpacity = 0.3
+                    levelManager.unselectTriangle()
+                }
+            } label: {
+                Image("peg-red-triangle")
+                    .resizable()
+                    .opacity(triangleOpacity)
+                    .frame(width: 95, height: 95)
+                    .shadow(color: .red, radius: 10)
+            }
+
             Spacer()
 
             Button {
@@ -107,6 +133,7 @@ struct PegsRowView: View {
                     orangeOpacity = 0.3
                     spookyOpacity = 0.3
                     kaboomOpacity = 0.3
+                    triangleOpacity = 0.3
                     levelManager.selectDelete()
                 } else {
                     deleteOpacity = 0.3

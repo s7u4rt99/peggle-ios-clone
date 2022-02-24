@@ -41,7 +41,6 @@ extension LevelManager: GameLogicDelegate {
     }
 
     func renderExplosion(kaboomPeg: KaboomPeg) {
-        print("called")
         level.renderExplosion(kaboomPeg: kaboomPeg)
     }
 }

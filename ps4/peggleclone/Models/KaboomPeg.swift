@@ -52,7 +52,6 @@ class KaboomPeg: Peg {
             self.radius = radiusOfPeg
             color = .greenGlow
         } else if color != .greenGlow {
-            print("explosion changing \(explosionState)")
             explosionState += 1
             guard let newColor = PegColor(rawValue: "explosion-\(explosionState)") else {
                 color = .greenGlow

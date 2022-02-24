@@ -24,6 +24,8 @@
 		6834AD2927C76DB300F5A4E3 /* SpookyPegPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2827C76DB300F5A4E3 /* SpookyPegPersistance.swift */; };
 		6834AD2B27C76DC600F5A4E3 /* KaboomPegPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2A27C76DC600F5A4E3 /* KaboomPegPersistance.swift */; };
 		6834AD2D27C7D0A000F5A4E3 /* PowerUpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2C27C7D09F00F5A4E3 /* PowerUpHandler.swift */; };
+		6834AD3127C8074A00F5A4E3 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD3027C8074A00F5A4E3 /* TriangleView.swift */; };
+		6834AD3327C811F700F5A4E3 /* TriangleBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD3227C811F700F5A4E3 /* TriangleBlock.swift */; };
 		684FFA3C27C4C4EA000CD3D5 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684FFA3B27C4C4E9000CD3D5 /* Point.swift */; };
 		684FFA3E27C4D547000CD3D5 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684FFA3D27C4D547000CD3D5 /* Vector.swift */; };
 		68686A9327B2E0D800B97394 /* GameCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68686A9227B2E0D800B97394 /* GameCanvasView.swift */; };
@@ -73,6 +75,8 @@
 		6834AD2827C76DB300F5A4E3 /* SpookyPegPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpookyPegPersistance.swift; sourceTree = "<group>"; };
 		6834AD2A27C76DC600F5A4E3 /* KaboomPegPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaboomPegPersistance.swift; sourceTree = "<group>"; };
 		6834AD2C27C7D09F00F5A4E3 /* PowerUpHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpHandler.swift; sourceTree = "<group>"; };
+		6834AD3027C8074A00F5A4E3 /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
+		6834AD3227C811F700F5A4E3 /* TriangleBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleBlock.swift; sourceTree = "<group>"; };
 		684FFA3B27C4C4E9000CD3D5 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		684FFA3D27C4D547000CD3D5 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		68686A9227B2E0D800B97394 /* GameCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCanvasView.swift; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 				6869E01627B28E3C00167C8A /* StartGame */,
 				68382C2727B2780800518C8E /* LevelDesigner */,
 				68C1B1E1279DCCCC002DF357 /* ContentView.swift */,
+				6834AD3027C8074A00F5A4E3 /* TriangleView.swift */,
 				68143562279EE71700A16058 /* BackgroundView.swift */,
 				6814356D279FD9C900A16058 /* PegView.swift */,
 				687C2B4027B61CF500D1BB1E /* PegColor.swift */,
@@ -141,6 +146,7 @@
 				6834AD1B27C680BA00F5A4E3 /* Bucket.swift */,
 				6834AD2427C762BD00F5A4E3 /* SpookyPeg.swift */,
 				6834AD2627C762CA00F5A4E3 /* KaboomPeg.swift */,
+				6834AD3227C811F700F5A4E3 /* TriangleBlock.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,12 +383,14 @@
 				689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */,
 				687C2B3F27B61ABF00D1BB1E /* GameEngineManager.swift in Sources */,
 				68143576279FEEDF00A16058 /* LevelManager.swift in Sources */,
+				6834AD3327C811F700F5A4E3 /* TriangleBlock.swift in Sources */,
 				68C1B1E2279DCCCC002DF357 /* ContentView.swift in Sources */,
 				6831831527B4FECA00732E00 /* SLGameEngine.swift in Sources */,
 				688064EB27B8FFD200EC1501 /* PeggleHomeView.swift in Sources */,
 				68C1B1E0279DCCCC002DF357 /* PeggleCloneApp.swift in Sources */,
 				687C2B4327B6509200D1BB1E /* SLPhysicsCollision.swift in Sources */,
 				688064E927B8E01400EC1501 /* LevelLoaderView.swift in Sources */,
+				6834AD3127C8074A00F5A4E3 /* TriangleView.swift in Sources */,
 				689A4A1727A6D72E00A2E4E6 /* KeyboardResponder.swift in Sources */,
 				689A4A0427A2DBD700A2E4E6 /* LevelSelectorView.swift in Sources */,
 				6834AD1E27C684E100F5A4E3 /* SLPhysicsBucket.swift in Sources */,

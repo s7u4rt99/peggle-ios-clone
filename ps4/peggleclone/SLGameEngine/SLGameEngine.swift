@@ -180,19 +180,10 @@ class SLGameEngine {
                 if contains(arr: collisions, physicsBody: value) {
                     currentCollisions.append(peg)
                 }
-                // TODO: refactor
                 if peg is SpookyPeg || peg is KaboomPeg {
                     powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings,
                                                  cannonBall: cannonBall, gameLogicDelegate: gameLogicDelegate)
                 }
-//                if let spookyPeg = peg as? SpookyPeg {
-//                    if !spookyPeg.activated {
-//                        spookyBallsActivated += 1
-//                        print(spookyBallsActivated)
-//                        spookyPeg.setActivated()
-//                    }
-//                }
-                // TODO: add the handler
                 if cannonBallCount == 0 {
                     gameLogicDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
@@ -211,14 +202,11 @@ class SLGameEngine {
         return currentCollisions
     }
 
-    // TODO: add handler
     private func moveCannonBall(
         _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
         cannonBall.center = cannonBallPhysicsBody.position
         gameLogicDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
-//        if spookyBallsActivated > 0 {
-//            gameLogicDelegate.spookCannonBall(cannonBall: cannonBall)
-//        }
+
         if isCannonBallInBucket(cannonBallPhysicsBody) {
             cannonBallInBucket = true
         }
@@ -226,15 +214,6 @@ class SLGameEngine {
                                         cannonBall: cannonBall,
                                         cannonBallPhysicsBody: cannonBallPhysicsBody,
                                         gameLogicDelegate: gameLogicDelegate)
-//        if spookyBallsActivated > 0 && isOutOfScreen(peg: cannonBall) {
-//            gameLogicDelegate.didMove(peggleObject: cannonBall,
-//                                      newLocation: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
-//            cannonBallPhysicsBody.moveTo(position: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
-//            cannonBallPhysicsBody
-//                .setVelocity(newVelocity: cannonBallPhysicsBody.velocity.multiplyWithScalar(scalar: 0.5))
-//            spookyBallsActivated -= 1
-//            print("used one spooky ball, \(spookyBallsActivated) left")
-//        }
     }
 
     private func isOutOfScreen(peg: Peg) -> Bool {

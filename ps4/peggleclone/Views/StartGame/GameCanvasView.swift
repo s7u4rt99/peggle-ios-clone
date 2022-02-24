@@ -15,6 +15,37 @@ struct GameCanvasView: View {
     @State private var rotation = 0.0
     var gameEngineManager: GameEngineManager
 
+    func buildView(peggleObject: PeggleObject) -> AnyView {
+        if let peg = peggleObject as? Peg {
+            return AnyView(PegView(location: .constant(toCGPoint(point: peg.center)),
+                                   pegType: peg.color,
+                                   pegRadius: peg.radius,
+                                   pegShadow: peg.shadow,
+                                   pegShadowRadius: peg.shadowRadius)
+                        .onTapGesture {
+                            gameEngineManager.fireCannonBall(directionOf: getFireDirection())
+                        }
+                        .gesture(
+                            DragGesture().onChanged({ value in
+                                setRotation(value.location)
+                            }))
+                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2))))
+        } else if let triangle = peggleObject as? TriangleBlock {
+            return AnyView(TriangleView(location: .constant(toCGPoint(point: triangle.center)),
+                                        triangleBase: triangle.base,
+                                        triangleHeight: triangle.height)
+                            .onTapGesture {
+                                gameEngineManager.fireCannonBall(directionOf: getFireDirection())
+                            }
+                            .gesture(
+                                DragGesture().onChanged({ value in
+                                    setRotation(value.location)
+                                })))
+        } else {
+            return AnyView(EmptyView())
+        }
+    }
+
     var body: some View {
         ZStack {
             BackgroundView()
@@ -32,22 +63,9 @@ struct GameCanvasView: View {
                 .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
 
             ForEach(levelManager.level.peggleObjects) { peggleObject in
-                if let peg = peggleObject as? Peg {
-                    PegView(location: .constant(toCGPoint(point: peg.center)),
-                            pegType: peg.color,
-                            pegRadius: peg.radius,
-                            pegShadow: peg.shadow,
-                            pegShadowRadius: peg.shadowRadius)
-                        .onTapGesture {
-                            gameEngineManager.fireCannonBall(directionOf: getFireDirection())
-                        }
-                        .gesture(
-                            DragGesture().onChanged({ value in
-                                setRotation(value.location)
-                            }))
-                        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-                }
+                buildView(peggleObject: peggleObject)
             }
+            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
 
             CannonView()
                 .rotationEffect(.radians(rotation))

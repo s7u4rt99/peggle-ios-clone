@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct PegView: View {
-
     @Binding var location: CGPoint
     var pegType: PegColor
     var pegRadius: Double
@@ -22,14 +21,6 @@ struct PegView: View {
             .position(location)
             .shadow(color: pegShadow, radius: pegShadowRadius)
     }
-//
-//    private func getPegColor() -> String {
-//        if pegType.rawValue == "peg-green-spooky" || pegType.rawValue == "peg-green-kaboom" {
-//            return "peg-green"
-//        } else {
-//            return pegType.rawValue
-//        }
-//    }
 }
 
 struct Peg_Previews: PreviewProvider {

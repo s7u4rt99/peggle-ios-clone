@@ -16,6 +16,7 @@ class LevelManager: ObservableObject, Identifiable {
     @Published var bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
     var selectedPeg: PegColor?
     var isDeleteSelected = false
+    var isTriangleBlockSelected = false
 
     init(level: Level) {
         self.level = level
@@ -26,8 +27,8 @@ class LevelManager: ObservableObject, Identifiable {
 
     private func copyPegs() {
         var copiedPeggleObjects: [PeggleObject] = []
-        for peg in self.level.peggleObjects {
-            copiedPeggleObjects.append(peg.copy())
+        for peggleObject in self.level.peggleObjects {
+            copiedPeggleObjects.append(peggleObject.copy())
         }
         self.level.peggleObjects = copiedPeggleObjects
     }
@@ -42,15 +43,23 @@ class LevelManager: ObservableObject, Identifiable {
 
     func select(peg: PegColor) {
         selectedPeg = peg
-        isDeleteSelected = false
+        unselectDelete()
+        unselectTriangle()
     }
 
     func selectDelete() {
-        selectedPeg = nil
         isDeleteSelected = true
+        unselectPeg()
+        unselectTriangle()
     }
 
-    func addPeg(center: CGPoint, canvasDimensions: CGRect) {
+    func selectTriangle() {
+        isTriangleBlockSelected = true
+        unselectPeg()
+        unselectDelete()
+    }
+
+    func addSelected(center: CGPoint, canvasDimensions: CGRect) {
         if let selectedPeg = selectedPeg, safeToPlacePegAt(center: center, canvasDimensions: canvasDimensions) {
             if selectedPeg == .spookyPeg {
                 level.addPeggleObject(peggleObject: SpookyPeg(center:
@@ -62,9 +71,13 @@ class LevelManager: ObservableObject, Identifiable {
                 level.addPeggleObject(peggleObject: Peg(color: selectedPeg, center:
                                                             Point(xCoordinate: center.x, yCoordinate: center.y)))
             }
+        } else if isTriangleBlockSelected, safeToPlaceTriangleAt(center: center, canvasDimensions: canvasDimensions) {
+            level.addPeggleObject(peggleObject: TriangleBlock(center: Point(xCoordinate: center.x,
+                                                                            yCoordinate: center.y)))
         }
     }
 
+    // TODO: fix the overlap method to account for triangles
     func safeToPlacePegAt(center: CGPoint, canvasDimensions: CGRect) -> Bool {
         if !isWithinScreen(point: center, radius: 25, canvasDimensions: canvasDimensions) {
             return false
@@ -81,6 +94,11 @@ class LevelManager: ObservableObject, Identifiable {
         return true
     }
 
+    // TODO: implement safeToPlaceTriangleAt
+    private func safeToPlaceTriangleAt(center: CGPoint, canvasDimensions: CGRect) -> Bool {
+        return true
+    }
+
     private func isWithinScreen(point: CGPoint, radius: Double, canvasDimensions: CGRect) -> Bool {
         let withinScreen = point.x >= radius &&
                         point.x <= (canvasDimensions.size.width - radius) &&
@@ -89,6 +107,7 @@ class LevelManager: ObservableObject, Identifiable {
         return withinScreen
     }
 
+    // TODO: see if can use safeToPlacePegAt
     func dragPeg(peg pegToMove: Peg, newLocation: CGPoint, canvasDimensions: CGRect) {
         if safeToDragPegTo(peg: pegToMove, location: newLocation, canvasDimensions: canvasDimensions) {
             level.move(peggleObject: pegToMove,
@@ -96,6 +115,19 @@ class LevelManager: ObservableObject, Identifiable {
         }
     }
 
+    func dragTriangle(triangle: TriangleBlock, newLocation: CGPoint, canvasDimensions: CGRect) {
+        if safeToDragTriangleTo(triangle: triangle, location: newLocation, canvasDimensions: canvasDimensions) {
+            level.move(peggleObject: triangle,
+                          newLocation: Point(xCoordinate: newLocation.x, yCoordinate: newLocation.y))
+        }
+    }
+
+    // TODO: implement this, see if can reuse safeToPlaceTriangleAt
+    func safeToDragTriangleTo(triangle: TriangleBlock, location: CGPoint, canvasDimensions: CGRect) -> Bool {
+        return true
+    }
+
+    // TODO: see if can use safeToPlacePegAt
     func safeToDragPegTo(peg pegToDrag: Peg, location: CGPoint, canvasDimensions: CGRect) -> Bool {
         if !isWithinScreen(point: location, radius: pegToDrag.radius, canvasDimensions: canvasDimensions) {
             return false
@@ -129,10 +161,14 @@ class LevelManager: ObservableObject, Identifiable {
     func unselectDelete() {
         self.isDeleteSelected = false
     }
+    func unselectTriangle() {
+        self.isTriangleBlockSelected = false
+    }
 
     func unselectAllButtons() {
         unselectPeg()
         unselectDelete()
+        unselectTriangle()
     }
 
     func movePeg(peg: Peg, newLocation: Point) {
