@@ -57,6 +57,15 @@ struct Level: Identifiable {
             peggleObj.spooked()
         }
     }
+
+    func renderExplosion(kaboomPeg: KaboomPeg) {
+        for peggleObj in peggleObjects where peggleObj.id == kaboomPeg.id {
+            if let kaboomPegObj = peggleObj as? KaboomPeg {
+                print("yes")
+                kaboomPegObj.renderExplosion()
+            }
+        }
+    }
 }
 
 extension Level: Equatable {

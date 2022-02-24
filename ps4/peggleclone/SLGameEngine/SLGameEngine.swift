@@ -182,7 +182,8 @@ class SLGameEngine {
                 }
                 // TODO: refactor
                 if peg is SpookyPeg || peg is KaboomPeg {
-                    powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings, cannonBall: cannonBall)
+                    powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings,
+                                                 cannonBall: cannonBall, gameLogicDelegate: gameLogicDelegate)
                 }
 //                if let spookyPeg = peg as? SpookyPeg {
 //                    if !spookyPeg.activated {

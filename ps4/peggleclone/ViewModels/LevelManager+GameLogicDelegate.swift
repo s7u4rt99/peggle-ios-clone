@@ -39,4 +39,9 @@ extension LevelManager: GameLogicDelegate {
     func spookCannonBall(cannonBall: Peg) {
         level.spookCannonBall(cannonBall: cannonBall)
     }
+
+    func renderExplosion(kaboomPeg: KaboomPeg) {
+        print("called")
+        level.renderExplosion(kaboomPeg: kaboomPeg)
+    }
 }

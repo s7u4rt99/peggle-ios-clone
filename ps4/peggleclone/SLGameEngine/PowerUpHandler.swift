@@ -11,7 +11,8 @@ import SwiftUI
 class PowerUpHandler {
     private var spookyBallsActivated = 0
 
-    func handlePowerUp(powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody], cannonBall: Peg) {
+    func handlePowerUp(
+        powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody], cannonBall: Peg, gameLogicDelegate: GameLogicDelegate) {
         if let spookyPeg = powerPeg as? SpookyPeg {
             if !spookyPeg.activated {
                 spookyBallsActivated += 1
@@ -40,6 +41,7 @@ class PowerUpHandler {
                 }
                 kaboomPeg.setActivated()
             }
+            gameLogicDelegate.renderExplosion(kaboomPeg: kaboomPeg)
         }
     }
 
