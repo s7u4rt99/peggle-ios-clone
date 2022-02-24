@@ -113,4 +113,8 @@ class SLPhysicsBucket: SLPhysicsBody {
     func clearCollisionsWith() {
         // do nothing
     }
+
+    func addForceToVelocity(force: Vector) {
+        // do nothing
+    }
 }

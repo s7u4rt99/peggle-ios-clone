@@ -30,6 +30,10 @@ class SpookyPeg: Peg {
         self.activated = true
     }
 
+    func setNotActivated() {
+        self.activated = false
+    }
+
     override func copy() -> Peg {
         SpookyPeg(center: self.center, radius: self.radius)
     }

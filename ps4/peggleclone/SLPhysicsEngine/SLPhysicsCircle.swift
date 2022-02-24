@@ -111,4 +111,8 @@ class SLPhysicsCircle: SLPhysicsBody {
     func clearCollisionsWith() {
         self.collisionsWith.removeAll()
     }
+
+    func addForceToVelocity(force: Vector) {
+        setVelocity(newVelocity: force.addTo(vector: self.velocity))
+    }
 }

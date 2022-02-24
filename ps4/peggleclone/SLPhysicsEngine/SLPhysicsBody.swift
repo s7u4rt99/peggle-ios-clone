@@ -42,4 +42,6 @@ protocol SLPhysicsBody {
     func addCollisionWith(physicsBody: SLPhysicsBody)
 
     func clearCollisionsWith()
+
+    func addForceToVelocity(force: Vector)
 }

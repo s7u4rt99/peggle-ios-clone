@@ -23,6 +23,7 @@
 		6834AD2727C762CA00F5A4E3 /* KaboomPeg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2627C762CA00F5A4E3 /* KaboomPeg.swift */; };
 		6834AD2927C76DB300F5A4E3 /* SpookyPegPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2827C76DB300F5A4E3 /* SpookyPegPersistance.swift */; };
 		6834AD2B27C76DC600F5A4E3 /* KaboomPegPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2A27C76DC600F5A4E3 /* KaboomPegPersistance.swift */; };
+		6834AD2D27C7D0A000F5A4E3 /* PowerUpHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6834AD2C27C7D09F00F5A4E3 /* PowerUpHandler.swift */; };
 		684FFA3C27C4C4EA000CD3D5 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684FFA3B27C4C4E9000CD3D5 /* Point.swift */; };
 		684FFA3E27C4D547000CD3D5 /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 684FFA3D27C4D547000CD3D5 /* Vector.swift */; };
 		68686A9327B2E0D800B97394 /* GameCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68686A9227B2E0D800B97394 /* GameCanvasView.swift */; };
@@ -71,6 +72,7 @@
 		6834AD2627C762CA00F5A4E3 /* KaboomPeg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaboomPeg.swift; sourceTree = "<group>"; };
 		6834AD2827C76DB300F5A4E3 /* SpookyPegPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpookyPegPersistance.swift; sourceTree = "<group>"; };
 		6834AD2A27C76DC600F5A4E3 /* KaboomPegPersistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KaboomPegPersistance.swift; sourceTree = "<group>"; };
+		6834AD2C27C7D09F00F5A4E3 /* PowerUpHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUpHandler.swift; sourceTree = "<group>"; };
 		684FFA3B27C4C4E9000CD3D5 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		684FFA3D27C4D547000CD3D5 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		68686A9227B2E0D800B97394 /* GameCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCanvasView.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				6831831427B4FEC900732E00 /* SLGameEngine.swift */,
+				6834AD2C27C7D09F00F5A4E3 /* PowerUpHandler.swift */,
 			);
 			path = SLGameEngine;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				687C2B4127B61CF500D1BB1E /* PegColor.swift in Sources */,
 				68143567279EE7D700A16058 /* PegsRowView.swift in Sources */,
 				68B6B8D527C54138004CE9E2 /* PeggleObjectPersistance.swift in Sources */,
+				6834AD2D27C7D0A000F5A4E3 /* PowerUpHandler.swift in Sources */,
 				6834AD2B27C76DC600F5A4E3 /* KaboomPegPersistance.swift in Sources */,
 				684FFA3C27C4C4EA000CD3D5 /* Point.swift in Sources */,
 				68143578279FF0FB00A16058 /* LevelDesignerCanvasView.swift in Sources */,
