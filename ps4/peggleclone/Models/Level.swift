@@ -51,6 +51,12 @@ struct Level: Identifiable {
     mutating func addPeggleObject(peggleObject: PeggleObject) {
         peggleObjects.append(peggleObject)
     }
+
+    func spookCannonBall(cannonBall: Peg) {
+        for peggleObj in peggleObjects where peggleObj.id == cannonBall.id {
+            peggleObj.spooked()
+        }
+    }
 }
 
 extension Level: Equatable {

@@ -35,4 +35,8 @@ extension LevelManager: GameLogicDelegate {
         self.isGameLost = true
         self.isGameWon = false
     }
+
+    func spookCannonBall(cannonBall: Peg) {
+        level.spookCannonBall(cannonBall: cannonBall)
+    }
 }

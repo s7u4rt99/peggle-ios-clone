@@ -32,6 +32,10 @@ class PeggleObject: Identifiable {
     func overlap(peg: Peg) -> Bool {
         fatalError("This method must be overridden")
     }
+
+    func spooked() {
+        fatalError("This method can only be called by cannon ball")
+    }
 }
 
 extension PeggleObject: Hashable {

@@ -10,13 +10,11 @@ import Foundation
 class PeggleObjectPersistance: Codable {
     var id: UUID
     var center: PointPersistance
-//    var typeOfObject: PeggleObjectPersistanceType
 
     init(_ peggleObject: PeggleObject) {
         self.id = peggleObject.id
         self.center = PointPersistance(xCoordinate: peggleObject.center.xCoordinate,
                                        yCoordinate: peggleObject.center.yCoordinate)
-//        self.typeOfObject = .unknown
     }
 
     init(id: UUID, center: PointPersistance) {
@@ -40,7 +38,6 @@ class PeggleObjectPersistance: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(center, forKey: .center)
-//        try container.encode(typeOfObject, forKey: .typeOfObject)
     }
 }
 

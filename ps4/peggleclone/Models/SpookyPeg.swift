@@ -8,6 +8,8 @@
 import Foundation
 
 class SpookyPeg: Peg {
+    var activated = false
+
     init(center: Point, radius: Double = 25) {
         super.init(color: .greenPeg, center: center, radius: radius)
         self.shadow = .blue
@@ -22,6 +24,10 @@ class SpookyPeg: Peg {
 
     override func glow() {
         self.color = .greenGlow
+    }
+
+    func setActivated() {
+        self.activated = true
     }
 
     override func copy() -> Peg {

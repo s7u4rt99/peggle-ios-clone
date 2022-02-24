@@ -25,6 +25,6 @@ class KaboomPeg: Peg {
     }
 
     override func copy() -> Peg {
-        SpookyPeg(center: self.center, radius: self.radius)
+        KaboomPeg(center: self.center, radius: self.radius)
     }
 }
