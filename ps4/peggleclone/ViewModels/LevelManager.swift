@@ -14,7 +14,7 @@ class LevelManager: ObservableObject, Identifiable {
     @Published var isGameWon: Bool
     @Published var isGameLost: Bool
     @Published var bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
-    var selectedPeg: PegType?
+    var selectedPeg: PegColor?
     var isDeleteSelected = false
 
     init(level: Level) {
@@ -40,7 +40,7 @@ class LevelManager: ObservableObject, Identifiable {
         level.removeAllPegs()
     }
 
-    func select(peg: PegType) {
+    func select(peg: PegColor) {
         selectedPeg = peg
         isDeleteSelected = false
     }
@@ -52,7 +52,13 @@ class LevelManager: ObservableObject, Identifiable {
 
     func addPeg(center: CGPoint, canvasDimensions: CGRect) {
         if let selectedPeg = selectedPeg, safeToPlacePegAt(center: center, canvasDimensions: canvasDimensions) {
-            level.addPeg(peg: Peg(type: selectedPeg, center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+            if selectedPeg == .spookyPeg {
+                level.addPeg(peg: SpookyPeg(center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+            } else if selectedPeg == .kaboomPeg {
+                level.addPeg(peg: KaboomPeg(center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+            } else {
+                level.addPeg(peg: Peg(color: selectedPeg, center: Point(xCoordinate: center.x, yCoordinate: center.y)))
+            }
         }
     }
 
@@ -62,7 +68,7 @@ class LevelManager: ObservableObject, Identifiable {
         }
 
         // arbituary peg to check if overlaps with any other pegs
-        let pegObject = Peg(type: PegType.bluePeg, center: Point(xCoordinate: center.x, yCoordinate: center.y))
+        let pegObject = Peg(color: PegColor.bluePeg, center: Point(xCoordinate: center.x, yCoordinate: center.y))
 
         for peg in level.pegs {
             if peg.overlap(peg: pegObject) {
@@ -92,7 +98,7 @@ class LevelManager: ObservableObject, Identifiable {
             return false
         }
 
-        let pegObject = Peg(type: pegToDrag.type, center: Point(xCoordinate: location.x, yCoordinate: location.y))
+        let pegObject = Peg(color: pegToDrag.color, center: Point(xCoordinate: location.x, yCoordinate: location.y))
 
         for peg in level.pegs {
             if peg != pegToDrag && peg.overlap(peg: pegObject) {

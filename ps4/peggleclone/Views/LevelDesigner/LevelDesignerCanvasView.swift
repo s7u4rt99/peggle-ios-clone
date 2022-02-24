@@ -32,7 +32,7 @@ struct LevelDesignerCanvasView: View {
                 ForEach(levelManager.level.pegs) { peg in
 //                    if let peg = peggleObject as? Peg {
                     PegView(location: .constant(CGPoint(x: peg.center.xCoordinate, y: peg.center.yCoordinate)),
-                            pegType: peg.type,
+                            pegType: peg.color,
                             pegRadius: peg.radius,
                             pegShadow: peg.shadow,
                             pegShadowRadius: peg.shadowRadius)

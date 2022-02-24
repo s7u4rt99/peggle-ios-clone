@@ -42,7 +42,7 @@ class SLGameEngine {
             let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
             physicsObjects.append(physicsBody)
             mappings[peg] = physicsBody
-            if peg.type == PegType.orangePeg {
+            if peg.color == PegColor.orangePeg {
                 numOfOrangePegs += 1
             }
         }
@@ -62,7 +62,7 @@ class SLGameEngine {
             return
         }
         let middleOfTopScreen = CGPoint(x: 400, y: 50)
-        let cannonBall = Peg(type: PegType.cannonPeg, center: toPoint(point: middleOfTopScreen))
+        let cannonBall = Peg(color: PegColor.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
 
         gameLogicDelegate.didAddCannonBall(cannonBall: cannonBall)
@@ -171,7 +171,7 @@ class SLGameEngine {
                     gameLogicDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
                     value.ignore()
-                    if peg.type == .orangeGlow {
+                    if peg.color == .orangeGlow {
                         numOfOrangePegs -= 1
                         if numOfOrangePegs == 0 {
                             gameLogicDelegate.gameWin()

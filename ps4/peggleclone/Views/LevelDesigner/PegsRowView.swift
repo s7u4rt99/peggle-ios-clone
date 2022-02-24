@@ -26,7 +26,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     kaboomOpacity = 0.3
-                    levelManager.select(peg: PegType.bluePeg)
+                    levelManager.select(peg: PegColor.bluePeg)
                 } else {
                     blueOpacity = 0.3
                     levelManager.unselectPeg()
@@ -46,7 +46,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     kaboomOpacity = 0.3
-                    levelManager.select(peg: PegType.orangePeg)
+                    levelManager.select(peg: PegColor.orangePeg)
                 } else {
                     orangeOpacity = 0.3
                     levelManager.unselectPeg()
@@ -65,7 +65,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     orangeOpacity = 0.3
                     kaboomOpacity = 0.3
-                    levelManager.select(peg: PegType.spookyPeg)
+                    levelManager.select(peg: PegColor.spookyPeg)
                 } else {
                     spookyOpacity = 0.3
                     levelManager.unselectPeg()
@@ -85,7 +85,7 @@ struct PegsRowView: View {
                     deleteOpacity = 0.3
                     spookyOpacity = 0.3
                     orangeOpacity = 0.3
-                    levelManager.select(peg: PegType.kaboomPeg)
+                    levelManager.select(peg: PegColor.kaboomPeg)
                 } else {
                     kaboomOpacity = 0.3
                     levelManager.unselectPeg()

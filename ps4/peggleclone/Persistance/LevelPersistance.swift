@@ -30,7 +30,7 @@ struct LevelPersistance: Codable {
         for pegPersistance in pegPersistances {
             pegs.append(Peg(id: pegPersistance.id,
                             center: pegPersistance.center.convertToPoint(),
-                            type: pegPersistance.type,
+                            color: pegPersistance.color,
                             radius: pegPersistance.radius))
         }
         return Level(id: self.id, name: self.name, pegs: pegs)

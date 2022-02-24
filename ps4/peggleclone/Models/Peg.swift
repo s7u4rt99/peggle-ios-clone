@@ -9,23 +9,21 @@ import Foundation
 import SwiftUI
 
 class Peg: PeggleObject {
-    var type: PegType
+    var color: PegColor
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
 
-    init(type: PegType, center: Point, radius: Double = 25) {
-        self.type = type
+    init(color: PegColor, center: Point, radius: Double = 25) {
+        self.color = color
         self.radius = radius
         super.init(center: center)
-        setShadowColor(type)
     }
 
-    init(id: UUID, center: Point, type: PegType, radius: Double = 25) {
-        self.type = type
+    init(id: UUID, center: Point, color: PegColor, radius: Double = 25) {
+        self.color = color
         self.radius = radius
         super.init(id: id, center: center)
-        setShadowColor(type)
     }
 
     override func overlap(peg: Peg) -> Bool {
@@ -40,26 +38,14 @@ class Peg: PeggleObject {
     }
 
     func glow() {
-        if type == PegType.bluePeg {
-            self.type = PegType.blueGlow
-        } else if type == PegType.orangePeg {
-            self.type = PegType.orangeGlow
-        } else if type == PegType.kaboomPeg || type == PegType.spookyPeg {
-            self.type = PegType.greenGlow
-        }
-    }
-
-    private func setShadowColor(_ type: PegType) {
-        if type == PegType.spookyPeg {
-            shadow = .blue
-            shadowRadius = 10.0
-        } else if type == PegType.kaboomPeg {
-            shadow = .red
-            shadowRadius = 10.0
+        if color == PegColor.bluePeg {
+            self.color = PegColor.blueGlow
+        } else if color == PegColor.orangePeg {
+            self.color = PegColor.orangeGlow
         }
     }
 
     override func copy() -> Peg {
-        Peg(type: self.type, center: self.center, radius: self.radius)
+        Peg(color: self.color, center: self.center, radius: self.radius)
     }
 }

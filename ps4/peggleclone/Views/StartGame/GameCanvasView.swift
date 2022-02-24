@@ -33,7 +33,7 @@ struct GameCanvasView: View {
 
             ForEach(levelManager.level.pegs) { peg in
                 PegView(location: .constant(toCGPoint(point: peg.center)),
-                        pegType: peg.type,
+                        pegType: peg.color,
                         pegRadius: peg.radius,
                         pegShadow: peg.shadow,
                         pegShadowRadius: peg.shadowRadius)
