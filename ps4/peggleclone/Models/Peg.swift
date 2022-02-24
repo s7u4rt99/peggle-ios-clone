@@ -51,7 +51,7 @@ class Peg: PeggleObject {
 
     // TODO: refactor into own cannonball class
     override func spooked() {
-        self.shadowRadius = 10.0
+        self.shadowRadius = 30.0
         self.shadow = .blue
     }
 }

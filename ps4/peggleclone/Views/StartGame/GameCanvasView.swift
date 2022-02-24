@@ -41,6 +41,10 @@ struct GameCanvasView: View {
                         .onTapGesture {
                             gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                         }
+                        .gesture(
+                            DragGesture().onChanged({ value in
+                                setRotation(value.location)
+                            }))
                         .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
                 }
             }

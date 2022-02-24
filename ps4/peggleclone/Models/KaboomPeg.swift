@@ -11,13 +11,13 @@ class KaboomPeg: Peg {
     init(center: Point, radius: Double = 25) {
         super.init(color: .greenPeg, center: center, radius: radius)
         self.shadow = .red
-        self.shadowRadius = 10.0
+        self.shadowRadius = 30.0
     }
 
     init(id: UUID, center: Point, radius: Double = 25) {
         super.init(id: id, center: center, color: .greenPeg, radius: radius)
         self.shadow = .red
-        self.shadowRadius = 10.0
+        self.shadowRadius = 30.0
     }
 
     override func glow() {
