@@ -20,21 +20,31 @@ class SLGameEngine {
     private var similarPositionCounter = 0
     private var mostRecentPosition: Point?
     private var bucket: Bucket?
+    private var numOfCannonBallsLeft: Int
+    private var numOfOrangePegs: Int
+    private var cannonBallInBucket = false
 
     init(canvasDimensions: CGRect) {
         self.canvasDimensions = canvasDimensions
+        self.numOfCannonBallsLeft = 10
+        self.numOfOrangePegs = 0
     }
 
     func loadLevel(gameLogicDelegate: GameLogicDelegate, level: Level, bucket: Bucket) {
         // create physics body for each object, loads to physics engine
         self.gameLogicDelegate = gameLogicDelegate
         self.bucket = bucket
+        self.numOfCannonBallsLeft = 10
+        self.numOfOrangePegs = 0
 
         var physicsObjects: [SLPhysicsBody] = []
         for peg in level.pegs {
             let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
             physicsObjects.append(physicsBody)
             mappings[peg] = physicsBody
+            if peg.type == PegType.orangePeg {
+                numOfOrangePegs += 1
+            }
         }
         // create body for bucket
         let bucketPhysicsBody = SLPhysicsBucket(position: bucket.center,
@@ -109,6 +119,10 @@ class SLGameEngine {
             cannonBallPhysicsBody.ignore()
             mappings.removeValue(forKey: cannonBall)
             gameLogicDelegate.didRemove(peg: cannonBall)
+            if cannonBallInBucket {
+                numOfCannonBallsLeft += 1
+                cannonBallInBucket = false
+            }
             addCannonBall()
             self.similarPositionCounter = 0
         } else {
@@ -130,6 +144,10 @@ class SLGameEngine {
                 self.mostRecentPosition = cannonBallPhysicsBody.position
                 similarPositionCounter = 0
             }
+        }
+
+        if numOfCannonBallsLeft == 0 && cannonBallCount == 0 {
+            gameLogicDelegate.gameLose()
         }
     }
 
@@ -153,12 +171,14 @@ class SLGameEngine {
                     gameLogicDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
                     value.ignore()
+                    if peg.type == .orangeGlow {
+                        numOfOrangePegs -= 1
+                        if numOfOrangePegs == 0 {
+                            gameLogicDelegate.gameWin()
+                        }
+                    }
                 }
             }
-        }
-
-        if mappings.count == 1 {
-            gameLogicDelegate.gameEnded()
         }
 
         return currentCollisions
@@ -168,6 +188,24 @@ class SLGameEngine {
         _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
         cannonBall.center = cannonBallPhysicsBody.position
         gameLogicDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
+        if isCannonBallInBucket(cannonBallPhysicsBody) {
+            cannonBallInBucket = true
+        }
+    }
+
+    private func isCannonBallInBucket(_ cannonBallPhysicsBody: SLPhysicsBody) -> Bool {
+        guard let bucket = bucket, let bucketPhysicsBody = mappings[bucket] else {
+            return false
+        }
+        let bucketCenter = bucketPhysicsBody.position
+        let bucketWidth = bucketPhysicsBody.width
+        let bucketHeight = bucketPhysicsBody.height
+        let cannonBallCenter = cannonBallPhysicsBody.position
+
+        return cannonBallCenter.xCoordinate > bucketCenter.xCoordinate - bucketWidth / 2
+        && cannonBallCenter.xCoordinate < bucketCenter.xCoordinate + bucketWidth / 2
+        && cannonBallCenter.yCoordinate > bucketCenter.yCoordinate - bucketHeight / 2
+        && cannonBallCenter.yCoordinate < bucketCenter.yCoordinate + bucketWidth / 2
     }
 
     private func isCannonBallSamePosition() -> Bool {
@@ -198,6 +236,8 @@ class SLGameEngine {
             return
         }
 
+        self.numOfCannonBallsLeft -= 1
+        print(numOfCannonBallsLeft)
         var modifiedDirection = directionOf
         if directionOf.yCoordinate < cannonBall.center.yCoordinate {
             modifiedDirection = Point(xCoordinate: directionOf.xCoordinate,

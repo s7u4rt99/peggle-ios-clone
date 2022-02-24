@@ -34,7 +34,9 @@ struct GameCanvasView: View {
             ForEach(levelManager.level.pegs) { peg in
                 PegView(location: .constant(toCGPoint(point: peg.center)),
                         pegType: peg.type,
-                        pegRadius: peg.radius)
+                        pegRadius: peg.radius,
+                        pegShadow: peg.shadow,
+                        pegShadowRadius: peg.shadowRadius)
                     .onTapGesture {
                         gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                     }
@@ -58,7 +60,12 @@ struct GameCanvasView: View {
                 )
             }
         }
-        .alert("Congratulations, you completed the level", isPresented: .constant(levelManager.isGameEnd)) {
+        .alert("Congratulations, you completed the level", isPresented: .constant(levelManager.isGameWon)) {
+            Button("Home") {
+                goToHome()
+            }
+        }
+        .alert("You lose, you ran out of cannon balls :(", isPresented: .constant(levelManager.isGameLost)) {
             Button("Home") {
                 goToHome()
             }

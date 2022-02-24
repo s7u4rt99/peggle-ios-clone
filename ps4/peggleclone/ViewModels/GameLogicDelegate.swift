@@ -11,5 +11,6 @@ protocol GameLogicDelegate: AnyObject {
     func didMove(peggleObject: PeggleObject, newLocation: Point)
     func didRemove(peg: Peg)
     func didAddCannonBall(cannonBall: Peg)
-    func gameEnded()
+    func gameWin()
+    func gameLose()
 }

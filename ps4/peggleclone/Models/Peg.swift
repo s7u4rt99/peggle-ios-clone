@@ -11,22 +11,21 @@ import SwiftUI
 class Peg: PeggleObject {
     var type: PegType
     var radius: Double
+    var shadow: Color = .white
+    var shadowRadius: Double = 0.0
 
     init(type: PegType, center: Point, radius: Double = 25) {
         self.type = type
         self.radius = radius
         super.init(center: center)
+        setShadowColor(type)
     }
 
     init(id: UUID, center: Point, type: PegType, radius: Double = 25) {
         self.type = type
         self.radius = radius
         super.init(id: id, center: center)
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case type
-        case radius
+        setShadowColor(type)
     }
 
     override func overlap(peg: Peg) -> Bool {
@@ -45,6 +44,18 @@ class Peg: PeggleObject {
             self.type = PegType.blueGlow
         } else if type == PegType.orangePeg {
             self.type = PegType.orangeGlow
+        } else if type == PegType.kaboomPeg || type == PegType.spookyPeg {
+            self.type = PegType.greenGlow
+        }
+    }
+
+    private func setShadowColor(_ type: PegType) {
+        if type == PegType.spookyPeg {
+            shadow = .blue
+            shadowRadius = 10.0
+        } else if type == PegType.kaboomPeg {
+            shadow = .red
+            shadowRadius = 10.0
         }
     }
 

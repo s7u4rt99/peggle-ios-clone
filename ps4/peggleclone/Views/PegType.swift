@@ -13,4 +13,7 @@ enum PegType: String, Codable {
     case bluePeg = "peg-blue"
     case blueGlow = "peg-blue-glow"
     case cannonPeg = "ball"
+    case spookyPeg = "peg-green-spooky"
+    case kaboomPeg = "peg-green-kaboom"
+    case greenGlow = "peg-green-glow"
 }

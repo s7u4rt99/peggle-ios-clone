@@ -11,14 +11,16 @@ import SwiftUI
 class LevelManager: ObservableObject, Identifiable {
 
     @Published var level: Level
-    @Published var isGameEnd: Bool
+    @Published var isGameWon: Bool
+    @Published var isGameLost: Bool
     @Published var bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
     var selectedPeg: PegType?
     var isDeleteSelected = false
 
     init(level: Level) {
         self.level = level
-        self.isGameEnd = level.pegs.isEmpty
+        self.isGameWon = level.pegs.isEmpty
+        self.isGameLost = false
         copyPegs()
     }
 
@@ -106,7 +108,8 @@ class LevelManager: ObservableObject, Identifiable {
 
     func changeLevel(level: Level) {
         self.level = level
-        self.isGameEnd = level.pegs.isEmpty
+        self.isGameWon = level.pegs.isEmpty
+        self.isGameLost = false
         copyPegs()
     }
 

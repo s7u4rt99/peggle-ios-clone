@@ -12,18 +12,29 @@ struct PegView: View {
     @Binding var location: CGPoint
     var pegType: PegType
     var pegRadius: Double
+    var pegShadow: Color
+    var pegShadowRadius: Double
 
     var body: some View {
-        Image(pegType.rawValue)
+        Image(getPegColor())
             .resizable()
             .frame(width: pegRadius * 2, height: pegRadius * 2)
             .position(location)
+            .shadow(color: pegShadow, radius: pegShadowRadius)
+    }
+
+    private func getPegColor() -> String {
+        if pegType.rawValue == "peg-green-spooky" || pegType.rawValue == "peg-green-kaboom" {
+            return "peg-green"
+        } else {
+            return pegType.rawValue
+        }
     }
 }
 
 struct Peg_Previews: PreviewProvider {
     static var previews: some View {
         PegView(location: .constant(CGPoint(x: 100, y: 100)), pegType: PegType.orangePeg,
-            pegRadius: 25)
+                pegRadius: 25, pegShadow: .white, pegShadowRadius: 0.0)
     }
 }

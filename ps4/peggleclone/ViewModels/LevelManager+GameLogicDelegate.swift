@@ -26,7 +26,13 @@ extension LevelManager: GameLogicDelegate {
         level.addPeg(peg: cannonBall)
     }
 
-    func gameEnded() {
-        self.isGameEnd = true
+    func gameWin() {
+        self.isGameWon = true
+        self.isGameLost = false
+    }
+
+    func gameLose() {
+        self.isGameLost = true
+        self.isGameWon = false
     }
 }
