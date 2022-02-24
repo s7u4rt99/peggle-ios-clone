@@ -20,4 +20,15 @@ struct Point: Equatable {
         self.xCoordinate = xCoordinate
         self.yCoordinate = yCoordinate
     }
+
+    func distanceFrom(point: Point) -> Double {
+        let xDist = xCoordinate - point.xCoordinate
+        let yDist = yCoordinate - point.yCoordinate
+
+        return sqrt(xDist * xDist + yDist * yDist)
+    }
+
+    func vectorTo(point: Point) -> Vector {
+        Vector(xDirection: point.xCoordinate - xCoordinate, yDirection: point.yCoordinate - yCoordinate)
+    }
 }

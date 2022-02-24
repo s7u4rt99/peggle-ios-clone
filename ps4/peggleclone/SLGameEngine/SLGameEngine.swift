@@ -13,7 +13,7 @@ class SLGameEngine {
     private var mappings: [PeggleObject: SLPhysicsBody] = [:]
     private let msPerUpdate = TimeInterval(0.016)
     private var lag = 0.0
-    private var previous = Date()
+    private var previous: Date?
     private weak var gameLogicDelegate: GameLogicDelegate?
     private var canvasDimensions: CGRect
     private var cannonBall: Peg?
@@ -23,6 +23,7 @@ class SLGameEngine {
     private var numOfCannonBallsLeft: Int
     private var numOfOrangePegs: Int
     private var cannonBallInBucket = false
+    private var powerUpHandler = PowerUpHandler()
 
     init(canvasDimensions: CGRect) {
         self.canvasDimensions = canvasDimensions
@@ -36,14 +37,17 @@ class SLGameEngine {
         self.bucket = bucket
         self.numOfCannonBallsLeft = 10
         self.numOfOrangePegs = 0
+        self.powerUpHandler.resetCount()
 
         var physicsObjects: [SLPhysicsBody] = []
-        for peg in level.pegs {
-            let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
-            physicsObjects.append(physicsBody)
-            mappings[peg] = physicsBody
-            if peg.color == PegColor.orangePeg {
-                numOfOrangePegs += 1
+        for peggleObject in level.peggleObjects {
+            if let peg = peggleObject as? Peg {
+                let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
+                physicsObjects.append(physicsBody)
+                mappings[peg] = physicsBody
+                if peg.color == PegColor.orangePeg {
+                    numOfOrangePegs += 1
+                }
             }
         }
         // create body for bucket
@@ -55,6 +59,9 @@ class SLGameEngine {
         physicsObjects.append(bucketPhysicsBody)
         physicsEngine.load(physicsBodies: physicsObjects, canvasDimensions: canvasDimensions)
         addCannonBall()
+        if numOfOrangePegs == 0 {
+            gameLogicDelegate.gameWin()
+        }
     }
 
     func addCannonBall() {
@@ -74,14 +81,19 @@ class SLGameEngine {
     }
 
     func createDisplayLink() {
+        self.previous = Date()
         let displayLink = CADisplayLink(target: self, selector: #selector(start))
         displayLink.add(to: .current, forMode: .common)
     }
 
     @objc func start() {
+        guard let previous = previous else {
+            return
+        }
+
         let current = Date()
         let elapsed = current.timeIntervalSince(previous)
-        previous = current
+        self.previous = current
         lag += elapsed
 
         var numberOfCannonBalls = 1
@@ -111,7 +123,7 @@ class SLGameEngine {
         moveCannonBall(cannonBall, cannonBallPhysicsBody, gameLogicDelegate)
 
         let collisions = cannonBallPhysicsBody.collisionsWith
-        let currentCollisions = handleCollisions(collisions, gameLogicDelegate, cannonBallCount)
+        let currentCollisions = handleCollisions(collisions, gameLogicDelegate, cannonBallCount, cannonBall)
 
         let similarPositionLimit = 75
 
@@ -158,7 +170,8 @@ class SLGameEngine {
     }
 
     private func handleCollisions(
-        _ collisions: [SLPhysicsBody], _ gameLogicDelegate: GameLogicDelegate, _ cannonBallCount: Int) -> [Peg] {
+        _ collisions: [SLPhysicsBody], _ gameLogicDelegate: GameLogicDelegate,
+        _ cannonBallCount: Int, _ cannonBall: Peg) -> [Peg] {
         var currentCollisions: [Peg] = []
 
         for (key, value) in mappings where value.hasCollided {
@@ -167,10 +180,24 @@ class SLGameEngine {
                 if contains(arr: collisions, physicsBody: value) {
                     currentCollisions.append(peg)
                 }
+                // TODO: refactor
+                if peg is SpookyPeg || peg is KaboomPeg {
+                    powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings,
+                                                 cannonBall: cannonBall, gameLogicDelegate: gameLogicDelegate)
+                }
+//                if let spookyPeg = peg as? SpookyPeg {
+//                    if !spookyPeg.activated {
+//                        spookyBallsActivated += 1
+//                        print(spookyBallsActivated)
+//                        spookyPeg.setActivated()
+//                    }
+//                }
+                // TODO: add the handler
                 if cannonBallCount == 0 {
                     gameLogicDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
                     value.ignore()
+                    powerUpHandler.removePowerPeg(powerPeg: peg)
                     if peg.color == .orangeGlow {
                         numOfOrangePegs -= 1
                         if numOfOrangePegs == 0 {
@@ -184,13 +211,34 @@ class SLGameEngine {
         return currentCollisions
     }
 
+    // TODO: add handler
     private func moveCannonBall(
         _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
         cannonBall.center = cannonBallPhysicsBody.position
         gameLogicDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
+//        if spookyBallsActivated > 0 {
+//            gameLogicDelegate.spookCannonBall(cannonBall: cannonBall)
+//        }
         if isCannonBallInBucket(cannonBallPhysicsBody) {
             cannonBallInBucket = true
         }
+        powerUpHandler.handleCannonBall(canvasDimension: canvasDimensions,
+                                        cannonBall: cannonBall,
+                                        cannonBallPhysicsBody: cannonBallPhysicsBody,
+                                        gameLogicDelegate: gameLogicDelegate)
+//        if spookyBallsActivated > 0 && isOutOfScreen(peg: cannonBall) {
+//            gameLogicDelegate.didMove(peggleObject: cannonBall,
+//                                      newLocation: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
+//            cannonBallPhysicsBody.moveTo(position: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
+//            cannonBallPhysicsBody
+//                .setVelocity(newVelocity: cannonBallPhysicsBody.velocity.multiplyWithScalar(scalar: 0.5))
+//            spookyBallsActivated -= 1
+//            print("used one spooky ball, \(spookyBallsActivated) left")
+//        }
+    }
+
+    private func isOutOfScreen(peg: Peg) -> Bool {
+        peg.center.yCoordinate >= canvasDimensions.height + peg.radius
     }
 
     private func isCannonBallInBucket(_ cannonBallPhysicsBody: SLPhysicsBody) -> Bool {

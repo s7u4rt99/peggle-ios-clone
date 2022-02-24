@@ -19,14 +19,14 @@ struct LevelLoaderView: View {
             Text("Select a level to play").font(.headline)
 
             ForEach(allLevelsManager.levels) { level in
-                    Button() {
-                        levelManager.changeLevel(level: level)
-                        load = false
-                        gameEngineManager.loadLevel(levelManager: levelManager)
-                        gameEngineManager.start()
-                    } label: {
-                        Text(level.name).foregroundColor(.red).padding()
-                    }
+                Button() {
+                    levelManager.changeLevel(level: level)
+                    load = false
+                    gameEngineManager.loadLevel(levelManager: levelManager)
+                    gameEngineManager.start()
+                } label: {
+                    Text(level.name).foregroundColor(.red).padding()
+                }
             }
         }.padding()
             .background(.white)
@@ -37,7 +37,7 @@ struct LevelLoaderView: View {
 struct LevelLoaderView_Previews: PreviewProvider {
     static var previews: some View {
         LevelLoaderView(allLevelsManager: AllLevelsManager(),
-                        levelManager: LevelManager(level: Level(name: "default", pegs: [])),
+                        levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
                         load: .constant(true),
                         gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }

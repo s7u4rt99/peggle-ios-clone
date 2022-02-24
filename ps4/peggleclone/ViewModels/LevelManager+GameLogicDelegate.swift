@@ -18,12 +18,12 @@ extension LevelManager: GameLogicDelegate {
     }
 
     func didRemove(peg: Peg) {
-        delete(peg: peg)
+        delete(peggleObject: peg)
     }
 
     func didAddCannonBall(cannonBall: Peg) {
         // add cannon ball at center
-        level.addPeg(peg: cannonBall)
+        level.addPeggleObject(peggleObject: cannonBall)
     }
 
     func gameWin() {
@@ -34,5 +34,14 @@ extension LevelManager: GameLogicDelegate {
     func gameLose() {
         self.isGameLost = true
         self.isGameWon = false
+    }
+
+    func spookCannonBall(cannonBall: Peg) {
+        level.spookCannonBall(cannonBall: cannonBall)
+    }
+
+    func renderExplosion(kaboomPeg: KaboomPeg) {
+        print("called")
+        level.renderExplosion(kaboomPeg: kaboomPeg)
     }
 }

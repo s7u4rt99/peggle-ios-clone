@@ -13,4 +13,6 @@ protocol GameLogicDelegate: AnyObject {
     func didAddCannonBall(cannonBall: Peg)
     func gameWin()
     func gameLose()
+    func spookCannonBall(cannonBall: Peg)
+    func renderExplosion(kaboomPeg: KaboomPeg)
 }

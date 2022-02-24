@@ -22,14 +22,14 @@ class AllLevelsManager: ObservableObject {
     }
 
     func createNewLevel() -> Level {
-        let newLevel = Level(name: "NEW LEVEL \(levels.count + 1)", pegs: [])
+        let newLevel = Level(name: "NEW LEVEL \(levels.count + 1)", peggleObjects: [])
         levels.append(newLevel)
         return newLevel
     }
 
     func save(levelToSave: Level, newName: String) {
         for index in 0..<levels.count where levels[index].id == levelToSave.id {
-            levels[index].save(name: newName, pegs: levelToSave.pegs)
+            levels[index].save(name: newName, peggleObjects: levelToSave.peggleObjects)
         }
         saveToFile()
     }
