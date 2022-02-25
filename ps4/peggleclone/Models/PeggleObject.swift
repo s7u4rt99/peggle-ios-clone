@@ -36,6 +36,13 @@ class PeggleObject: Identifiable {
     func spooked() {
         fatalError("This method can only be called by cannon ball")
     }
+
+//    func scale(_ scale: Double) {
+//        fatalError("This method must be overridden")
+//    }
+    func resizeObject(location: Point, peggleObjects: [PeggleObject]) -> Double {
+        fatalError("This method must be overridden")
+    }
 }
 
 extension PeggleObject: Hashable {
