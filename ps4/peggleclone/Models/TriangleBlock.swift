@@ -88,87 +88,118 @@ class TriangleBlock: PeggleObject {
         return area1 + area2 + area3 <= areaOfSelf
     }
 
-    // TODO: Refactor this
+    private func vertexWithinPeg(vertex: Point, peg: Peg) -> Bool {
+        let c1x = peg.center.xCoordinate - vertex.xCoordinate
+        let c1y = peg.center.yCoordinate - vertex.yCoordinate
+        let radiusSqr = peg.radius * peg.radius
+        let c1sqr = c1x * c1x + c1y * c1y - radiusSqr
+
+        if c1sqr <= 0 {
+          return true
+        }
+        return false
+    }
+
+    private func pegWithinTriangle(peg: Peg) -> Bool {
+        let e1x = vertexTwo.xCoordinate - vertexOne.xCoordinate
+        let e1y = vertexTwo.yCoordinate - vertexOne.yCoordinate
+        let c1x = peg.center.xCoordinate - vertexOne.xCoordinate
+        let c1y = peg.center.yCoordinate - vertexOne.yCoordinate
+
+        let e2x = vertexThree.xCoordinate - vertexTwo.xCoordinate
+        let e2y = vertexThree.yCoordinate - vertexTwo.yCoordinate
+        let c2x = peg.center.xCoordinate - vertexTwo.xCoordinate
+        let c2y = peg.center.yCoordinate - vertexTwo.yCoordinate
+
+        let e3x = vertexOne.xCoordinate - vertexThree.xCoordinate
+        let e3y = vertexOne.yCoordinate - vertexThree.yCoordinate
+        let c3x = peg.center.xCoordinate - vertexThree.xCoordinate
+        let c3y = peg.center.yCoordinate - vertexThree.yCoordinate
+
+        if e1y * c1x - e1x * c1y >= 0
+            && e2y * c2x - e2x * c2y >= 0
+            && e3y * c3x - e3x * c3y >= 0 {
+             return true
+        }
+
+        return false
+    }
+
+    private func pegIntersectEdge(peg: Peg) -> Bool {
+        let radiusSqr = peg.radius * peg.radius
+
+        let e1x = vertexTwo.xCoordinate - vertexOne.xCoordinate
+        let e1y = vertexTwo.yCoordinate - vertexOne.yCoordinate
+        let c1x = peg.center.xCoordinate - vertexOne.xCoordinate
+        let c1y = peg.center.yCoordinate - vertexOne.yCoordinate
+        let c1sqr = c1x * c1x + c1y * c1y - radiusSqr
+
+        let e2x = vertexThree.xCoordinate - vertexTwo.xCoordinate
+        let e2y = vertexThree.yCoordinate - vertexTwo.yCoordinate
+        let c2x = peg.center.xCoordinate - vertexTwo.xCoordinate
+        let c2y = peg.center.yCoordinate - vertexTwo.yCoordinate
+        let c2sqr = c2x * c2x + c2y * c2y - radiusSqr
+
+        let e3x = vertexOne.xCoordinate - vertexThree.xCoordinate
+        let e3y = vertexOne.yCoordinate - vertexThree.yCoordinate
+        let c3x = peg.center.xCoordinate - vertexThree.xCoordinate
+        let c3y = peg.center.yCoordinate - vertexThree.yCoordinate
+        let c3sqr = c3x * c3x + c3y * c3y - radiusSqr
+
+        var kValue = c1x * e1x + c1y * e1y
+
+        if kValue > 0 {
+          let len = e1x * e1x + e1y * e1y
+
+          if kValue < len {
+              if c1sqr * len <= kValue * kValue {
+                  return true
+              }
+          }
+        }
+
+        kValue = c2x * e2x + c2y * e2y
+
+        if kValue > 0 {
+          let len = e2x * e2x + e2y * e2y
+
+          if kValue < len {
+              if c2sqr * len <= kValue * kValue {
+                  return true
+              }
+          }
+        }
+
+        kValue = c3x * e3x + c3y * e3y
+
+        if kValue > 0 {
+          let len = e3x * e3x + e3y * e3y
+
+          if kValue < len {
+              if c3sqr * len <= kValue * kValue {
+                  return true
+              }
+          }
+        }
+
+        return false
+
+    }
+
     private func trianglePegOverlapCheck(peg: Peg) -> Bool {
-            // TEST 1: Vertex within circle
-            let c1x = peg.center.xCoordinate - vertexOne.xCoordinate
-            let c1y = peg.center.yCoordinate - vertexOne.yCoordinate
-            let radiusSqr = peg.radius * peg.radius
-            let c1sqr = c1x * c1x + c1y * c1y - radiusSqr
+        if vertexWithinPeg(vertex: vertexOne, peg: peg)
+            || vertexWithinPeg(vertex: vertexTwo, peg: peg)
+            || vertexWithinPeg(vertex: vertexThree, peg: peg) {
+            return true
+        }
 
-            if c1sqr <= 0 {
-              return true
-            }
+        if pegWithinTriangle(peg: peg) {
+            return true
+        }
 
-            let c2x = peg.center.xCoordinate - vertexTwo.xCoordinate
-            let c2y = peg.center.yCoordinate - vertexTwo.yCoordinate
-            let c2sqr = c2x * c2x + c2y * c2y - radiusSqr
-
-            if c2sqr <= 0 {
-              return true
-            }
-
-            let c3x = peg.center.xCoordinate - vertexThree.xCoordinate
-            let c3y = peg.center.yCoordinate - vertexThree.yCoordinate
-
-             let c3sqr = c3x * c3x + c3y * c3y - radiusSqr
-
-            if c3sqr <= 0 {
-              return true
-            }
-
-            // TEST 2: Circle centre within triangle
-            let e1x = vertexTwo.xCoordinate - vertexOne.xCoordinate
-            let e1y = vertexTwo.yCoordinate - vertexOne.yCoordinate
-
-            let e2x = vertexThree.xCoordinate - vertexTwo.xCoordinate
-            let e2y = vertexThree.yCoordinate - vertexTwo.yCoordinate
-
-            let e3x = vertexOne.xCoordinate - vertexThree.xCoordinate
-            let e3y = vertexOne.yCoordinate - vertexThree.yCoordinate
-
-            if e1y * c1x - e1x * c1y >= 0
-                && e2y * c2x - e2x * c2y >= 0
-                && e3y * c3x - e3x * c3y >= 0 {
-                 return true
-            }
-
-            // TEST 3: Circle intersects edge
-            var kValue = c1x * e1x + c1y * e1y
-
-            if kValue > 0 {
-              let len = e1x * e1x + e1y * e1y
-
-              if kValue < len {
-                  if c1sqr * len <= kValue * kValue {
-                      return true
-                  }
-              }
-            }
-
-            kValue = c2x * e2x + c2y * e2y
-
-            if kValue > 0 {
-              let len = e2x * e2x + e2y * e2y
-
-              if kValue < len {
-                  if c2sqr * len <= kValue * kValue {
-                      return true
-                  }
-              }
-            }
-
-            kValue = c3x * e3x + c3y * e3y
-
-            if kValue > 0 {
-              let len = e3x * e3x + e3y * e3y
-
-              if kValue < len {
-                  if c3sqr * len <= kValue * kValue {
-                      return true
-                  }
-              }
-            }
-            return false
+        if pegIntersectEdge(peg: peg) {
+            return true
+        }
+        return false
     }
 }
