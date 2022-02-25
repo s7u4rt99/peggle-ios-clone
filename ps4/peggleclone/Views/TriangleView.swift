@@ -23,6 +23,6 @@ struct TriangleView: View {
 
 struct TriangleView_Previews: PreviewProvider {
     static var previews: some View {
-        TriangleView(location: .constant(CGPoint(x: 400, y: 400)), triangleBase: 50, triangleHeight: 50)
+        TriangleView(location: .constant(CGPoint(x: 400, y: 500)), triangleBase: 50, triangleHeight: 50)
     }
 }

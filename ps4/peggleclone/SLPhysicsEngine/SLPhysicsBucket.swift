@@ -69,15 +69,8 @@ class SLPhysicsBucket: SLPhysicsBody {
                                    - centerToTop.yDirection * centerToBottom.xDirection)
             let areaOfTriangle = crossProduct / 2
             let shortestDistance = 2 * areaOfTriangle / topToBottom.magnitude
-//            if shortestDistance <= circle.radius {
-//                print(true)
-//            }
             return shortestDistance <= circle.radius
         } else {
-//            let shortestDistance = min(centerToTop.magnitude, centerToBottom.magnitude)
-//            if centerToTop.magnitude <= circle.radius || centerToBottom.magnitude <= circle.radius {
-//                print(true)
-//            }
             return centerToTop.magnitude <= circle.radius || centerToBottom.magnitude <= circle.radius
         }
     }

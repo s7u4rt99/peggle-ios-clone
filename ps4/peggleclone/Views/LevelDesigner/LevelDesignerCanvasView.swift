@@ -32,9 +32,9 @@ struct LevelDesignerCanvasView: View {
                             .gesture(DragGesture().onChanged({ value in
                                 if keyboardResponder.currentHeight == 0 {
                                     let locationOfPeg = value.location
-                                    levelManager.dragPeg(peg: peg,
-                                                       newLocation: locationOfPeg,
-                                                       canvasDimensions: canvasDimensions)
+                                    levelManager.dragObject(peggleObject: peg,
+                                                            newLocation: locationOfPeg,
+                                                            canvasDimensions: canvasDimensions)
                                 }
                             })))
         } else if let triangle = peggleObject as? TriangleBlock {
@@ -56,7 +56,7 @@ struct LevelDesignerCanvasView: View {
                             .gesture(DragGesture().onChanged({ value in
                                 if keyboardResponder.currentHeight == 0 {
                                     let locationOfTriangle = value.location
-                                    levelManager.dragTriangle(triangle: triangle,
+                                    levelManager.dragObject(peggleObject: triangle,
                                                               newLocation: locationOfTriangle,
                                                               canvasDimensions: canvasDimensions)
                                 }

@@ -15,7 +15,7 @@ class Bucket: PeggleObject {
         super.init(center: center)
     }
 
-    override func overlap(peg: Peg) -> Bool {
+    override func overlap(peggleObject: PeggleObject) -> Bool {
         // TODO: implement this method
         return false
     }

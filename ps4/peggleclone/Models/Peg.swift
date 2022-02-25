@@ -26,8 +26,14 @@ class Peg: PeggleObject {
         super.init(id: id, center: center)
     }
 
-    override func overlap(peg: Peg) -> Bool {
-        return distanceSquared(peg: peg) < self.radius * 2 * self.radius * 2
+    override func overlap(peggleObject: PeggleObject) -> Bool {
+        if let peg = peggleObject as? Peg {
+            return distanceSquared(peg: peg) < self.radius * 2 * self.radius * 2
+        } else if let triangle = peggleObject as? TriangleBlock {
+            return triangle.overlap(peggleObject: self)
+        } else {
+            return false
+        }
     }
 
     private func distanceSquared(peg: Peg) -> Double {

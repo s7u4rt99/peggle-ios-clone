@@ -29,7 +29,7 @@ class PeggleObject: Identifiable {
         PeggleObject(center: self.center)
     }
 
-    func overlap(peg: Peg) -> Bool {
+    func overlap(peggleObject: PeggleObject) -> Bool {
         fatalError("This method must be overridden")
     }
 
