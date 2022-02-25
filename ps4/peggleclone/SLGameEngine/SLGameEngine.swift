@@ -48,6 +48,13 @@ class SLGameEngine {
                 if peg.color == PegColor.orangePeg {
                     numOfOrangePegs += 1
                 }
+            } else if let triangle = peggleObject as? TriangleBlock {
+                let physicsBody = SLPhysicsTriangle(position: triangle.center,
+                                                    height: triangle.height,
+                                                    width: triangle.base,
+                                                    isDynamic: false)
+                physicsObjects.append(physicsBody)
+                mappings[triangle] = physicsBody
             }
         }
         // create body for bucket

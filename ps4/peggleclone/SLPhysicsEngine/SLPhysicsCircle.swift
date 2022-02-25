@@ -61,8 +61,10 @@ class SLPhysicsCircle: SLPhysicsBody {
             return isColliding(collidingCircle: collidingCircle)
         } else if let collidingBucket = physicsBody as? SLPhysicsBucket {
             return collidingBucket.intersectWith(physicsBody: self)
+        } else if let collidingTriangle = physicsBody as? SLPhysicsTriangle {
+            return collidingTriangle.intersectWith(physicsBody: self)
         }
-        fatalError("Argument is not a circle or bucket")
+        fatalError("Argument is not a circle, bucket or triangle")
     }
 
     private func isColliding(collidingCircle: SLPhysicsCircle) -> Bool {

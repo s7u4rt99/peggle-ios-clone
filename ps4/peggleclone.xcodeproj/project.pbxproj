@@ -38,6 +38,7 @@
 		687C2B4327B6509200D1BB1E /* SLPhysicsCollision.swift in Sources */ = {isa = PBXBuildFile; fileRef = 687C2B4227B6509200D1BB1E /* SLPhysicsCollision.swift */; };
 		688064E927B8E01400EC1501 /* LevelLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688064E827B8E01400EC1501 /* LevelLoaderView.swift */; };
 		688064EB27B8FFD200EC1501 /* PeggleHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688064EA27B8FFD100EC1501 /* PeggleHomeView.swift */; };
+		68861F0627C92DB500D2AEF7 /* SLPhysicsTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */; };
 		689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A49FF27A2CD0D00A2E4E6 /* Level.swift */; };
 		689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */; };
 		689A4A0427A2DBD700A2E4E6 /* LevelSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0327A2DBD700A2E4E6 /* LevelSelectorView.swift */; };
@@ -90,6 +91,7 @@
 		687C2B4227B6509200D1BB1E /* SLPhysicsCollision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLPhysicsCollision.swift; sourceTree = "<group>"; };
 		688064E827B8E01400EC1501 /* LevelLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelLoaderView.swift; sourceTree = "<group>"; };
 		688064EA27B8FFD100EC1501 /* PeggleHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeggleHomeView.swift; sourceTree = "<group>"; };
+		68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLPhysicsTriangle.swift; sourceTree = "<group>"; };
 		689A49FF27A2CD0D00A2E4E6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLevelsManager.swift; sourceTree = "<group>"; };
 		689A4A0327A2DBD700A2E4E6 /* LevelSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectorView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				68686AA727B3A1E700B97394 /* SLPhysicsCircle.swift */,
 				687C2B4227B6509200D1BB1E /* SLPhysicsCollision.swift */,
 				6834AD1D27C684E100F5A4E3 /* SLPhysicsBucket.swift */,
+				68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */,
 			);
 			path = SLPhysicsEngine;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				68B6B8DB27C5E35B004CE9E2 /* LevelManager+GameLogicDelegate.swift in Sources */,
 				68686A9A27B371CE00B97394 /* SLPhysicsWorld.swift in Sources */,
 				68686A9C27B373EC00B97394 /* SLPhysicsBody.swift in Sources */,
+				68861F0627C92DB500D2AEF7 /* SLPhysicsTriangle.swift in Sources */,
 				684FFA3E27C4D547000CD3D5 /* Vector.swift in Sources */,
 				68B6B8D127C540C5004CE9E2 /* LevelPersistance.swift in Sources */,
 				6834AD1C27C680BA00F5A4E3 /* Bucket.swift in Sources */,
