@@ -142,7 +142,6 @@ class LevelManager: ObservableObject, Identifiable {
 
         for peggleObject in level.peggleObjects {
             if peggleObject.center != peggleCenter && peggleObject.overlap(peggleObject: peggleObj) {
-                print("triangle")
                 return false
             }
         }

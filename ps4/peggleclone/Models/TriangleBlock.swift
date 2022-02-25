@@ -8,7 +8,6 @@
 import Foundation
 
 class TriangleBlock: PeggleObject {
-    // store vertices, center, type?
     var base: Double
     var height: Double
     var vertexOne: Point
@@ -45,7 +44,53 @@ class TriangleBlock: PeggleObject {
 
     override func overlap(peggleObject: PeggleObject) -> Bool {
         if let peg = peggleObject as? Peg {
-    //        TEST 1: Vertex within circle
+            return trianglePegOverlapCheck(peg: peg)
+        } else if let triangle = peggleObject as? TriangleBlock {
+            return triangleTriangleOverlapCheck(triangle: triangle)
+        } else {
+            return false
+        }
+    }
+
+    override func shiftTo(location: Point) {
+        self.center = location
+        self.vertexOne = Point(xCoordinate: center.xCoordinate,
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
+    }
+
+    private func triangleTriangleOverlapCheck(triangle: TriangleBlock) -> Bool {
+        return trianglePointOverlapCheck(triangle: self, point: triangle.vertexOne)
+        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexTwo)
+        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexThree)
+        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexOne)
+        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexTwo)
+        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexThree)
+    }
+
+    private func trianglePointOverlapCheck(triangle: TriangleBlock, point: Point) -> Bool {
+        let areaOfSelf = 0.5 * base * height // abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) );
+        let area1 = 0.5 * abs((triangle.vertexOne.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate)
+                              - (triangle.vertexTwo.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexOne.yCoordinate - point.yCoordinate))
+        let area2 = 0.5 * abs((triangle.vertexTwo.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexThree.yCoordinate - point.yCoordinate)
+                              - (triangle.vertexThree.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate))
+        let area3 = 0.5 * abs((triangle.vertexThree.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexOne.yCoordinate - point.yCoordinate)
+                              - (triangle.vertexOne.xCoordinate - point.xCoordinate)
+                              * (triangle.vertexThree.yCoordinate - point.yCoordinate))
+        return area1 + area2 + area3 <= areaOfSelf
+    }
+
+    // TODO: Refactor this
+    private func trianglePegOverlapCheck(peg: Peg) -> Bool {
+            // TEST 1: Vertex within circle
             let c1x = peg.center.xCoordinate - vertexOne.xCoordinate
             let c1y = peg.center.yCoordinate - vertexOne.yCoordinate
             let radiusSqr = peg.radius * peg.radius
@@ -71,38 +116,28 @@ class TriangleBlock: PeggleObject {
             if c3sqr <= 0 {
               return true
             }
-    //        ;
-    //        ; TEST 2: Circle centre within triangle
-    //        ;
-    //
-    //        ;
-    //        ; Calculate edges
-    //        ;
+
+            // TEST 2: Circle centre within triangle
             let e1x = vertexTwo.xCoordinate - vertexOne.xCoordinate
             let e1y = vertexTwo.yCoordinate - vertexOne.yCoordinate
 
-            let e2x = vertexThree.xCoordinate - vertexTwo.xCoordinate // v3x - v2x
-            let e2y = vertexThree.yCoordinate - vertexTwo.yCoordinate // v3y - v2y
+            let e2x = vertexThree.xCoordinate - vertexTwo.xCoordinate
+            let e2y = vertexThree.yCoordinate - vertexTwo.yCoordinate
 
-            let e3x = vertexOne.xCoordinate - vertexThree.xCoordinate // v1x - v3x
-            let e3y = vertexOne.yCoordinate - vertexThree.yCoordinate // v1y - v3y
-    //
-    //        if signed((e1y*c1x - e1x*c1y) | (e2y*c2x - e2x*c2y) | (e3y*c3x - e3x*c3y)) >= 0 {
-    //             return true
-    //        }
+            let e3x = vertexOne.xCoordinate - vertexThree.xCoordinate
+            let e3y = vertexOne.yCoordinate - vertexThree.yCoordinate
+
             if e1y * c1x - e1x * c1y >= 0
                 && e2y * c2x - e2x * c2y >= 0
                 && e3y * c3x - e3x * c3y >= 0 {
                  return true
             }
 
-    //        ;
-    //        ; TEST 3: Circle intersects edge
-    //        ;
+            // TEST 3: Circle intersects edge
             var kValue = c1x * e1x + c1y * e1y
 
             if kValue > 0 {
-              let len = e1x * e1x + e1y * e1y     // ; squared len
+              let len = e1x * e1x + e1y * e1y
 
               if kValue < len {
                   if c1sqr * len <= kValue * kValue {
@@ -111,7 +146,6 @@ class TriangleBlock: PeggleObject {
               }
             }
 
-    //        ; Second edge
             kValue = c2x * e2x + c2y * e2y
 
             if kValue > 0 {
@@ -124,7 +158,6 @@ class TriangleBlock: PeggleObject {
               }
             }
 
-    //        ; Third edge
             kValue = c3x * e3x + c3y * e3y
 
             if kValue > 0 {
@@ -136,22 +169,6 @@ class TriangleBlock: PeggleObject {
                   }
               }
             }
-
-    //        ; We're done, no intersection
             return false
-        } else {
-        // TODO: implemenation of trinagle triangle intersect
-            return false
-        }
-    }
-
-    override func shiftTo(location: Point) {
-        self.center = location
-        self.vertexOne = Point(xCoordinate: center.xCoordinate,
-                               yCoordinate: center.yCoordinate - height / 2)
-        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
-                               yCoordinate: center.yCoordinate + height / 2)
-        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
-                                 yCoordinate: center.yCoordinate + height / 2)
     }
 }
