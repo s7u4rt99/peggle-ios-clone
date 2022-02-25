@@ -39,6 +39,7 @@ struct LevelDesignerCanvasView: View {
                             })))
         } else if let triangle = peggleObject as? TriangleBlock {
             return AnyView(
+//                ZStack() {
                 TriangleView(location: .constant(CGPoint(x: triangle.center.xCoordinate,
                                                          y: triangle.center.yCoordinate)),
                              triangleBase: triangle.base,
@@ -60,7 +61,21 @@ struct LevelDesignerCanvasView: View {
                                                               newLocation: locationOfTriangle,
                                                               canvasDimensions: canvasDimensions)
                                 }
-                            })))
+                            }))
+//                    Circle()
+//                        .fill(Color.black)
+//                        .frame(width: 15, height: 15)
+//                        .position(x: triangle.vertexOne.xCoordinate, y: triangle.vertexOne.yCoordinate)
+//                    Circle()
+//                        .fill(Color.black)
+//                        .frame(width: 15, height: 15)
+//                        .position(x: triangle.vertexTwo.xCoordinate, y: triangle.vertexTwo.yCoordinate)
+//                    Circle()
+//                        .fill(Color.black)
+//                        .frame(width: 15, height: 15)
+//                        .position(x: triangle.vertexThree.xCoordinate, y: triangle.vertexThree.yCoordinate)
+//                }
+                    )
         } else {
             return AnyView(EmptyView())
         }

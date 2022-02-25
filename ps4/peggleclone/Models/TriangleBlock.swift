@@ -19,11 +19,11 @@ class TriangleBlock: PeggleObject {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
-                               yCoordinate: center.yCoordinate + 2 * height / 3)
-        self.vertexTwo = Point(xCoordinate: center.xCoordinate + base / 2,
-                               yCoordinate: center.yCoordinate - height / 3)
-        self.vertexThree = Point(xCoordinate: center.xCoordinate - base / 2,
-                                 yCoordinate: center.yCoordinate - height / 3)
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
         super.init(center: center)
     }
 
@@ -31,11 +31,11 @@ class TriangleBlock: PeggleObject {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
-                               yCoordinate: center.yCoordinate + 2 * height / 3)
-        self.vertexTwo = Point(xCoordinate: center.xCoordinate + base / 2,
-                               yCoordinate: center.yCoordinate - height / 3)
-        self.vertexThree = Point(xCoordinate: center.xCoordinate - base / 2,
-                                 yCoordinate: center.yCoordinate - height / 3)
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
         super.init(id: id, center: center)
     }
 
@@ -66,7 +66,6 @@ class TriangleBlock: PeggleObject {
             let c3x = peg.center.xCoordinate - vertexThree.xCoordinate
             let c3y = peg.center.yCoordinate - vertexThree.yCoordinate
 
-    //        &c3sqr = radiusSqr                     // ; reference to radiusSqr
              let c3sqr = c3x * c3x + c3y * c3y - radiusSqr
 
             if c3sqr <= 0 {
@@ -142,17 +141,17 @@ class TriangleBlock: PeggleObject {
             return false
         } else {
         // TODO: implemenation of trinagle triangle intersect
-        return false
+            return false
         }
     }
 
     override func shiftTo(location: Point) {
         self.center = location
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
-                               yCoordinate: center.yCoordinate + 2 * height / 3)
-        self.vertexTwo = Point(xCoordinate: center.xCoordinate + base / 2,
-                               yCoordinate: center.yCoordinate - height / 3)
-        self.vertexThree = Point(xCoordinate: center.xCoordinate - base / 2,
-                                 yCoordinate: center.yCoordinate - height / 3)
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
     }
 }
