@@ -12,7 +12,7 @@ class PowerUpHandler {
     private var spookyBallsActivated = 0
 
     func handlePowerUp(
-        powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody], cannonBall: Peg, gameLogicDelegate: GameLogicDelegate) {
+        powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody], cannonBall: Peg, gameDisplayDelegate: GameDisplayDelegate) {
         if let spookyPeg = powerPeg as? SpookyPeg {
             if !spookyPeg.activated {
                 spookyBallsActivated += 1
@@ -41,7 +41,7 @@ class PowerUpHandler {
                 }
                 kaboomPeg.setActivated()
             }
-            gameLogicDelegate.renderExplosion(kaboomPeg: kaboomPeg)
+            gameDisplayDelegate.renderExplosion(kaboomPeg: kaboomPeg)
         }
     }
 
@@ -59,13 +59,13 @@ class PowerUpHandler {
 
     func handleCannonBall(
         canvasDimension: CGRect, cannonBall: Peg, cannonBallPhysicsBody: SLPhysicsBody,
-        gameLogicDelegate: GameLogicDelegate) {
+        gameDisplayDelegate: GameDisplayDelegate) {
         if spookyBallsActivated > 0 {
-            gameLogicDelegate.spookCannonBall(cannonBall: cannonBall)
+            gameDisplayDelegate.spookCannonBall(cannonBall: cannonBall)
         }
 
         if spookyBallsActivated > 0 && isOutOfScreen(peg: cannonBall, canvasDimensions: canvasDimension) {
-            gameLogicDelegate.didMove(peggleObject: cannonBall,
+            gameDisplayDelegate.didMove(peggleObject: cannonBall,
                                       newLocation: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
             cannonBallPhysicsBody.moveTo(position: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
             cannonBallPhysicsBody

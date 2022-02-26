@@ -14,7 +14,7 @@ struct RemainingPegsView: View {
         VStack {
             Text("Orange pegs remaining: \(levelManager.level.numOfOrangePegs)")
             Text("Blue pegs remaining: \(levelManager.level.numOfBluePegs)")
-            Text("special pegs remaining: \(levelManager.level.numOfSpecialPegs)")
+            Text("Special pegs remaining: \(levelManager.level.numOfSpecialPegs)")
         }
         .position(x: levelManager.canvasDimension.width - 150, y: levelManager.canvasDimension.height * 0.95)
     }

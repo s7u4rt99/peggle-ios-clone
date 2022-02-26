@@ -77,7 +77,7 @@ struct GameCanvasView: View {
             .foregroundColor(.black)
             .position(x: 50, y: 35)
 
-            PointsView()
+            PointsView(gameEngineManager: gameEngineManager)
 
             RemainingPegsView()
 
@@ -94,14 +94,14 @@ struct GameCanvasView: View {
                 )
             }
         }
-        .alert("Congratulations, you completed the level! You earned \(levelManager.points) points!",
-               isPresented: .constant(levelManager.isGameWon)) {
+        .alert("Congratulations, you completed the level! You earned \(gameEngineManager.points) points!",
+               isPresented: .constant(gameEngineManager.isGameWon)) {
             Button("Home") {
                 goToHome()
             }
         }
-        .alert("You lose, you ran out of cannon balls :( You earned \(levelManager.points) points!",
-               isPresented: .constant(levelManager.isGameLost)) {
+        .alert("You lose, you ran out of cannon balls :( You earned \(gameEngineManager.points) points!",
+               isPresented: .constant(gameEngineManager.isGameLost)) {
             Button("Home") {
                 goToHome()
             }

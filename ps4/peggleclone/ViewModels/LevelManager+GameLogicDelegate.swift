@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension LevelManager: GameLogicDelegate {
+extension LevelManager: GameDisplayDelegate {
     func didMove(peggleObject: PeggleObject, newLocation: Point) {
         if let peg = peggleObject as? Peg {
             movePeg(peg: peg, newLocation: newLocation)
@@ -26,29 +26,11 @@ extension LevelManager: GameLogicDelegate {
         level.addPeggleObject(peggleObject: cannonBall)
     }
 
-    func gameWin() {
-        self.isGameWon = true
-        self.isGameLost = false
-    }
-
-    func gameLose() {
-        self.isGameLost = true
-        self.isGameWon = false
-    }
-
     func spookCannonBall(cannonBall: Peg) {
         level.spookCannonBall(cannonBall: cannonBall)
     }
 
     func renderExplosion(kaboomPeg: KaboomPeg) {
         level.renderExplosion(kaboomPeg: kaboomPeg)
-    }
-
-    func didAddPoints(_ points: Int) {
-        self.points += points
-    }
-
-    func resetPoints() {
-        self.points = 0
     }
 }

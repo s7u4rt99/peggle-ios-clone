@@ -15,25 +15,23 @@ struct ContentView: View {
     @State var gameEngineManager: GameEngineManager
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                if gameState == GameState.menu {
-                    PeggleHomeView(gameState: $gameState)
-                }
+        ZStack {
+            if gameState == GameState.menu {
+                PeggleHomeView(gameState: $gameState)
+            }
 
-                if gameState == GameState.levelDesigner {
-                    LevelDesignerView(levelName: levelManager.level.name,
-                                      gameState: $gameState,
-                                      gameEngineManager: gameEngineManager)
-                        .environmentObject(levelManager)
-                }
+            if gameState == GameState.levelDesigner {
+                LevelDesignerView(levelName: levelManager.level.name,
+                                  gameState: $gameState,
+                                  gameEngineManager: gameEngineManager)
+                    .environmentObject(levelManager)
+            }
 
-                if gameState == GameState.startFromMenu ||
-                    gameState == GameState.startFromLevelDesigner {
-                    GameCanvasView(gameState: $gameState,
-                                   gameEngineManager: gameEngineManager)
-                        .environmentObject(levelManager)
-                }
+            if gameState == GameState.startFromMenu ||
+                gameState == GameState.startFromLevelDesigner {
+                GameCanvasView(gameState: $gameState,
+                               gameEngineManager: gameEngineManager)
+                    .environmentObject(levelManager)
             }
         }
     }

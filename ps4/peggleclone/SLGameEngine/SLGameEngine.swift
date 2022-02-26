@@ -14,6 +14,7 @@ class SLGameEngine {
     private let msPerUpdate = TimeInterval(0.016)
     private var lag = 0.0
     private var previous: Date?
+    private weak var gameDisplayDelegate: GameDisplayDelegate?
     private weak var gameLogicDelegate: GameLogicDelegate?
     private var canvasDimensions: CGRect
     private var cannonBall: Peg?
@@ -31,8 +32,12 @@ class SLGameEngine {
         self.numOfOrangePegs = 0
     }
 
-    func loadLevel(gameLogicDelegate: GameLogicDelegate, level: Level, bucket: Bucket) {
+    func loadLevel(
+        gameDisplayDelegate: GameDisplayDelegate,
+        gameLogicDelegate: GameLogicDelegate,
+        level: Level, bucket: Bucket) {
         // create physics body for each object, loads to physics engine
+        self.gameDisplayDelegate = gameDisplayDelegate
         self.gameLogicDelegate = gameLogicDelegate
         self.bucket = bucket
         self.numOfCannonBallsLeft = 10
@@ -77,7 +82,7 @@ class SLGameEngine {
     }
 
     func addCannonBall() {
-        guard let gameLogicDelegate = gameLogicDelegate else {
+        guard let gameDisplayDelegate = gameDisplayDelegate else {
             return
         }
         let middleOfTopScreen = CGPoint(x: 400, y: 50)
@@ -88,7 +93,7 @@ class SLGameEngine {
             return
         }
         print("cannon ball added \(cannonBallCheck)")
-        gameLogicDelegate.didAddCannonBall(cannonBall: cannonBall)
+        gameDisplayDelegate.didAddCannonBall(cannonBall: cannonBall)
         self.mostRecentPosition = cannonBall.center
     }
 
@@ -123,30 +128,35 @@ class SLGameEngine {
     }
 
     func render(cannonBallCount: Int) {
-        guard let gameLogicDelegate = gameLogicDelegate,
+        guard let gameDisplayDelegate = gameDisplayDelegate,
               let bucket = bucket,
-              let bucketPhysicsBody = mappings[bucket] else {
+              let bucketPhysicsBody = mappings[bucket],
+              let gameLogicDelegate = gameLogicDelegate else {
             return
         }
 
-        moveBucket(bucket, bucketPhysicsBody, gameLogicDelegate)
+        moveBucket(bucket, bucketPhysicsBody, gameDisplayDelegate)
 
         guard let cannonBall = cannonBall,
               let cannonBallPhysicsBody = mappings[cannonBall] else {
             return
         }
 
-        moveCannonBall(cannonBall, cannonBallPhysicsBody, gameLogicDelegate)
+        moveCannonBall(cannonBall, cannonBallPhysicsBody, gameDisplayDelegate)
 
         let collisions = cannonBallPhysicsBody.collisionsWith
-        let currentCollisions = handleCollisions(collisions, gameLogicDelegate, cannonBallCount, cannonBall)
+        let currentCollisions = handleCollisions(collisions,
+                                                 gameDisplayDelegate,
+                                                 gameLogicDelegate,
+                                                 cannonBallCount,
+                                                 cannonBall)
 
         let similarPositionLimit = 75
 
         if cannonBallCount == 0 {
             cannonBallPhysicsBody.ignore()
             mappings.removeValue(forKey: cannonBall)
-            gameLogicDelegate.didRemove(peg: cannonBall)
+            gameDisplayDelegate.didRemove(peg: cannonBall)
             if cannonBallInBucket {
                 numOfCannonBallsLeft += 1
                 cannonBallInBucket = false
@@ -162,7 +172,7 @@ class SLGameEngine {
                         }
                         if pegInTouch.hasCollided {
                             pegInTouch.ignore()
-                            gameLogicDelegate.didRemove(peg: peg)
+                            gameDisplayDelegate.didRemove(peg: peg)
                         }
                     }
                 } else {
@@ -184,13 +194,14 @@ class SLGameEngine {
     }
 
     private func moveBucket(
-        _ bucket: Bucket, _ bucketPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
+        _ bucket: Bucket, _ bucketPhysicsBody: SLPhysicsBody, _ gameDisplayDelegate: GameDisplayDelegate) {
         bucket.center = bucketPhysicsBody.position
-        gameLogicDelegate.didMove(peggleObject: bucket, newLocation: bucketPhysicsBody.position)
+        gameDisplayDelegate.didMove(peggleObject: bucket, newLocation: bucketPhysicsBody.position)
     }
 
     private func handleCollisions(
-        _ collisions: [SLPhysicsBody], _ gameLogicDelegate: GameLogicDelegate,
+        _ collisions: [SLPhysicsBody], _ gameDisplayDelegate: GameDisplayDelegate,
+        _ gameLogicDelegate: GameLogicDelegate,
         _ cannonBallCount: Int, _ cannonBall: Peg) -> [Peg] {
         var currentCollisions: [Peg] = []
 
@@ -202,10 +213,10 @@ class SLGameEngine {
                 }
                 if peg is SpookyPeg || peg is KaboomPeg {
                     powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings,
-                                                 cannonBall: cannonBall, gameLogicDelegate: gameLogicDelegate)
+                                                 cannonBall: cannonBall, gameDisplayDelegate: gameDisplayDelegate)
                 }
                 if cannonBallCount == 0 {
-                    gameLogicDelegate.didRemove(peg: peg)
+                    gameDisplayDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
                     if peg.color != cannonBall.color {
                         gameLogicDelegate.didAddPoints(peg.points)
@@ -226,9 +237,9 @@ class SLGameEngine {
     }
 
     private func moveCannonBall(
-        _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameLogicDelegate: GameLogicDelegate) {
+        _ cannonBall: Peg, _ cannonBallPhysicsBody: SLPhysicsBody, _ gameDisplayDelegate: GameDisplayDelegate) {
         cannonBall.center = cannonBallPhysicsBody.position
-        gameLogicDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
+        gameDisplayDelegate.didMove(peggleObject: cannonBall, newLocation: cannonBallPhysicsBody.position)
 
         if isCannonBallInBucket(cannonBallPhysicsBody) {
             cannonBallInBucket = true
@@ -236,7 +247,7 @@ class SLGameEngine {
         powerUpHandler.handleCannonBall(canvasDimension: canvasDimensions,
                                         cannonBall: cannonBall,
                                         cannonBallPhysicsBody: cannonBallPhysicsBody,
-                                        gameLogicDelegate: gameLogicDelegate)
+                                        gameDisplayDelegate: gameDisplayDelegate)
     }
 
     private func isOutOfScreen(peg: Peg) -> Bool {

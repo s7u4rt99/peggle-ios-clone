@@ -9,14 +9,22 @@ import Foundation
 import SwiftUI
 
 class GameEngineManager: ObservableObject {
+    @Published var isGameWon: Bool
+    @Published var isGameLost: Bool
+    @Published var points: Int = 0
     private var gameEngine: SLGameEngine
 
     init(canvasDimension: CGRect) {
         gameEngine = SLGameEngine(canvasDimensions: canvasDimension)
+        self.isGameWon = false
+        self.isGameLost = false
     }
 
     func loadLevel(levelManager: LevelManager) {
-        gameEngine.loadLevel(gameLogicDelegate: levelManager, level: levelManager.level, bucket: levelManager.bucket)
+        gameEngine.loadLevel(gameDisplayDelegate: levelManager,
+                             gameLogicDelegate: self,
+                             level: levelManager.level,
+                             bucket: levelManager.bucket)
     }
 
     func start() {
