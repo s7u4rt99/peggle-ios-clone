@@ -40,7 +40,7 @@ class PeggleObject: Identifiable {
 //    func scale(_ scale: Double) {
 //        fatalError("This method must be overridden")
 //    }
-    func resizeObject(location: Point, peggleObjects: [PeggleObject]) -> Double {
+    func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
         fatalError("This method must be overridden")
     }
 }

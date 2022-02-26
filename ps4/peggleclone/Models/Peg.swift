@@ -62,7 +62,7 @@ class Peg: PeggleObject {
 //    override func scale(_ scale: Double) {
 //        self.radius = radius + 50// radius * (1 + scale)
 //    }
-    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) -> Double {
+    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
         var distance = center.distanceFrom(point: location)
         if distance < Peg.pegMinRadius {
             distance = Peg.pegMinRadius
@@ -71,11 +71,10 @@ class Peg: PeggleObject {
         }
         for peggleObject in peggleObjects where peggleObject.id != self.id {
             if peggleObject.overlap(peggleObject: Peg(color: self.color, center: self.center, radius: distance)) {
-                return -1
+                return
             }
         }
         self.radius = distance
-        return distance
     }
 
     // TODO: refactor into own cannonball class

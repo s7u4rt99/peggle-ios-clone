@@ -59,7 +59,7 @@ struct LevelDesignerCanvasView: View {
             )
         } else if let triangle = peggleObject as? TriangleBlock {
             return AnyView(
-//                ZStack() {
+                ZStack() {
                 TriangleView(location: .constant(CGPoint(x: triangle.center.xCoordinate,
                                                          y: triangle.center.yCoordinate)),
                              triangleBase: triangle.base,
@@ -77,7 +77,8 @@ struct LevelDesignerCanvasView: View {
                             .gesture(DragGesture().onChanged({ value in
                                 if keyboardResponder.currentHeight == 0 {
                                     if isResize {
-                                        
+                                        let locationOfFinger = value.location
+                                        levelManager.resizeObject(peggleObject: triangle, location: locationOfFinger)
                                     } else {
                                         let locationOfTriangle = value.location
                                         levelManager.dragObject(peggleObject: triangle,
@@ -95,19 +96,23 @@ struct LevelDesignerCanvasView: View {
 //                        levelManager.scale(peggleObject: triangle, scale: val)
 //                    //... anything else e.g. clamping the newScale
 //                    })
-//                    Circle()
-//                        .fill(Color.black)
-//                        .frame(width: 15, height: 15)
-//                        .position(x: triangle.vertexOne.xCoordinate, y: triangle.vertexOne.yCoordinate)
-//                    Circle()
-//                        .fill(Color.black)
-//                        .frame(width: 15, height: 15)
-//                        .position(x: triangle.vertexTwo.xCoordinate, y: triangle.vertexTwo.yCoordinate)
-//                    Circle()
-//                        .fill(Color.black)
-//                        .frame(width: 15, height: 15)
-//                        .position(x: triangle.vertexThree.xCoordinate, y: triangle.vertexThree.yCoordinate)
-//                }
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: 15, height: 15)
+                        .position(x: triangle.vertexOne.xCoordinate, y: triangle.vertexOne.yCoordinate)
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: 15, height: 15)
+                        .position(x: triangle.vertexTwo.xCoordinate, y: triangle.vertexTwo.yCoordinate)
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: 15, height: 15)
+                        .position(x: triangle.vertexThree.xCoordinate, y: triangle.vertexThree.yCoordinate)
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: 15, height: 15)
+                        .position(x: triangle.center.xCoordinate, y: triangle.center.yCoordinate)
+                }
                     )
         } else {
             return AnyView(EmptyView())
