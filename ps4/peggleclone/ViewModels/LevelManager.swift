@@ -135,7 +135,8 @@ class LevelManager: ObservableObject, Identifiable {
                 return false
             }
 
-            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y), base: triangle.base,
+            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y),
+                                      base: triangle.base,
                                       height: triangle.height)
         }
 

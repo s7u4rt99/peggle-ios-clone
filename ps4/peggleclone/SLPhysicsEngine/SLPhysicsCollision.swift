@@ -146,7 +146,7 @@ class SLPhysicsCollision {
                                      - firstCircle.position.xCoordinate,
                                      yDirection: secondCircle.position.yCoordinate
                                      - firstCircle.position.yCoordinate)
-        let distance = distanceBetween(firstPoint: firstCircle.position, secondPoint: secondCircle.position)
+        let distance = 2 * max(firstCircle.radius, secondCircle.radius) // distanceBetween(firstPoint: firstCircle.position, secondPoint: secondCircle.position)
         let collisionNormalVector = Vector(xDirection: collisionVector.xDirection / (distance),
                                            yDirection: collisionVector.yDirection / (distance))
         let relativeVelocity = firstCircle.velocity.subtract(vector: secondCircle.velocity)
@@ -157,9 +157,9 @@ class SLPhysicsCollision {
         let impulse = 2 * speedAfterRestitution / (firstCircle.mass + secondCircle.mass)
         if speedAfterRestitution >= 0 {
             firstCircle.forces.append(collisionNormalVector
-                                        .multiplyWithScalar(scalar: -1 * impulse * secondCircle.mass))
+                                        .multiplyWithScalar(scalar: -1 * speedAfterRestitution))
             secondCircle.forces.append(collisionNormalVector
-                                        .multiplyWithScalar(scalar: impulse * firstCircle.mass))
+                                        .multiplyWithScalar(scalar: speedAfterRestitution))
         }
     }
 
