@@ -9,11 +9,11 @@ import Foundation
 import SwiftUI
 
 class LevelManager: ObservableObject, Identifiable {
-
     @Published var level: Level
     @Published var isGameWon: Bool
     @Published var isGameLost: Bool
     @Published var bucket: Bucket
+    @Published var points: Int = 0
     var selectedPeg: PegState?
     var isDeleteSelected = false
     var isTriangleBlockSelected = false

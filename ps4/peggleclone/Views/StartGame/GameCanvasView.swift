@@ -77,6 +77,10 @@ struct GameCanvasView: View {
             .foregroundColor(.black)
             .position(x: 50, y: 35)
 
+            PointsView()
+
+            RemainingPegsView()
+
             if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,
@@ -90,12 +94,14 @@ struct GameCanvasView: View {
                 )
             }
         }
-        .alert("Congratulations, you completed the level", isPresented: .constant(levelManager.isGameWon)) {
+        .alert("Congratulations, you completed the level! You earned \(levelManager.points) points!",
+               isPresented: .constant(levelManager.isGameWon)) {
             Button("Home") {
                 goToHome()
             }
         }
-        .alert("You lose, you ran out of cannon balls :(", isPresented: .constant(levelManager.isGameLost)) {
+        .alert("You lose, you ran out of cannon balls :( You earned \(levelManager.points) points!",
+               isPresented: .constant(levelManager.isGameLost)) {
             Button("Home") {
                 goToHome()
             }

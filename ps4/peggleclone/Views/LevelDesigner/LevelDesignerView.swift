@@ -35,6 +35,8 @@ struct LevelDesignerView: View {
             .foregroundColor(.black)
             .position(x: 50, y: 35)
 
+            NumberOfPegsView()
+
             if load {
                 GeometryReader { geometry in
                     LevelSelectorView(allLevelsManager: allLevelsManager,

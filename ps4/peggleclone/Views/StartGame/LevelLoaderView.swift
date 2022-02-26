@@ -12,26 +12,35 @@ struct LevelLoaderView: View {
     @ObservedObject var levelManager: LevelManager
     @ObservedObject var gameEngineManager: GameEngineManager
     @Binding var gameState: GameState
+    @State private var contentSize: CGSize = .zero
 
     var body: some View {
         VStack(alignment: .leading) {
 
             Text("Select a level to play").font(.headline)
-
-            ForEach(allLevelsManager.levels) { level in
-                Button() {
-                    levelManager.changeLevel(level: level)
-                    gameState = .startFromLevelDesigner
-                    gameEngineManager.loadLevel(levelManager: levelManager)
-                    gameEngineManager.start()
-                } label: {
-                    if levelManager.level == level {
-                        Text(level.name).foregroundColor(.orange).padding()
-                    } else {
-                        Text(level.name).foregroundColor(.red).padding()
+            ScrollView {
+                ForEach(allLevelsManager.levels) { level in
+                    Button() {
+                        levelManager.changeLevel(level: level)
+                        gameState = .startFromLevelDesigner
+                        gameEngineManager.loadLevel(levelManager: levelManager)
+                        gameEngineManager.start()
+                    } label: {
+                        if levelManager.level == level {
+                            Text(level.name).foregroundColor(.orange).padding()
+                        } else {
+                            Text(level.name).foregroundColor(.red).padding()
+                        }
                     }
                 }
-            }
+                .overlay(
+                    GeometryReader { geo in
+                        Color.clear.onAppear {
+                            contentSize = geo.size
+                        }
+                    }
+                )
+            }.frame(maxHeight: contentSize.height)
         }.padding()
             .background(.white)
             .cornerRadius(15)

@@ -15,16 +15,27 @@ class Peg: PeggleObject {
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
+    var points: Int
 
     init(color: PegState, center: Point, radius: Double = 25) {
         self.color = color
         self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
         super.init(center: center)
     }
 
     init(id: UUID, center: Point, color: PegState, radius: Double = 25) {
         self.color = color
         self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
         super.init(id: id, center: center)
     }
 

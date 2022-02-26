@@ -11,11 +11,16 @@ struct Level: Identifiable {
     var id: UUID
     var name: String
     var peggleObjects: [PeggleObject]
+    var numOfOrangePegs = 0
+    var numOfBluePegs = 0
+    var numOfSpecialPegs = 0
+    var numOfBlocks = 0
 
     init(name: String, peggleObjects: [PeggleObject]) {
         self.id = UUID()
         self.name = name
         self.peggleObjects = peggleObjects
+        countDifferentPegs()
     }
 
     init() {
@@ -28,6 +33,18 @@ struct Level: Identifiable {
         self.id = id
         self.name = name
         self.peggleObjects = peggleObjects
+        countDifferentPegs()
+    }
+
+    mutating func countDifferentPegs() {
+        numOfOrangePegs = 0
+        numOfBluePegs = 0
+        numOfBlocks = 0
+        numOfSpecialPegs = 0
+
+        for peggleObject in peggleObjects {
+            handleAdd(peggleObject: peggleObject)
+        }
     }
 
     mutating func save(name: String, peggleObjects: [PeggleObject]) {
@@ -36,6 +53,7 @@ struct Level: Identifiable {
         if !trimmedName.isEmpty {
             self.name = trimmedName
         }
+        countDifferentPegs()
     }
 
     mutating func move(peggleObject: PeggleObject, newLocation: Point) {
@@ -47,15 +65,49 @@ struct Level: Identifiable {
     mutating func delete(peggleObject: PeggleObject) {
         if let index = peggleObjects.firstIndex(of: peggleObject) {
             peggleObjects.remove(at: index)
+            handleDelete(peggleObject: peggleObject)
+        }
+    }
+
+    mutating func handleDelete(peggleObject: PeggleObject) {
+        if peggleObject is TriangleBlock {
+            numOfBlocks -= 1
+        } else if let peg = peggleObject as? Peg {
+            if peg is SpookyPeg || peg is KaboomPeg {
+                numOfSpecialPegs -= 1
+            } else if peg.color == PegState.orangePeg || peg.color == PegState.orangeGlow {
+                numOfOrangePegs -= 1
+            } else if peg.color == PegState.bluePeg || peg.color == PegState.blueGlow {
+                numOfBluePegs -= 1
+            }
         }
     }
 
     mutating func removeAllPeggleObjects() {
         peggleObjects.removeAll()
+        numOfBlocks = 0
+        numOfBluePegs = 0
+        numOfSpecialPegs = 0
+        numOfOrangePegs = 0
     }
 
     mutating func addPeggleObject(peggleObject: PeggleObject) {
         peggleObjects.append(peggleObject)
+        handleAdd(peggleObject: peggleObject)
+    }
+
+    mutating func handleAdd(peggleObject: PeggleObject) {
+        if peggleObject is TriangleBlock {
+            numOfBlocks += 1
+        } else if let peg = peggleObject as? Peg {
+            if peg is SpookyPeg || peg is KaboomPeg {
+                numOfSpecialPegs += 1
+            } else if peg.color == PegState.orangePeg {
+                numOfOrangePegs += 1
+            } else if peg.color == PegState.bluePeg {
+                numOfBluePegs += 1
+            }
+        }
     }
 
     func spookCannonBall(cannonBall: Peg) {

@@ -43,4 +43,12 @@ extension LevelManager: GameLogicDelegate {
     func renderExplosion(kaboomPeg: KaboomPeg) {
         level.renderExplosion(kaboomPeg: kaboomPeg)
     }
+
+    func didAddPoints(_ points: Int) {
+        self.points += points
+    }
+
+    func resetPoints() {
+        self.points = 0
+    }
 }

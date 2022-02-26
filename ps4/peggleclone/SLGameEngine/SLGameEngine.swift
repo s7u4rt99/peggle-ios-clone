@@ -207,6 +207,9 @@ class SLGameEngine {
                 if cannonBallCount == 0 {
                     gameLogicDelegate.didRemove(peg: peg)
                     mappings.removeValue(forKey: peg)
+                    if peg.color != cannonBall.color {
+                        gameLogicDelegate.didAddPoints(peg.points)
+                    }
                     value.ignore()
                     powerUpHandler.removePowerPeg(powerPeg: peg)
                     if peg.color == .orangeGlow {
@@ -307,6 +310,7 @@ class SLGameEngine {
 
     func gameEnd() {
         physicsEngine.removeBodies()
+        gameLogicDelegate?.resetPoints()
         mappings = [:]
         cannonBall = nil
         similarPositionCounter = 0
