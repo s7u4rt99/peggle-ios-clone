@@ -59,7 +59,7 @@ struct LevelDesignerCanvasView: View {
             )
         } else if let triangle = peggleObject as? TriangleBlock {
             return AnyView(
-                ZStack() {
+                ZStack {
                 TriangleView(location: .constant(CGPoint(x: triangle.center.xCoordinate,
                                                          y: triangle.center.yCoordinate)),
                              triangleBase: triangle.base,

@@ -10,7 +10,7 @@ import SwiftUI
 struct PointsView: View {
     @EnvironmentObject var levelManager: LevelManager
     @ObservedObject var gameEngineManager: GameEngineManager
-    
+
     var body: some View {
         Text("Points: \(gameEngineManager.points)")
             .foregroundColor(.black)

@@ -85,7 +85,7 @@ class SLGameEngine {
         guard let gameDisplayDelegate = gameDisplayDelegate else {
             return
         }
-        let middleOfTopScreen = CGPoint(x: 400, y: 50)
+        let middleOfTopScreen = CGPoint(x: canvasDimensions.width / 2, y: 50)
         let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
         guard let cannonBallCheck = self.cannonBall else {
@@ -288,16 +288,16 @@ class SLGameEngine {
         return false
     }
 
-    func fireCannonBall(directionOf: Point) {
+    func fireCannonBall(directionOf: Point) -> Bool {
         print("fire cannon ball")
         guard let cannonBall = cannonBall else {
             print("no cannon ball")
-            return
+            return false
         }
 
         if mappings[cannonBall] != nil {
             print("no cannon ball mapping")
-            return
+            return false
         }
 
         print("fired cannon ball")
@@ -317,6 +317,7 @@ class SLGameEngine {
                                                 radius: cannonBall.radius)
         mappings[cannonBall] = cannonBallPhysics
         physicsEngine.addCannonBall(cannonBall: cannonBallPhysics)
+        return true
     }
 
     func gameEnd() {

@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct CannonView: View {
-    static let positionOfCannon = Point(xCoordinate: 400, yCoordinate: 50)
-
     var body: some View {
         Image("cannon-unfired")
             .resizable()
             .frame(width: 100, height: 100)
-//            .position(CGPoint(x: CannonView.positionOfCannon.xCoordinate,
-//                              y: CannonView.positionOfCannon.yCoordinate))
     }
 }
 

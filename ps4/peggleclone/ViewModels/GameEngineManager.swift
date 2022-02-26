@@ -12,12 +12,15 @@ class GameEngineManager: ObservableObject {
     @Published var isGameWon: Bool
     @Published var isGameLost: Bool
     @Published var points: Int = 0
+    @Published var cannonBallAmmo = 0
     private var gameEngine: SLGameEngine
+    var positionOfCannon: Point
 
     init(canvasDimension: CGRect) {
-        gameEngine = SLGameEngine(canvasDimensions: canvasDimension)
+        self.gameEngine = SLGameEngine(canvasDimensions: canvasDimension)
         self.isGameWon = false
         self.isGameLost = false
+        self.positionOfCannon = Point(xCoordinate: canvasDimension.width / 2, yCoordinate: 50)
     }
 
     func loadLevel(levelManager: LevelManager) {
@@ -25,6 +28,7 @@ class GameEngineManager: ObservableObject {
                              gameLogicDelegate: self,
                              level: levelManager.level,
                              bucket: levelManager.bucket)
+        cannonBallAmmo = 10
     }
 
     func start() {
@@ -32,10 +36,13 @@ class GameEngineManager: ObservableObject {
     }
 
     func fireCannonBall(directionOf: CGPoint) {
-        gameEngine.fireCannonBall(directionOf: Point(xCoordinate: directionOf.x, yCoordinate: directionOf.y))
+        if gameEngine.fireCannonBall(directionOf: Point(xCoordinate: directionOf.x, yCoordinate: directionOf.y)) {
+            cannonBallAmmo -= 1
+        }
     }
 
     func gameEnd() {
         gameEngine.gameEnd()
+        cannonBallAmmo = 0
     }
 }

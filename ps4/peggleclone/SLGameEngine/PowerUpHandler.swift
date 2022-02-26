@@ -12,7 +12,8 @@ class PowerUpHandler {
     private var spookyBallsActivated = 0
 
     func handlePowerUp(
-        powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody], cannonBall: Peg, gameDisplayDelegate: GameDisplayDelegate) {
+        powerPeg: Peg, mappings: [PeggleObject: SLPhysicsBody],
+        cannonBall: Peg, gameDisplayDelegate: GameDisplayDelegate) {
         if let spookyPeg = powerPeg as? SpookyPeg {
             if !spookyPeg.activated {
                 spookyBallsActivated += 1

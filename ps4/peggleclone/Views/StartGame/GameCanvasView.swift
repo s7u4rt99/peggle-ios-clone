@@ -58,17 +58,18 @@ struct GameCanvasView: View {
                             gameEngineManager.fireCannonBall(directionOf: getFireDirection())
                         })
 
-            BucketView(size: levelManager.bucket.size)
-                .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
-
             ForEach(levelManager.level.peggleObjects) { peggleObject in
                 buildView(peggleObject: peggleObject)
             }
             .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
 
+            BucketView(size: levelManager.bucket.size)
+                .position(x: levelManager.bucket.center.xCoordinate, y: levelManager.bucket.center.yCoordinate)
+
             CannonView()
                 .rotationEffect(.radians(rotation))
-                .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
+                .position(x: gameEngineManager.positionOfCannon.xCoordinate,
+                          y: gameEngineManager.positionOfCannon.yCoordinate)
 
             Button("Exit") {
                 gameState = GameState.menu
@@ -80,6 +81,8 @@ struct GameCanvasView: View {
             PointsView(gameEngineManager: gameEngineManager)
 
             RemainingPegsView()
+
+            CannonBallMagazineView(gameEngineManager: gameEngineManager)
 
             if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
@@ -121,10 +124,10 @@ struct GameCanvasView: View {
     private func setRotation(_ aim: CGPoint) {
         let centerHorizontalAxis = Vector(
             xDirection: 0,
-            yDirection: CannonView.positionOfCannon.yCoordinate * 2)
+            yDirection: gameEngineManager.positionOfCannon.yCoordinate * 2)
         let directionOfAim = Vector(
-            xDirection: aim.x - CannonView.positionOfCannon.xCoordinate,
-            yDirection: aim.y - CannonView.positionOfCannon.yCoordinate)
+            xDirection: aim.x - gameEngineManager.positionOfCannon.xCoordinate,
+            yDirection: aim.y - gameEngineManager.positionOfCannon.yCoordinate)
         let angleOfRotation = calculateRotation(centerHorizontalAxis,
                                                 directionOfAim)
         rotation = angleOfRotation
@@ -146,7 +149,7 @@ struct GameCanvasView: View {
     private func getFireDirection() -> CGPoint {
         let centerHorizontalAxis = Vector(
             xDirection: 0,
-            yDirection: CannonView.positionOfCannon.yCoordinate * 2)
+            yDirection: gameEngineManager.positionOfCannon.yCoordinate * 2)
 
         let directionOfFire = Vector(
             xDirection: centerHorizontalAxis.xDirection * cos(rotation)
@@ -155,7 +158,7 @@ struct GameCanvasView: View {
             + centerHorizontalAxis.yDirection * cos(rotation))
             .multiplyWithScalar(scalar: 50)
 
-        return toCGPoint(point: directionOfFire.movePointBy(point: CannonView.positionOfCannon, distance: 250))
+        return toCGPoint(point: directionOfFire.movePointBy(point: gameEngineManager.positionOfCannon, distance: 250))
     }
 }
 
