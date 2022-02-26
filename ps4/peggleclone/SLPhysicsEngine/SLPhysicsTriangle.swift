@@ -22,6 +22,7 @@ class SLPhysicsTriangle: SLPhysicsBody {
     var vertexOne: Point
     var vertexTwo: Point
     var vertexThree: Point
+    var previousPosition: Point
 
     init(velocity: Vector,
          position: Point,
@@ -42,6 +43,7 @@ class SLPhysicsTriangle: SLPhysicsBody {
                                yCoordinate: position.yCoordinate + height / 2)
         self.vertexThree = Point(xCoordinate: position.xCoordinate + width / 2,
                                  yCoordinate: position.yCoordinate + height / 2)
+        self.previousPosition = position
     }
 
     init(position: Point, height: Double, width: Double, isDynamic: Bool) {
@@ -58,10 +60,12 @@ class SLPhysicsTriangle: SLPhysicsBody {
                                yCoordinate: position.yCoordinate + height / 2)
         self.vertexThree = Point(xCoordinate: position.xCoordinate + width / 2,
                                  yCoordinate: position.yCoordinate + height / 2)
+        self.previousPosition = position
     }
 
     func moveTo(position: Point) {
         self.position = position
+        self.previousPosition = position
     }
 
     func setVelocity(newVelocity: Vector) {

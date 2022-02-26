@@ -175,7 +175,11 @@ class SLGameEngine {
         }
 
         if numOfCannonBallsLeft == 0 && cannonBallCount == 0 {
-            gameLogicDelegate.gameLose()
+            if numOfOrangePegs == 0 {
+                gameLogicDelegate.gameWin()
+            } else {
+                gameLogicDelegate.gameLose()
+            }
         }
     }
 

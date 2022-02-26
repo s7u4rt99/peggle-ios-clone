@@ -47,6 +47,7 @@ struct ButtonsRowView: View {
             .padding()
 
             Button("START") {
+                levelManager.changeLevel(level: levelManager.level)
                 gameEngineManager.loadLevel(levelManager: levelManager)
                 gameEngineManager.start()
                 gameState = GameState.startFromLevelDesigner
