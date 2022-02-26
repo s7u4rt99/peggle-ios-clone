@@ -78,7 +78,7 @@ class LevelManager: ObservableObject, Identifiable {
     }
 
     private func safeToPlaceObjectAt(center: CGPoint, canvasDimensions: CGRect) -> Bool {
-        if !isWithinScreen(point: center, radius: 25, canvasDimensions: canvasDimensions) {
+        if !isWithinScreen(point: center, radius: Peg.pegMinRadius, canvasDimensions: canvasDimensions) {
             return false
         }
 
@@ -127,13 +127,16 @@ class LevelManager: ObservableObject, Identifiable {
                 return false
             }
 
-            peggleObj = Peg(color: peg.color, center: Point(xCoordinate: location.x, yCoordinate: location.y))
+            peggleObj = Peg(color: peg.color,
+                            center: Point(xCoordinate: location.x, yCoordinate: location.y),
+                            radius: peg.radius)
         } else if let triangle = peggleObject as? TriangleBlock {
             if !isWithinScreen(point: location, radius: triangle.base, canvasDimensions: canvasDimensions) {
                 return false
             }
 
-            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y))
+            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y), base: triangle.base,
+                                      height: triangle.height)
         }
 
         guard let peggleObj = peggleObj else {
@@ -183,5 +186,15 @@ class LevelManager: ObservableObject, Identifiable {
     func moveBucket(newLocation: Point) {
         objectWillChange.send()
         bucket.shiftTo(location: newLocation)
+    }
+//
+//    func scale(peggleObject: PeggleObject, scale: Double) {
+//        objectWillChange.send()
+//        level.scale(peggleObject: peggleObject, scale: scale)
+//    }
+    func resizeObject(peggleObject: PeggleObject, location: CGPoint) {
+        let point = Point(xCoordinate: location.x, yCoordinate: location.y)
+        objectWillChange.send()
+        level.resizeObject(peggleObject: peggleObject, location: point)
     }
 }

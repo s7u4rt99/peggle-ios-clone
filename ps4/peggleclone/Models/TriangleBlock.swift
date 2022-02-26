@@ -8,6 +8,11 @@
 import Foundation
 
 class TriangleBlock: PeggleObject {
+    static var triangleHeightMin = 50.0
+    static var triangleBaseMin = 50.0
+    // TODO: review the max height and base
+    static var triangleHeightMax = 100.0
+    static var triangleBaseMax = 100.0
     var base: Double
     var height: Double
     var vertexOne: Point
@@ -46,7 +51,10 @@ class TriangleBlock: PeggleObject {
         if let peg = peggleObject as? Peg {
             return trianglePegOverlapCheck(peg: peg)
         } else if let triangle = peggleObject as? TriangleBlock {
-            return triangleTriangleOverlapCheck(triangle: triangle)
+//            print("self \(self.base) \(self.height)")
+//            print("triangle \(triangle.base) \(triangle.height)")
+//            return triangleTriangleOverlapCheck(triangle: triangle)
+            return trianglesIntersect(self, triangle)
         } else {
             return false
         }
@@ -62,30 +70,82 @@ class TriangleBlock: PeggleObject {
                                  yCoordinate: center.yCoordinate + height / 2)
     }
 
-    private func triangleTriangleOverlapCheck(triangle: TriangleBlock) -> Bool {
-        return trianglePointOverlapCheck(triangle: self, point: triangle.vertexOne)
-        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexTwo)
-        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexThree)
-        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexOne)
-        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexTwo)
-        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexThree)
+//    private func triangleTriangleOverlapCheck(triangle: TriangleBlock) -> Bool {
+//        let result = trianglePointOverlapCheck(triangle: self, point: triangle.vertexOne)
+//        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexTwo)
+//        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexThree)
+//        || trianglePointOverlapCheck(triangle: self, point: triangle.center)
+//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexOne)
+//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexTwo)
+//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexThree)
+//        || trianglePointOverlapCheck(triangle: triangle, point: self.center)
+//        || pegWithinTriangle(peg: Peg(color: .bluePeg, center: triangle.center))
+//        || triangle.pegWithinTriangle(peg: Peg(color: .bluePeg, center: self.center))
+//        print(result)
+//        return result
+//    }
+//
+//    private func trianglePointOverlapCheck(triangle: TriangleBlock, point: Point) -> Bool {
+//        let areaOfSelf = 0.5 * base * height // abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) );
+//        let area1 = 0.5 * abs((triangle.vertexOne.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate)
+//                              - (triangle.vertexTwo.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexOne.yCoordinate - point.yCoordinate))
+//        let area2 = 0.5 * abs((triangle.vertexTwo.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexThree.yCoordinate - point.yCoordinate)
+//                              - (triangle.vertexThree.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate))
+//        let area3 = 0.5 * abs((triangle.vertexThree.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexOne.yCoordinate - point.yCoordinate)
+//                              - (triangle.vertexOne.xCoordinate - point.xCoordinate)
+//                              * (triangle.vertexThree.yCoordinate - point.yCoordinate))
+//        let result = area1 + area2 + area3 <= areaOfSelf
+//        if result == true {
+//            print("area1 \(area1) area2 \(area2) area3 \(area3) area of self\(areaOfSelf)")
+//            print("triangle \(triangle.center) point \(point)")
+//        }
+//        return result
+//    }
+
+    func cross(_ triangleOne: TriangleBlock, _ triangleTwo: TriangleBlock) -> Bool {
+        let pointA = triangleOne.vertexOne
+        let pointB = triangleOne.vertexTwo
+        let pointC = triangleOne.vertexThree
+        let pointX = triangleTwo.vertexOne
+        let pointY = triangleTwo.vertexTwo
+        let pointZ = triangleTwo.vertexThree
+        let xDistAZ = pointA.xCoordinate - pointZ.xCoordinate
+        let yDistAZ = pointA.yCoordinate - pointZ.yCoordinate
+        let xDistBZ = pointB.xCoordinate - pointZ.xCoordinate
+        let yDistBZ = pointB.yCoordinate - pointZ.yCoordinate
+        let xDistCZ = pointC.xCoordinate - pointZ.xCoordinate
+        let yDistCZ = pointC.yCoordinate - pointZ.yCoordinate
+        let xDistZY = pointZ.xCoordinate - pointY.xCoordinate
+        let yDistYZ = pointY.yCoordinate - pointZ.yCoordinate
+        let temp = yDistYZ * (pointX.xCoordinate - pointZ.xCoordinate)
+                + xDistZY * (pointX.yCoordinate - pointZ.yCoordinate)
+        let sizeA = yDistYZ * xDistAZ + xDistZY * yDistAZ
+        let sizeB = yDistYZ * xDistBZ + xDistZY * yDistBZ
+        let sizeC = yDistYZ * xDistCZ + xDistZY * yDistCZ
+        let tempA = (pointZ.yCoordinate - pointX.yCoordinate) * xDistAZ
+                + (pointX.xCoordinate - pointZ.xCoordinate) * yDistAZ
+        let tempB = (pointZ.yCoordinate - pointX.yCoordinate) * xDistBZ
+                + (pointX.xCoordinate - pointZ.xCoordinate) * yDistBZ
+        let tempC = (pointZ.yCoordinate - pointX.yCoordinate) * xDistCZ
+                + (pointX.xCoordinate - pointZ.xCoordinate) * yDistCZ
+        if temp < 0 {
+            return ((sizeA >= 0 && sizeB >= 0 && sizeC >= 0) ||
+                         (tempA >= 0 && tempB >= 0 && tempC >= 0) ||
+                         (sizeA+tempA <= temp && sizeB+tempB <= temp && sizeC+tempC <= temp))
+        }
+        return ((sizeA <= 0 && sizeB <= 0 && sizeC <= 0) ||
+              (tempA <= 0 && tempB <= 0 && tempC <= 0) ||
+              (sizeA+tempA >= temp && sizeB+tempB >= temp && sizeC+tempC >= temp))
     }
 
-    private func trianglePointOverlapCheck(triangle: TriangleBlock, point: Point) -> Bool {
-        let areaOfSelf = 0.5 * base * height // abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) );
-        let area1 = 0.5 * abs((triangle.vertexOne.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate)
-                              - (triangle.vertexTwo.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexOne.yCoordinate - point.yCoordinate))
-        let area2 = 0.5 * abs((triangle.vertexTwo.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexThree.yCoordinate - point.yCoordinate)
-                              - (triangle.vertexThree.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate))
-        let area3 = 0.5 * abs((triangle.vertexThree.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexOne.yCoordinate - point.yCoordinate)
-                              - (triangle.vertexOne.xCoordinate - point.xCoordinate)
-                              * (triangle.vertexThree.yCoordinate - point.yCoordinate))
-        return area1 + area2 + area3 <= areaOfSelf
+    func trianglesIntersect(_ triangleOne: TriangleBlock, _ triangleTwo: TriangleBlock) -> Bool {
+      return !(cross(triangleOne, triangleTwo) ||
+               cross(triangleTwo, triangleOne))
     }
 
     private func vertexWithinPeg(vertex: Point, peg: Peg) -> Bool {
@@ -201,5 +261,29 @@ class TriangleBlock: PeggleObject {
             return true
         }
         return false
+    }
+
+    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
+        var distance = center.distanceFrom(point: location)
+        if distance < TriangleBlock.triangleHeightMin / 2 {
+            distance = TriangleBlock.triangleHeightMin / 2
+        } else if distance > TriangleBlock.triangleHeightMax / 2 {
+            distance = TriangleBlock.triangleHeightMax / 2
+        }
+        for peggleObject in peggleObjects where peggleObject.id != self.id {
+            if peggleObject.overlap(peggleObject: TriangleBlock(center: self.center,
+                                                                base: distance,
+                                                                height: distance)) {
+                return
+            }
+        }
+        self.base = distance * 2
+        self.height = distance * 2
+        self.vertexOne = Point(xCoordinate: center.xCoordinate,
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
     }
 }

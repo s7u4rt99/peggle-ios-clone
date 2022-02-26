@@ -13,18 +13,20 @@ struct LevelDesignerView: View {
     @StateObject var keyboardResponder = KeyboardResponder()
     @State var levelName: String
     @State private var load = true
+    @State var isResize = false
     @Binding var start: Bool
     @Binding var editLevels: Bool
 
     var body: some View {
         ZStack {
             VStack {
-                LevelDesignerCanvasView(keyboardResponder: keyboardResponder)
+                LevelDesignerCanvasView(keyboardResponder: keyboardResponder, isResize: $isResize)
                 PegsRowView(keyboardResponder: keyboardResponder)
                 ButtonsRowView(load: $load,
                                levelName: $levelName,
                                start: $start,
-                               editLevels: $editLevels)
+                               editLevels: $editLevels,
+                               isResize: $isResize)
             }
 
             if load {

@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 class Peg: PeggleObject {
+    static let pegMinRadius = 25.0
+    static let pegMaxRadius = 50.0
     var color: PegColor
     var radius: Double
     var shadow: Color = .white
@@ -28,7 +30,9 @@ class Peg: PeggleObject {
 
     override func overlap(peggleObject: PeggleObject) -> Bool {
         if let peg = peggleObject as? Peg {
-            return distanceSquared(peg: peg) < self.radius * 2 * self.radius * 2
+            print("self.radius \(self.radius)")
+            print("peg.radius \(peg.radius)")
+            return distanceSquared(peg: peg) <= (self.radius + peg.radius) * (self.radius + peg.radius)
         } else if let triangle = peggleObject as? TriangleBlock {
             return triangle.overlap(peggleObject: self)
         } else {
@@ -53,6 +57,24 @@ class Peg: PeggleObject {
 
     override func copy() -> Peg {
         Peg(color: self.color, center: self.center, radius: self.radius)
+    }
+
+//    override func scale(_ scale: Double) {
+//        self.radius = radius + 50// radius * (1 + scale)
+//    }
+    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
+        var distance = center.distanceFrom(point: location)
+        if distance < Peg.pegMinRadius {
+            distance = Peg.pegMinRadius
+        } else if distance > Peg.pegMaxRadius {
+            distance = Peg.pegMaxRadius
+        }
+        for peggleObject in peggleObjects where peggleObject.id != self.id {
+            if peggleObject.overlap(peggleObject: Peg(color: self.color, center: self.center, radius: distance)) {
+                return
+            }
+        }
+        self.radius = distance
     }
 
     // TODO: refactor into own cannonball class

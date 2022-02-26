@@ -14,6 +14,7 @@ struct ButtonsRowView: View {
     @Binding var levelName: String
     @Binding var start: Bool
     @Binding var editLevels: Bool
+    @Binding var isResize: Bool
 
     var body: some View {
         HStack {
@@ -32,6 +33,12 @@ struct ButtonsRowView: View {
                 levelManager.deleteAll()
             }
             .foregroundColor(.blue)
+
+            Button("RESIZE") {
+                self.isResize.toggle()
+            }
+            .foregroundColor(.blue)
+            .background(isResize ? .pink : .white)
 
             TextField(
                 "Level Name",
@@ -58,6 +65,7 @@ struct ButtonsRow_Previews: PreviewProvider {
         ButtonsRowView(load: .constant(true),
                        levelName: .constant(""),
                        start: .constant(false),
-                       editLevels: .constant(true))
+                       editLevels: .constant(true),
+                       isResize: .constant(false))
     }
 }

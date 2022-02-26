@@ -65,6 +65,17 @@ struct Level: Identifiable {
             }
         }
     }
+
+//    func scale(peggleObject: PeggleObject, scale: Double) {
+//        for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
+//            peggleObj.scale(scale)
+//        }
+//    }
+    func resizeObject(peggleObject: PeggleObject, location: Point) {
+        for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
+            peggleObj.resizeObject(location: location, peggleObjects: peggleObjects)
+        }
+    }
 }
 
 extension Level: Equatable {
