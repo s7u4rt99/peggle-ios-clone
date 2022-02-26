@@ -29,6 +29,12 @@ struct LevelDesignerView: View {
                                gameEngineManager: gameEngineManager)
             }
 
+            Button("Exit") {
+                gameState = GameState.menu
+            }
+            .foregroundColor(.black)
+            .position(x: 50, y: 35)
+
             if load {
                 GeometryReader { geometry in
                     LevelSelectorView(allLevelsManager: allLevelsManager,

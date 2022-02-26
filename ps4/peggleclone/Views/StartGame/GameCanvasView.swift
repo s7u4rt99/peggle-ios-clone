@@ -70,6 +70,13 @@ struct GameCanvasView: View {
                 .rotationEffect(.radians(rotation))
                 .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
 
+            Button("Exit") {
+                gameState = GameState.menu
+                goToHome()
+            }
+            .foregroundColor(.black)
+            .position(x: 50, y: 35)
+
             if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,
@@ -97,7 +104,6 @@ struct GameCanvasView: View {
 
     private func goToHome() {
         gameState = GameState.menu
-        // TODO: clean up the engines
         gameEngineManager.gameEnd()
         levelManager.changeLevel(level: allLevelsManager.getLevelById(levelManager.level.id))
     }
