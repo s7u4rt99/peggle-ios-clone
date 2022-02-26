@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct PeggleHomeView: View {
-    @Binding var start: Bool
-    @Binding var editLevels: Bool
+    @Binding var gameState: GameState
 
     var body: some View {
         BackgroundView()
@@ -17,7 +16,7 @@ struct PeggleHomeView: View {
             Text("Peggle Clone").font(.system(size: 50))
 
             Button {
-                start.toggle()
+                gameState = GameState.startFromMenu
             } label: {
                 Text("Start")
                     .foregroundColor(.white)
@@ -26,7 +25,7 @@ struct PeggleHomeView: View {
             }
 
             Button {
-                editLevels.toggle()
+                gameState = GameState.levelDesigner
             } label: {
                 Text("Edit Levels")
                     .foregroundColor(.white)
@@ -39,6 +38,6 @@ struct PeggleHomeView: View {
 
 struct PeggleHome_Previews: PreviewProvider {
     static var previews: some View {
-        PeggleHomeView(start: .constant(false), editLevels: .constant(false))
+        PeggleHomeView(gameState: .constant(GameState.menu))
     }
 }

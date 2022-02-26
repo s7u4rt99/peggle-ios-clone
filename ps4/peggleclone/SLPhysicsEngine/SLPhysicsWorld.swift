@@ -153,4 +153,9 @@ class SLPhysicsWorld {
     func addCannonBall(cannonBall: SLPhysicsCircle) {
         self.physicsBodies.append(cannonBall)
     }
+
+    func removeBodies() {
+        physicsBodies = []
+        collisions = []
+    }
 }

@@ -53,7 +53,7 @@ class KaboomPeg: Peg {
             color = .greenGlow
         } else if color != .greenGlow {
             explosionState += 1
-            guard let newColor = PegColor(rawValue: "explosion-\(explosionState)") else {
+            guard let newColor = PegState(rawValue: "explosion-\(explosionState)") else {
                 color = .greenGlow
                 return
             }

@@ -9,13 +9,13 @@ import SwiftUI
 
 struct LevelDesignerView: View {
     @EnvironmentObject var allLevelsManager: AllLevelsManager
-    @StateObject var levelManager: LevelManager
+    @EnvironmentObject var levelManager: LevelManager
     @StateObject var keyboardResponder = KeyboardResponder()
     @State var levelName: String
     @State private var load = true
     @State var isResize = false
-    @Binding var start: Bool
-    @Binding var editLevels: Bool
+    @Binding var gameState: GameState
+    @ObservedObject var gameEngineManager: GameEngineManager
 
     var body: some View {
         ZStack {
@@ -24,9 +24,9 @@ struct LevelDesignerView: View {
                 PegsRowView(keyboardResponder: keyboardResponder)
                 ButtonsRowView(load: $load,
                                levelName: $levelName,
-                               start: $start,
-                               editLevels: $editLevels,
-                               isResize: $isResize)
+                               gameState: $gameState,
+                               isResize: $isResize,
+                               gameEngineManager: gameEngineManager)
             }
 
             if load {
@@ -53,9 +53,8 @@ struct LevelDesignerView: View {
 
 struct LevelDesigner_Previews: PreviewProvider {
     static var previews: some View {
-        LevelDesignerView(levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
-                          levelName: "default",
-                          start: .constant(false),
-                          editLevels: .constant(true))
+        LevelDesignerView(levelName: "default",
+                          gameState: .constant(GameState.levelDesigner),
+                          gameEngineManager: GameEngineManager(canvasDimension: .infinite))
     }
 }

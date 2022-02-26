@@ -10,8 +10,8 @@ import SwiftUI
 struct LevelLoaderView: View {
     @ObservedObject var allLevelsManager: AllLevelsManager
     @ObservedObject var levelManager: LevelManager
-    @Binding var load: Bool
-    var gameEngineManager: GameEngineManager
+    @ObservedObject var gameEngineManager: GameEngineManager
+    @Binding var gameState: GameState
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -21,11 +21,15 @@ struct LevelLoaderView: View {
             ForEach(allLevelsManager.levels) { level in
                 Button() {
                     levelManager.changeLevel(level: level)
-                    load = false
+                    gameState = .startFromLevelDesigner
                     gameEngineManager.loadLevel(levelManager: levelManager)
                     gameEngineManager.start()
                 } label: {
-                    Text(level.name).foregroundColor(.red).padding()
+                    if levelManager.level == level {
+                        Text(level.name).foregroundColor(.orange).padding()
+                    } else {
+                        Text(level.name).foregroundColor(.red).padding()
+                    }
                 }
             }
         }.padding()
@@ -37,8 +41,9 @@ struct LevelLoaderView: View {
 struct LevelLoaderView_Previews: PreviewProvider {
     static var previews: some View {
         LevelLoaderView(allLevelsManager: AllLevelsManager(),
-                        levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
-                        load: .constant(true),
-                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
+                        levelManager: LevelManager(level: Level(name: "default", peggleObjects: []),
+                                                   canvasDimension: .zero),
+                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()),
+                        gameState: .constant(GameState.startFromMenu))
     }
 }

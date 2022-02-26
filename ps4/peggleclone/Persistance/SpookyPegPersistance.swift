@@ -23,7 +23,7 @@ class SpookyPegPersitance: PegPersistance {
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let color = try container.decode(PegColor.self, forKey: .color)
+        let color = try container.decode(PegState.self, forKey: .color)
         let radius = try container.decode(Double.self, forKey: .radius)
         let id = try container.decode(UUID.self, forKey: .id)
         let center = try container.decode(PointPersistance.self, forKey: .center)

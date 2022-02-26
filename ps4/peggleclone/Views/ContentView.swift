@@ -8,33 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
-
-    @StateObject var allLevelsManager = AllLevelsManager()
+    @EnvironmentObject var allLevelsManager: AllLevelsManager
+    @StateObject var levelManager: LevelManager
     @StateObject var keyboardResponder = KeyboardResponder()
-    @State var start = false
-    @State var editLevels = false
+    @State var gameState = GameState.menu
+    @State var gameEngineManager: GameEngineManager
 
     var body: some View {
-        let levelManager = allLevelsManager.initialiseLevelManager()
         GeometryReader { geometry in
             ZStack {
-                if !start && !editLevels {
-                    PeggleHomeView(start: $start, editLevels: $editLevels)
+                if gameState == GameState.menu {
+                    PeggleHomeView(gameState: $gameState)
                 }
 
-                if editLevels {
-                    LevelDesignerView(levelManager: levelManager,
-                                      levelName: levelManager.level.name,
-                                      start: $start,
-                                      editLevels: $editLevels)
-                        .environmentObject(allLevelsManager)
+                if gameState == GameState.levelDesigner {
+                    LevelDesignerView(levelName: levelManager.level.name,
+                                      gameState: $gameState,
+                                      gameEngineManager: gameEngineManager)
+                        .environmentObject(levelManager)
                 }
 
-                if start {
-                    GameCanvasView(levelManager: levelManager,
-                                   start: $start,
-                                   gameEngineManager: GameEngineManager(canvasDimension: geometry.frame(in: .global)))
-                        .environmentObject(allLevelsManager)
+                if gameState == GameState.startFromMenu ||
+                    gameState == GameState.startFromLevelDesigner {
+                    GameCanvasView(gameState: $gameState,
+                                   gameEngineManager: gameEngineManager)
+                        .environmentObject(levelManager)
                 }
             }
         }
@@ -43,6 +41,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(allLevelsManager: AllLevelsManager())
+        ContentView(levelManager: LevelManager(),
+                    gameEngineManager: GameEngineManager(canvasDimension: .infinite))
     }
 }

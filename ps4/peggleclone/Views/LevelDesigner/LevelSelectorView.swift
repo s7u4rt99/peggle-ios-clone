@@ -24,8 +24,13 @@ struct LevelSelectorView: View {
                 Button() {
                     levelManager.changeLevel(level: level)
                     levelName = levelManager.level.name
+                    load.toggle()
                 } label: {
-                    Text(level.name).foregroundColor(.red).padding()
+                    if levelManager.level == level {
+                        Text(level.name).foregroundColor(.orange).padding()
+                    } else {
+                        Text(level.name).foregroundColor(.red).padding()
+                    }
                 }
             }
 
@@ -46,8 +51,9 @@ struct LevelSelectorView: View {
 struct LevelSelector_Previews: PreviewProvider {
     static var previews: some View {
         LevelSelectorView(allLevelsManager: AllLevelsManager(),
-                          levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
-                      load: .constant(true),
-                      levelName: .constant("default"))
+                          levelManager: LevelManager(level: Level(name: "default", peggleObjects: []),
+                                                     canvasDimension: .zero),
+                          load: .constant(true),
+                          levelName: .constant("default"))
     }
 }

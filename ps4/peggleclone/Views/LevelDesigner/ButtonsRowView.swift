@@ -12,9 +12,9 @@ struct ButtonsRowView: View {
     @EnvironmentObject var levelManager: LevelManager
     @Binding var load: Bool
     @Binding var levelName: String
-    @Binding var start: Bool
-    @Binding var editLevels: Bool
+    @Binding var gameState: GameState
     @Binding var isResize: Bool
+    @ObservedObject var gameEngineManager: GameEngineManager
 
     var body: some View {
         HStack {
@@ -37,8 +37,7 @@ struct ButtonsRowView: View {
             Button("RESIZE") {
                 self.isResize.toggle()
             }
-            .foregroundColor(.blue)
-            .background(isResize ? .pink : .white)
+            .foregroundColor(isResize ? .orange: .blue)
 
             TextField(
                 "Level Name",
@@ -48,8 +47,9 @@ struct ButtonsRowView: View {
             .padding()
 
             Button("START") {
-                start = true
-                editLevels = false
+                gameEngineManager.loadLevel(levelManager: levelManager)
+                gameEngineManager.start()
+                gameState = GameState.startFromLevelDesigner
             }
             .foregroundColor(.blue)
             .padding(.trailing)
@@ -64,8 +64,8 @@ struct ButtonsRow_Previews: PreviewProvider {
     static var previews: some View {
         ButtonsRowView(load: .constant(true),
                        levelName: .constant(""),
-                       start: .constant(false),
-                       editLevels: .constant(true),
-                       isResize: .constant(false))
+                       gameState: .constant(GameState.levelDesigner),
+                       isResize: .constant(false),
+                       gameEngineManager: GameEngineManager(canvasDimension: .infinite))
     }
 }

@@ -9,11 +9,10 @@ import SwiftUI
 
 struct GameCanvasView: View {
     @EnvironmentObject var allLevelsManager: AllLevelsManager
-    @StateObject var levelManager: LevelManager
-    @Binding var start: Bool
-    @State private var load = true
+    @EnvironmentObject var levelManager: LevelManager
+    @Binding var gameState: GameState
     @State private var rotation = 0.0
-    var gameEngineManager: GameEngineManager
+    @ObservedObject var gameEngineManager: GameEngineManager
 
     func buildView(peggleObject: PeggleObject) -> AnyView {
         if let peg = peggleObject as? Peg {
@@ -71,12 +70,12 @@ struct GameCanvasView: View {
                 .rotationEffect(.radians(rotation))
                 .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
 
-            if load {
+            if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,
                                     levelManager: levelManager,
-                                    load: $load,
-                                    gameEngineManager: gameEngineManager)
+                                    gameEngineManager: gameEngineManager,
+                                    gameState: $gameState)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)
@@ -97,8 +96,10 @@ struct GameCanvasView: View {
     }
 
     private func goToHome() {
-        start = false
+        gameState = GameState.menu
         // TODO: clean up the engines
+        gameEngineManager.gameEnd()
+        levelManager.changeLevel(level: allLevelsManager.getLevelById(levelManager.level.id))
     }
 
     private func toCGPoint(point: Point) -> CGPoint {
@@ -148,8 +149,7 @@ struct GameCanvasView: View {
 
 struct GameCanvasView_Previews: PreviewProvider {
     static var previews: some View {
-        GameCanvasView(levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
-                       start: .constant(true),
+        GameCanvasView(gameState: .constant(GameState.startFromMenu),
                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }
 }

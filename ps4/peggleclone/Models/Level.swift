@@ -18,6 +18,12 @@ struct Level: Identifiable {
         self.peggleObjects = peggleObjects
     }
 
+    init() {
+        self.id = UUID()
+        self.name = "empty"
+        self.peggleObjects = []
+    }
+
     init(id: UUID, name: String, peggleObjects: [PeggleObject]) {
         self.id = id
         self.name = name
@@ -80,7 +86,6 @@ struct Level: Identifiable {
 
 extension Level: Equatable {
     static func == (lhs: Level, rhs: Level) -> Bool {
-        let isEqual = lhs.id == rhs.id && lhs.name == rhs.name && lhs.peggleObjects == rhs.peggleObjects
-        return isEqual
+        lhs.id == rhs.id && lhs.name == rhs.name
     }
 }

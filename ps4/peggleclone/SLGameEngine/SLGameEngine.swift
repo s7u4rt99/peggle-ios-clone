@@ -45,7 +45,7 @@ class SLGameEngine {
                 let physicsBody = SLPhysicsCircle(position: peg.center, isDynamic: false, radius: peg.radius)
                 physicsObjects.append(physicsBody)
                 mappings[peg] = physicsBody
-                if peg.color == PegColor.orangePeg {
+                if peg.color == PegState.orangePeg {
                     numOfOrangePegs += 1
                 }
             } else if let triangle = peggleObject as? TriangleBlock {
@@ -65,7 +65,12 @@ class SLGameEngine {
         mappings[bucket] = bucketPhysicsBody
         physicsObjects.append(bucketPhysicsBody)
         physicsEngine.load(physicsBodies: physicsObjects, canvasDimensions: canvasDimensions)
+        print(level.peggleObjects)
         addCannonBall()
+        guard let cannonBall = cannonBall else {
+            return
+        }
+        print(cannonBall)
         if numOfOrangePegs == 0 {
             gameLogicDelegate.gameWin()
         }
@@ -76,9 +81,13 @@ class SLGameEngine {
             return
         }
         let middleOfTopScreen = CGPoint(x: 400, y: 50)
-        let cannonBall = Peg(color: PegColor.cannonPeg, center: toPoint(point: middleOfTopScreen))
+        let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
-
+        guard let cannonBallCheck = self.cannonBall else {
+            print("failed to add")
+            return
+        }
+        print("cannon ball added \(cannonBallCheck)")
         gameLogicDelegate.didAddCannonBall(cannonBall: cannonBall)
         self.mostRecentPosition = cannonBall.center
     }
@@ -262,14 +271,18 @@ class SLGameEngine {
     }
 
     func fireCannonBall(directionOf: Point) {
+        print("fire cannon ball")
         guard let cannonBall = cannonBall else {
+            print("no cannon ball")
             return
         }
 
         if mappings[cannonBall] != nil {
+            print("no cannon ball mapping")
             return
         }
 
+        print("fired cannon ball")
         self.numOfCannonBallsLeft -= 1
         print(numOfCannonBallsLeft)
         var modifiedDirection = directionOf
@@ -286,5 +299,17 @@ class SLGameEngine {
                                                 radius: cannonBall.radius)
         mappings[cannonBall] = cannonBallPhysics
         physicsEngine.addCannonBall(cannonBall: cannonBallPhysics)
+    }
+
+    func gameEnd() {
+        physicsEngine.removeBodies()
+        mappings = [:]
+        cannonBall = nil
+        similarPositionCounter = 0
+        mostRecentPosition = nil
+        bucket = nil
+        numOfCannonBallsLeft = 0
+        numOfOrangePegs = 0
+        cannonBallInBucket = false
     }
 }
