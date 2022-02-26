@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PegView: View {
     @Binding var location: CGPoint
-    var pegType: PegColor
+    var pegType: PegState
     var pegRadius: Double
     var pegShadow: Color
     var pegShadowRadius: Double
@@ -25,7 +25,7 @@ struct PegView: View {
 
 struct Peg_Previews: PreviewProvider {
     static var previews: some View {
-        PegView(location: .constant(CGPoint(x: 100, y: 100)), pegType: PegColor.orangePeg,
+        PegView(location: .constant(CGPoint(x: 100, y: 100)), pegType: PegState.orangePeg,
                 pegRadius: 25, pegShadow: .white, pegShadowRadius: 0.0)
     }
 }

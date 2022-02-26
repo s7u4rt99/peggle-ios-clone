@@ -134,18 +134,6 @@ struct LevelDesignerCanvasView: View {
                                 }
                             }
                     )
-//                    .gesture(MagnificationGesture().onChanged { val in
-////                                let delta = val / self.lastScaleValue
-////                                self.lastScaleValue = val
-////                                let newScale = self.scale * delta
-//                        print("hello")
-//                        print(val)
-////                        levelManager.scale(peggleObject: triangle, scale: val)
-//                    //... anything else e.g. clamping the newScale
-//                    }.onEnded { val in
-//                      // without this the next gesture will be broken
-//                      self.lastScaleValue = 1.0
-//                    })
 
                 ForEach(levelManager.level.peggleObjects) { peggleObject in
                     buildView(peggleObject: peggleObject, canvasDimensions: canvasDimensions)

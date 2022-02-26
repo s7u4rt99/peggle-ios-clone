@@ -19,15 +19,18 @@ class SLPhysicsBucket: SLPhysicsBody {
     var width: Double
     var hasCollided: Bool = false
     var canIgnore: Bool = false
+    var previousPosition: Point
 
     init(position: Point, height: Double, width: Double) {
         self.position = position
         self.height = height
         self.width = width
+        self.previousPosition = position
     }
 
     func moveTo(position: Point) {
         self.position = position
+        self.previousPosition = position
     }
 
     func setVelocity(newVelocity: Vector) {

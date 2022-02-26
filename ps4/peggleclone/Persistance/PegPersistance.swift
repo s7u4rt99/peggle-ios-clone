@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class PegPersistance: PeggleObjectPersistance {
-    var color: PegColor
+    var color: PegState
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
@@ -20,7 +20,7 @@ class PegPersistance: PeggleObjectPersistance {
         super.init(peg)
     }
 
-    init(id: UUID, center: PointPersistance, color: PegColor, radius: Double) {
+    init(id: UUID, center: PointPersistance, color: PegState, radius: Double) {
         self.color = color
         self.radius = radius
         super.init(id: id, center: center)
@@ -35,7 +35,7 @@ class PegPersistance: PeggleObjectPersistance {
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.color = try container.decode(PegColor.self, forKey: .color)
+        self.color = try container.decode(PegState.self, forKey: .color)
         self.radius = try container.decode(Double.self, forKey: .radius)
         self.shadow = .white
         self.shadowRadius = 0.0

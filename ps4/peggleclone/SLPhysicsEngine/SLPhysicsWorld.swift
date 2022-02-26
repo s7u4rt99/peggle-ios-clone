@@ -129,28 +129,40 @@ class SLPhysicsWorld {
             let secondBody = collision.secondBody
             if firstBody.intersectWith(physicsBody: secondBody) {
                 // translate them
-                let intersectAmount = getCircleIntersectAmount(firstBody, secondBody)
-                // move the dynamic one only
-                if firstBody.isDynamic {
-                    // move back by intersect amount
-                    firstBody.moveBackBy(distance: intersectAmount)
+                if let firstCircle = firstBody as? SLPhysicsCircle,
+                   let secondCircle = secondBody as? SLPhysicsCircle {
+                let intersectAmount = getCircleIntersectAmount(firstCircle, secondCircle)
+                    // move the dynamic one only
+                    if firstCircle.isDynamic {
+                        firstCircle.moveBackBy(distance: intersectAmount)
+                    } else if secondCircle.isDynamic {
+                        secondCircle.moveBackBy(distance: intersectAmount)
+                    }
                 } else {
-                    // move back by intersect amount
-                    secondBody.moveBackBy(distance: intersectAmount)
+                    if firstBody.isDynamic {
+                        firstBody.moveTo(position: firstBody.previousPosition)
+                    } else {
+                        secondBody.moveTo(position: secondBody.previousPosition)
+                    }
                 }
             }
         }
     }
 
-    private func getCircleIntersectAmount(_ firstBody: SLPhysicsBody, _ secondBody: SLPhysicsBody) -> Double {
+    private func getCircleIntersectAmount(_ firstBody: SLPhysicsCircle, _ secondBody: SLPhysicsCircle) -> Double {
         let xDistance = firstBody.position.xCoordinate - secondBody.position.xCoordinate
         let yDistance = firstBody.position.yCoordinate - secondBody.position.yCoordinate
-        let closestRange = firstBody.width / 2 + secondBody.width / 2
+        let closestRange = firstBody.radius + secondBody.radius
 
         return closestRange - sqrt((xDistance * xDistance + yDistance * yDistance))
     }
 
     func addCannonBall(cannonBall: SLPhysicsCircle) {
         self.physicsBodies.append(cannonBall)
+    }
+
+    func removeBodies() {
+        physicsBodies = []
+        collisions = []
     }
 }

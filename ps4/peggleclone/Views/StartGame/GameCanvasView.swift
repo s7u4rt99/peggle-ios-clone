@@ -9,11 +9,10 @@ import SwiftUI
 
 struct GameCanvasView: View {
     @EnvironmentObject var allLevelsManager: AllLevelsManager
-    @StateObject var levelManager: LevelManager
-    @Binding var start: Bool
-    @State private var load = true
+    @EnvironmentObject var levelManager: LevelManager
+    @Binding var gameState: GameState
     @State private var rotation = 0.0
-    var gameEngineManager: GameEngineManager
+    @ObservedObject var gameEngineManager: GameEngineManager
 
     func buildView(peggleObject: PeggleObject) -> AnyView {
         if let peg = peggleObject as? Peg {
@@ -71,12 +70,23 @@ struct GameCanvasView: View {
                 .rotationEffect(.radians(rotation))
                 .position(x: CannonView.positionOfCannon.xCoordinate, y: CannonView.positionOfCannon.yCoordinate)
 
-            if load {
+            Button("Exit") {
+                gameState = GameState.menu
+                goToHome()
+            }
+            .foregroundColor(.black)
+            .position(x: 50, y: 35)
+
+            PointsView()
+
+            RemainingPegsView()
+
+            if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,
                                     levelManager: levelManager,
-                                    load: $load,
-                                    gameEngineManager: gameEngineManager)
+                                    gameEngineManager: gameEngineManager,
+                                    gameState: $gameState)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)
@@ -84,12 +94,14 @@ struct GameCanvasView: View {
                 )
             }
         }
-        .alert("Congratulations, you completed the level", isPresented: .constant(levelManager.isGameWon)) {
+        .alert("Congratulations, you completed the level! You earned \(levelManager.points) points!",
+               isPresented: .constant(levelManager.isGameWon)) {
             Button("Home") {
                 goToHome()
             }
         }
-        .alert("You lose, you ran out of cannon balls :(", isPresented: .constant(levelManager.isGameLost)) {
+        .alert("You lose, you ran out of cannon balls :( You earned \(levelManager.points) points!",
+               isPresented: .constant(levelManager.isGameLost)) {
             Button("Home") {
                 goToHome()
             }
@@ -97,8 +109,9 @@ struct GameCanvasView: View {
     }
 
     private func goToHome() {
-        start = false
-        // TODO: clean up the engines
+        gameState = GameState.menu
+        gameEngineManager.gameEnd()
+        levelManager.changeLevel(level: allLevelsManager.getLevelById(levelManager.level.id))
     }
 
     private func toCGPoint(point: Point) -> CGPoint {
@@ -148,8 +161,7 @@ struct GameCanvasView: View {
 
 struct GameCanvasView_Previews: PreviewProvider {
     static var previews: some View {
-        GameCanvasView(levelManager: LevelManager(level: Level(name: "default", peggleObjects: [])),
-                       start: .constant(true),
+        GameCanvasView(gameState: .constant(GameState.startFromMenu),
                        gameEngineManager: GameEngineManager(canvasDimension: CGRect()))
     }
 }

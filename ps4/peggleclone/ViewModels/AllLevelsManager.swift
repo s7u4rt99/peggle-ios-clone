@@ -34,10 +34,17 @@ class AllLevelsManager: ObservableObject {
         saveToFile()
     }
 
-    func initialiseLevelManager() -> LevelManager {
+    func initialiseLevelManager(canvasDimension: CGRect) -> LevelManager {
         if levels.isEmpty {
-            return LevelManager(level: createNewLevel())
+            return LevelManager(level: createNewLevel(), canvasDimension: canvasDimension)
         }
-        return LevelManager(level: levels[0])
+        return LevelManager(level: levels[0], canvasDimension: canvasDimension)
+    }
+
+    func getLevelById(_ id: UUID) -> Level {
+        for level in levels where level.id == id {
+            return level
+        }
+        return levels[0]
     }
 }

@@ -21,6 +21,7 @@ class SLPhysicsCircle: SLPhysicsBody {
     var radius: Double
     var hasCollided = false
     var canIgnore = false
+    var previousPosition: Point
 
     init(velocity: Vector,
          position: Point,
@@ -35,6 +36,7 @@ class SLPhysicsCircle: SLPhysicsBody {
         self.mass = Double.pi * radius * radius
         self.height = radius * 2
         self.width = radius * 2
+        self.previousPosition = position
     }
 
     init(position: Point, isDynamic: Bool, radius: Double) {
@@ -46,9 +48,11 @@ class SLPhysicsCircle: SLPhysicsBody {
         self.mass = Double.pi * radius * radius
         self.height = radius * 2
         self.width = radius * 2
+        self.previousPosition = position
     }
 
     func moveTo(position: Point) {
+        self.previousPosition = position
         self.position = position
     }
 
@@ -61,8 +65,10 @@ class SLPhysicsCircle: SLPhysicsBody {
             return isColliding(collidingCircle: collidingCircle)
         } else if let collidingBucket = physicsBody as? SLPhysicsBucket {
             return collidingBucket.intersectWith(physicsBody: self)
+        } else if let collidingTriangle = physicsBody as? SLPhysicsTriangle {
+            return collidingTriangle.intersectWith(physicsBody: self)
         }
-        fatalError("Argument is not a circle or bucket")
+        fatalError("Argument is not a circle, bucket or triangle")
     }
 
     private func isColliding(collidingCircle: SLPhysicsCircle) -> Bool {
@@ -114,5 +120,9 @@ class SLPhysicsCircle: SLPhysicsBody {
 
     func addForceToVelocity(force: Vector) {
         setVelocity(newVelocity: force.addTo(vector: self.velocity))
+    }
+
+    func containsPoint(_ point: Point) -> Bool {
+        point.distanceFrom(point: position) <= radius
     }
 }

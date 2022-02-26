@@ -11,20 +11,31 @@ import SwiftUI
 class Peg: PeggleObject {
     static let pegMinRadius = 25.0
     static let pegMaxRadius = 50.0
-    var color: PegColor
+    var color: PegState
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
+    var points: Int
 
-    init(color: PegColor, center: Point, radius: Double = 25) {
+    init(color: PegState, center: Point, radius: Double = 25) {
         self.color = color
         self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
         super.init(center: center)
     }
 
-    init(id: UUID, center: Point, color: PegColor, radius: Double = 25) {
+    init(id: UUID, center: Point, color: PegState, radius: Double = 25) {
         self.color = color
         self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
         super.init(id: id, center: center)
     }
 
@@ -48,10 +59,10 @@ class Peg: PeggleObject {
     }
 
     func glow() {
-        if color == PegColor.bluePeg {
-            self.color = PegColor.blueGlow
-        } else if color == PegColor.orangePeg {
-            self.color = PegColor.orangeGlow
+        if color == PegState.bluePeg {
+            self.color = PegState.blueGlow
+        } else if color == PegState.orangePeg {
+            self.color = PegState.orangeGlow
         }
     }
 

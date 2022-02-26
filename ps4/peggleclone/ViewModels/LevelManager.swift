@@ -9,17 +9,29 @@ import Foundation
 import SwiftUI
 
 class LevelManager: ObservableObject, Identifiable {
-
     @Published var level: Level
     @Published var isGameWon: Bool
     @Published var isGameLost: Bool
-    @Published var bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
-    var selectedPeg: PegColor?
+    @Published var bucket: Bucket
+    @Published var points: Int = 0
+    var selectedPeg: PegState?
     var isDeleteSelected = false
     var isTriangleBlockSelected = false
+    var canvasDimension: CGRect
 
-    init(level: Level) {
+    init() {
+        self.level = Level()
+        self.isGameWon = true
+        self.isGameLost = false
+        self.canvasDimension = .zero
+        self.bucket = Bucket(size: 150, center: Point(xCoordinate: 400, yCoordinate: 1160))
+    }
+
+    init(level: Level, canvasDimension: CGRect) {
         self.level = level
+        self.canvasDimension = canvasDimension
+        self.bucket = Bucket(size: 150, center: Point(xCoordinate: canvasDimension.width / 2,
+                                                      yCoordinate: canvasDimension.height))
         self.isGameWon = level.peggleObjects.isEmpty
         self.isGameLost = false
         copyPegs()
@@ -41,7 +53,7 @@ class LevelManager: ObservableObject, Identifiable {
         level.removeAllPeggleObjects()
     }
 
-    func select(peg: PegColor) {
+    func select(peg: PegState) {
         selectedPeg = peg
         unselectDelete()
         unselectTriangle()
@@ -135,7 +147,8 @@ class LevelManager: ObservableObject, Identifiable {
                 return false
             }
 
-            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y), base: triangle.base,
+            peggleObj = TriangleBlock(center: Point(xCoordinate: location.x, yCoordinate: location.y),
+                                      base: triangle.base,
                                       height: triangle.height)
         }
 

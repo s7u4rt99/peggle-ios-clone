@@ -1,5 +1,5 @@
 //
-//  PegColor.swift
+//  PegState.swift
 //  peggleclone
 //
 //  Created by Stuart Long on 11/2/22.
@@ -7,20 +7,18 @@
 
 import Foundation
 
-enum PegColor: String, Codable {
+enum PegState: String, Codable {
     case orangePeg = "peg-orange"
     case orangeGlow = "peg-orange-glow"
     case bluePeg = "peg-blue"
     case blueGlow = "peg-blue-glow"
     case cannonPeg = "ball"
 
-    // TODO: check this
     case spookyPeg = "peg-green-spooky"
     case kaboomPeg = "peg-green-kaboom"
     case greenGlow = "peg-green-glow"
     case greenPeg = "peg-green"
 
-    // TODO: figure this out
     case explosion1 = "explosion-1"
     case explosion2 = "explosion-2"
     case explosion3 = "explosion-3"

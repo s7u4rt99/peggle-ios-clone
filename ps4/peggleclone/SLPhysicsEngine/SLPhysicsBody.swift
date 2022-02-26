@@ -20,6 +20,7 @@ protocol SLPhysicsBody {
     var width: Double { get set }
     var hasCollided: Bool { get set }
     var canIgnore: Bool { get set }
+    var previousPosition: Point { get set }
 
     func moveTo(position: Point)
 
