@@ -71,13 +71,6 @@ struct GameCanvasView: View {
                 .position(x: gameEngineManager.positionOfCannon.xCoordinate,
                           y: gameEngineManager.positionOfCannon.yCoordinate)
 
-            Button("Exit") {
-                gameState = GameState.menu
-                goToHome()
-            }
-            .foregroundColor(.black)
-            .position(x: 50, y: 35)
-
             PointsView(gameEngineManager: gameEngineManager)
 
             RemainingPegsView()
@@ -98,6 +91,13 @@ struct GameCanvasView: View {
                         .edgesIgnoringSafeArea(.all)
                 )
             }
+
+            Button("Exit") {
+                gameState = GameState.menu
+                goToHome()
+            }
+            .foregroundColor(gameState == GameState.startFromMenu ? .white : .black)
+            .position(x: 50, y: 35)
         }
         .alert("Congratulations, you completed the level! You earned \(gameEngineManager.points) points!",
                isPresented: .constant(gameEngineManager.isGameWon)) {

@@ -29,12 +29,6 @@ struct LevelDesignerView: View {
                                gameEngineManager: gameEngineManager)
             }
 
-            Button("Exit") {
-                gameState = GameState.menu
-            }
-            .foregroundColor(.black)
-            .position(x: 50, y: 35)
-
             NumberOfPegsView()
 
             if load {
@@ -54,6 +48,12 @@ struct LevelDesignerView: View {
                         }
                 )
             }
+
+            Button("Exit") {
+                gameState = GameState.menu
+            }
+            .foregroundColor(load ? .white: .black)
+            .position(x: 50, y: 35)
         }
         .environmentObject(levelManager)
     }
