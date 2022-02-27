@@ -84,6 +84,8 @@ struct GameCanvasView: View {
 
             CannonBallMagazineView(gameEngineManager: gameEngineManager)
 
+            TimerView(gameEngineManager: gameEngineManager)
+
             if gameState == GameState.startFromMenu {
                 GeometryReader { geometry in
                     LevelLoaderView(allLevelsManager: allLevelsManager,
@@ -109,6 +111,12 @@ struct GameCanvasView: View {
                 goToHome()
             }
         }
+       .alert("Timer's up! You lose :( You earned \(gameEngineManager.points) points!",
+              isPresented: .constant(gameEngineManager.isTimerUp && !(gameEngineManager.isGameWon || gameEngineManager.isGameLost))) {
+           Button("Home") {
+               goToHome()
+           }
+       }
     }
 
     private func goToHome() {

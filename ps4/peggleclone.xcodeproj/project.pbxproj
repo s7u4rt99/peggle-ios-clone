@@ -46,6 +46,7 @@
 		6882BA8B27CAA2C2009F3DAD /* GameLogicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA8A27CAA2C2009F3DAD /* GameLogicDelegate.swift */; };
 		6882BA8F27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA8E27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift */; };
 		6882BA9127CAA9EE009F3DAD /* CannonBallMagazineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9027CAA9EE009F3DAD /* CannonBallMagazineView.swift */; };
+		6882BA9327CB2650009F3DAD /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9227CB264F009F3DAD /* TimerView.swift */; };
 		68861F0627C92DB500D2AEF7 /* SLPhysicsTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */; };
 		689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A49FF27A2CD0D00A2E4E6 /* Level.swift */; };
 		689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */; };
@@ -107,6 +108,7 @@
 		6882BA8A27CAA2C2009F3DAD /* GameLogicDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLogicDelegate.swift; sourceTree = "<group>"; };
 		6882BA8E27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameEngineManager+GameLogicDelegate.swift"; sourceTree = "<group>"; };
 		6882BA9027CAA9EE009F3DAD /* CannonBallMagazineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonBallMagazineView.swift; sourceTree = "<group>"; };
+		6882BA9227CB264F009F3DAD /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLPhysicsTriangle.swift; sourceTree = "<group>"; };
 		689A49FF27A2CD0D00A2E4E6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLevelsManager.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 				6882BA8427CA85C0009F3DAD /* PointsView.swift */,
 				6882BA8627CA94D4009F3DAD /* RemainingPegsView.swift */,
 				6882BA9027CAA9EE009F3DAD /* CannonBallMagazineView.swift */,
+				6882BA9227CB264F009F3DAD /* TimerView.swift */,
 			);
 			path = StartGame;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				687C2B3F27B61ABF00D1BB1E /* GameEngineManager.swift in Sources */,
 				68143576279FEEDF00A16058 /* LevelManager.swift in Sources */,
 				6834AD3327C811F700F5A4E3 /* TriangleBlock.swift in Sources */,
+				6882BA9327CB2650009F3DAD /* TimerView.swift in Sources */,
 				68C1B1E2279DCCCC002DF357 /* ContentView.swift in Sources */,
 				6831831527B4FECA00732E00 /* SLGameEngine.swift in Sources */,
 				688064EB27B8FFD200EC1501 /* PeggleHomeView.swift in Sources */,

@@ -11,8 +11,10 @@ import SwiftUI
 class GameEngineManager: ObservableObject {
     @Published var isGameWon: Bool
     @Published var isGameLost: Bool
+    @Published var isTimerUp: Bool
     @Published var points: Int = 0
     @Published var cannonBallAmmo = 0
+    @Published var timer = 30.0
     private var gameEngine: SLGameEngine
     var positionOfCannon: Point
 
@@ -20,7 +22,9 @@ class GameEngineManager: ObservableObject {
         self.gameEngine = SLGameEngine(canvasDimensions: canvasDimension)
         self.isGameWon = false
         self.isGameLost = false
-        self.positionOfCannon = Point(xCoordinate: canvasDimension.width / 2, yCoordinate: 50)
+        self.isTimerUp = false
+        self.positionOfCannon = Point(xCoordinate: canvasDimension.width / 2,
+                                      yCoordinate: canvasDimension.height / 15)
     }
 
     func loadLevel(levelManager: LevelManager) {
@@ -33,6 +37,7 @@ class GameEngineManager: ObservableObject {
 
     func start() {
         gameEngine.createDisplayLink()
+        gameEngine.timerStart = true
     }
 
     func fireCannonBall(directionOf: CGPoint) {
@@ -43,6 +48,10 @@ class GameEngineManager: ObservableObject {
 
     func gameEnd() {
         gameEngine.gameEnd()
+        self.isTimerUp = false
+        self.isGameWon = false
+        self.isGameLost = false
         cannonBallAmmo = 0
+        timer = 100.0
     }
 }

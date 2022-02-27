@@ -25,6 +25,7 @@ class SLGameEngine {
     private var numOfOrangePegs: Int
     private var cannonBallInBucket = false
     private var powerUpHandler = PowerUpHandler()
+    var timerStart = false
 
     init(canvasDimensions: CGRect) {
         self.canvasDimensions = canvasDimensions
@@ -85,7 +86,8 @@ class SLGameEngine {
         guard let gameDisplayDelegate = gameDisplayDelegate else {
             return
         }
-        let middleOfTopScreen = CGPoint(x: canvasDimensions.width / 2, y: 50)
+        let middleOfTopScreen = CGPoint(x: canvasDimensions.width / 2,
+                                        y: canvasDimensions.height / 15)
         let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen))
         self.cannonBall = cannonBall
         guard let cannonBallCheck = self.cannonBall else {
@@ -108,7 +110,8 @@ class SLGameEngine {
     }
 
     @objc func start() {
-        guard let previous = previous else {
+        guard let previous = previous,
+              let gameLogicDelegate = gameLogicDelegate else {
             return
         }
 
@@ -116,6 +119,9 @@ class SLGameEngine {
         let elapsed = current.timeIntervalSince(previous)
         self.previous = current
         lag += elapsed
+        if timerStart {
+            gameLogicDelegate.moveTimer(elapsed)
+        }
 
         var numberOfCannonBalls = 1
 
@@ -128,10 +134,21 @@ class SLGameEngine {
     }
 
     func render(cannonBallCount: Int) {
+        guard let gameLogicDelegate = gameLogicDelegate else {
+            return
+        }
+
+        if gameLogicDelegate.hasTimerEnded()
+            && (numOfCannonBallsLeft > 0
+            || (numOfCannonBallsLeft == 0 && cannonBall != nil)) {
+            gameLogicDelegate.timerUp()
+            self.timerStart = false
+            return
+        }
+
         guard let gameDisplayDelegate = gameDisplayDelegate,
               let bucket = bucket,
-              let bucketPhysicsBody = mappings[bucket],
-              let gameLogicDelegate = gameLogicDelegate else {
+              let bucketPhysicsBody = mappings[bucket] else {
             return
         }
 
@@ -159,6 +176,7 @@ class SLGameEngine {
             gameDisplayDelegate.didRemove(peg: cannonBall)
             if cannonBallInBucket {
                 numOfCannonBallsLeft += 1
+                gameLogicDelegate.addCannonball()
                 cannonBallInBucket = false
             }
             addCannonBall()
@@ -189,6 +207,7 @@ class SLGameEngine {
                 gameLogicDelegate.gameWin()
             } else {
                 gameLogicDelegate.gameLose()
+                self.timerStart = false
             }
         }
     }
@@ -331,5 +350,6 @@ class SLGameEngine {
         numOfCannonBallsLeft = 0
         numOfOrangePegs = 0
         cannonBallInBucket = false
+        timerStart = false
     }
 }
