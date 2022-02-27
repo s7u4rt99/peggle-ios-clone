@@ -47,6 +47,10 @@
 		6882BA8F27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA8E27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift */; };
 		6882BA9127CAA9EE009F3DAD /* CannonBallMagazineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9027CAA9EE009F3DAD /* CannonBallMagazineView.swift */; };
 		6882BA9327CB2650009F3DAD /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9227CB264F009F3DAD /* TimerView.swift */; };
+		6882BA9527CB4293009F3DAD /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9427CB4293009F3DAD /* MusicManager.swift */; };
+		6882BA9727CB467D009F3DAD /* background-music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9627CB467D009F3DAD /* background-music.mp3 */; };
+		6882BA9A27CB483D009F3DAD /* ball-bounce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */; };
+		6882BA9C27CB490E009F3DAD /* ball-bounce.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9B27CB490E009F3DAD /* ball-bounce.wav */; };
 		68861F0627C92DB500D2AEF7 /* SLPhysicsTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */; };
 		689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A49FF27A2CD0D00A2E4E6 /* Level.swift */; };
 		689A4A0227A2CD7C00A2E4E6 /* AllLevelsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */; };
@@ -109,6 +113,10 @@
 		6882BA8E27CAA31A009F3DAD /* GameEngineManager+GameLogicDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GameEngineManager+GameLogicDelegate.swift"; sourceTree = "<group>"; };
 		6882BA9027CAA9EE009F3DAD /* CannonBallMagazineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CannonBallMagazineView.swift; sourceTree = "<group>"; };
 		6882BA9227CB264F009F3DAD /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		6882BA9427CB4293009F3DAD /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
+		6882BA9627CB467D009F3DAD /* background-music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "background-music.mp3"; sourceTree = "<group>"; };
+		6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "ball-bounce.mp3"; sourceTree = "<group>"; };
+		6882BA9B27CB490E009F3DAD /* ball-bounce.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ball-bounce.wav"; sourceTree = "<group>"; };
 		68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLPhysicsTriangle.swift; sourceTree = "<group>"; };
 		689A49FF27A2CD0D00A2E4E6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		689A4A0127A2CD7C00A2E4E6 /* AllLevelsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLevelsManager.swift; sourceTree = "<group>"; };
@@ -239,6 +247,17 @@
 			path = StartGame;
 			sourceTree = "<group>";
 		};
+		6882BA9827CB46F3009F3DAD /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				6882BA9B27CB490E009F3DAD /* ball-bounce.wav */,
+				6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */,
+				6882BA9627CB467D009F3DAD /* background-music.mp3 */,
+				6882BA9427CB4293009F3DAD /* MusicManager.swift */,
+			);
+			path = Music;
+			sourceTree = "<group>";
+		};
 		689A4A0727A47FC800A2E4E6 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +308,7 @@
 		68C1B1DE279DCCCC002DF357 /* peggleclone */ = {
 			isa = PBXGroup;
 			children = (
+				6882BA9827CB46F3009F3DAD /* Music */,
 				68B6B8CF27C540A8004CE9E2 /* Persistance */,
 				6831831327B4F8ED00732E00 /* SLGameEngine */,
 				68686A9827B371B000B97394 /* SLPhysicsEngine */,
@@ -371,9 +391,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6882BA9A27CB483D009F3DAD /* ball-bounce.mp3 in Resources */,
+				6882BA9727CB467D009F3DAD /* background-music.mp3 in Resources */,
 				68C1B1E7279DCCD3002DF357 /* Preview Assets.xcassets in Resources */,
 				68C1B1E4279DCCD3002DF357 /* Assets.xcassets in Resources */,
 				689A4A0D27A4888600A2E4E6 /* Seed.json in Resources */,
+				6882BA9C27CB490E009F3DAD /* ball-bounce.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +468,7 @@
 				68143565279EE77400A16058 /* ButtonsRowView.swift in Sources */,
 				6834AD2927C76DB300F5A4E3 /* SpookyPegPersistance.swift in Sources */,
 				68B6B8D727C558FE004CE9E2 /* PointPersistance.swift in Sources */,
+				6882BA9527CB4293009F3DAD /* MusicManager.swift in Sources */,
 				6834AD2527C762BD00F5A4E3 /* SpookyPeg.swift in Sources */,
 				6882BA8B27CAA2C2009F3DAD /* GameLogicDelegate.swift in Sources */,
 				6882BA8727CA94D4009F3DAD /* RemainingPegsView.swift in Sources */,

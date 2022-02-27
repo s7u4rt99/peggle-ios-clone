@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject var keyboardResponder = KeyboardResponder()
     @State var gameState = GameState.menu
     @State var gameEngineManager: GameEngineManager
+    var musicManager = MusicManager.shared
 
     var body: some View {
         ZStack {
@@ -33,6 +34,9 @@ struct ContentView: View {
                                gameEngineManager: gameEngineManager)
                     .environmentObject(levelManager)
             }
+        }
+        .onAppear {
+            musicManager.startBackgroundMusic()
         }
     }
 }

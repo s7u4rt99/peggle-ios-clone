@@ -47,7 +47,7 @@ extension GameEngineManager: GameLogicDelegate {
 
     func hasTimerEnded() -> Bool {
         let result = self.timer <= 0.0
-        print(result)
+//        print(result)
         return result
     }
 }

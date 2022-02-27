@@ -14,7 +14,7 @@ class GameEngineManager: ObservableObject {
     @Published var isTimerUp: Bool
     @Published var points: Int = 0
     @Published var cannonBallAmmo = 0
-    @Published var timer = 30.0
+    @Published var timer = 100.0
     private var gameEngine: SLGameEngine
     var positionOfCannon: Point
 

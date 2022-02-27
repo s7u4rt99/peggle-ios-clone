@@ -75,6 +75,7 @@ class SLPhysicsWorld {
                 let nextBody = physicsBodies[secondIndex]
                 let canIgnore = currentBody.canIgnore || nextBody.canIgnore
                 if !canIgnore && currentBody.intersectWith(physicsBody: nextBody) {
+                    MusicManager.shared.ballBounceMusic()
                     currentBody.setCollided()
                     nextBody.setCollided()
                     collisions.append(SLPhysicsCollision(firstBody: currentBody,
