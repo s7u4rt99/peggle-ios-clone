@@ -239,9 +239,304 @@ A visual representation of the number of cannon balls the user has left is displ
 
 
 ## Tests
-If you decide to write how you are going to do your tests instead of writing
-actual tests, please write in this section. If you decide to write all of your
-tests in code, please delete this section.
+## Unit Test
+
+- `Peg.swift`
+    - `init(type: PegType, center: CGPoint, radius: Double = 35)` method
+        - When passed with PegType.orangePeg, it should initialise property type to PegType.orangePeg.
+        - When passed with PegType.bluePeg, it should initialise property type to PegType.bluePeg.
+        - When passed with a CGPoint for center, it should initialise the property center to the value.
+        - When passed with a double for radius, it should initialise the property radius to the value.
+        - When passed with no value for radius, it should initialise the property radius to 35
+    - `shiftTo(location: CGPoint)` method
+        - When passed with a CGPoint for location, it should change the property center to the given value for location.
+    - `overlap(peg: Peg)` method
+        - When passed with a Peg, it should return whether both pegs overlap based on their radius.
+    - `==(lhs: Peg, rhs: Peg)` method
+        - When passed with two Pegs with the same id, type, center and radius, it should return true.
+        - When passed with two Pegs with a different id, type, center or radius, it should return false.
+    - `glow()`
+        - If it is the PegType of the object is PegType.pegBlue, it should change to PegType.blueGlow
+        - If it is the PegType of the object is PegType.pegOrange, it should change to PegType.orangeGlow
+- `Level.swift`
+    - `init(name: String, pegs: [PegObject])` method
+        - When passed in a String for name, it should initialise the property name to the value.
+        - When passed in a [PegObject] for pegs, it should initialise the property pegs to the value.
+    - `save(name: String, pegs: [PegObject])`
+        - When passed in a String for name, it should change the property name to the value.
+        - When passed in a [PegObject] for pegs, it should change the property pegs to the value.
+    - `== (lhs: Level, rhs: Level)` method
+        - When passed in two Level objects with the same id, name and pegs, it should return true.
+        - When passed in two Level objects with different id, name or pegs, it should return false.
+- `PegManager.swift`
+    - `init(level: Level)` method
+        - When passed in a Level for level, it should initialise the property level to the value, and initialise the property pegs to a copy of the pegs property of value. They should not be the same.
+    - `delete(peg: PegObject)` method
+        - When passed in a PegObject which exists in the property `pegs`, it should remove the PegObject from `pegs` , but not from the property `pegs` of the property `level`.
+        - When passed in a PegObject which does not exist in the property `pegs`, it should not remove any PegObject from `pegs` and from the property `pegs` of the property `level`.
+    - `delete(pegLocation: CGPoint)` method
+        - When passed in a CGPoint which coincides with the `center` of a PegObject in `pegs`, it should remove the PegObject from `pegs` , but not from the property `pegs` of the property `level`.
+        - When passed in a CGPoint which does not coincide with the `center` of any PegObject in `pegs`, it should not remove any PegObject from `pegs`and from the property `pegs` of the property `level`.
+    - `deleteAll()` method
+        - It should delete all the PegObject in the property `pegs`, but not from the property `pegs` of the property `level`.
+    - `select(peg: Peg.PegType)` method
+        - When passed in a Peg.PegType, it should set the property `selectedPeg` to that value and the property `isDeleteSelected` to `false`
+    - `selectDelete()` method
+        - It should set the property `isDeleteSelected` to true and the property `selectedPeg` to `nil`
+    - `addPeg(center: CGPoint, canvasDimensions: CGRect)` method
+        - When passed in a CGPoint and CGRect, it should add a PegObject with type `selectedPeg` , center with the value of type CGPoint, and the default radius size, only if it does not overlap any other PegObject in the property `pegs` and does not exceed out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should not add a PegObject with type `selectedPeg` , center with the value of type CGPoint, and the default radius size, if it overlaps with some other PegObject in the property `pegs` but does not exceed out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should not add a PegObject with type `selectedPeg` , center with the value of type CGPoint, and the default radius size, if it does not overlap with any other PegObject in the property `pegs` but exceeds out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should not add a PegObject with type `selectedPeg` , center with the value of type CGPoint, and the default radius size, if it overlaps with some other PegObject in the property `pegs` and exceeds out of the canvas with the value of type CGRect.
+    - `safeToPlacePegAt(center: CGPoint, canvasDimensions: CGRect)` method
+        - When passed in a CGPoint and CGRect, it should return true if the PegObject of with any `selectedPeg` type, center at the value of type CGPoint, and the default radius size does not overlap any other PegObject in the property `pegs` and does not exceed out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should return false if the PegObject of with any `selectedPeg` type, center at the value of type CGPoint, and the default radius size overlaps with some other PegObject in the property `pegs` but does not exceed out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should return false if the PegObject of with any `selectedPeg` type, center at the value of type CGPoint, and the default radius size does not overlap any other PegObject in the property `pegs` but exceeds out of the canvas with the value of type CGRect.
+        - When passed in a CGPoint and CGRect, it should return false if the PegObject of with any `selectedPeg` type, center at the value of type CGPoint, and the default radius size overlaps with some other PegObject in the property `pegs` and also exceeds out of the canvas with the value of type CGRect.
+    - `move(pegLocation: CGPoint, newLocation: CGPoint)` method
+        - When given a value for `pegLocation` and a value for `newLocation`, if there exists a PegObject in `pegs` with property center as `pegLocation`, it should set the property center as the value of `newLocation`.
+        - When given a value for `pegLocation` and a value for `newLocation`, if there does not exist a PegObject in `pegs` with property center as `pegLocation`, it should not set any PegObject in `pegs`'s property center as the value of `newLocation`.
+    - `save(name: String)` method
+        - When given a String for `name` that is not an empty String after trimming all whitespace (””), it should set `PegManager`'s `level` property’s `pegs` property to `PegManager` ’s `pegs` property, and change `PegManager`'s `level` property’s `name` property to the String value of `name`.
+        - When given a String for `name` that is an empty String after trimming all whitespace (””), it should set `PegManager`'s `level` property’s `pegs` property to `PegManager` ’s `pegs` property, but not change `PegManager`'s `level` property’s `name` property.
+        - When given a String for `name` with whitespace at the front and not “” after its trimmed, it should set`PegManager`'s `level` property’s `pegs` property to `PegManager` ’s `pegs` property, and change `PegManager`'s `level` property’s `name` property to the trimmed `name`.
+        - When given a String for `name` with whitespace at the back and not “” after its trimmed, it should set`PegManager`'s `level` property’s `pegs` property to `PegManager` ’s `pegs` property, and change `PegManager`'s `level` property’s `name` property to the trimmed `name`.
+    - `changeLevel(level: Level)` method
+        - When given a Level for `level`, it should set `PegManager` ’s `level` property to the value of the input `level`, and replace `PegManager` ’s `pegs` property with a copy of the input `level`'s `pegs` property.
+    - `unselectPeg()` method
+        - When called, `PegManager`'s `selectedPeg` should be assigned to nil
+    - `unselectDelete()` method
+        - When called, `isDeleteSelected` should be assigned to false
+- `LevelManager.swift`
+    - `init()` method
+        - It should initialise the `levels` property of `LevelManager` to the value read from the json file “Source.json” at the `sourceURL` of `StorageManager` , if the path to the json file exists.
+        - It should initialise the `levels` property of `LevelManager` to the value read from the json file “Seed.json” at the `seedURL` of `StorageManager` , if the json file at the path `sourceURL` of `StorageManager` does not exist.
+    - `saveToFile()` method
+        - It should save the encoded property `levels` and save into the json file “Source.json” at the `sourceURL` of `StorageManager`.
+    - `createNewLevel()` method
+        - It should create a new Level Object, with name “New Level \(levels.count + 1)” and an empty array of pegs, and append it to the `levels` property of `LevelManager`. It should return the new Level Object created.
+    - `initialisePegManager()` method
+        - It should return a PegManager with the first level of the `levels` property, if there exists at least 1 Level Object in `levels`.
+        - It should return a PegManager with a new Level of name “New Level 1” and an empty array of pegs, and append it to the `levels` property of `LevelManager`.
+- `StorageManager.swift`
+    - `loadLevels()` method
+        - It should decode the json file “Source.json” with utf8 encoding at path `sourceURL`if it exists, and return the decoded Level array.
+        - It should decode the json file “Seed.json” with utf8 encoding at path `seedURL` if the file “Source.json” at parth `sourceURL` does not exist, and return the decoded Level array.
+    - `saveLevels(levels: [Level])` method
+        - It should encode the value of `levels` with utf8 encoding and save it at the json file “Source.json” at path `sourceURL`.
+- `GameEngineManager.swift`
+    - `loadLevel(pegManager: PegManager)` method
+        - It should call the `loadLevel()` method of the `SLGameEngine` and pass in the `PegManager`
+    - `start()` method
+        - It should cause the game loop to start
+    - `fireCannonBall()` method
+        - It should call the `fireCannonBall` method of `SLGameEngine`
+- `SLGameEngine.swift`
+    - `loadLevel(pegManager: PegManager)`
+        - It should assign the pegManager to the `SLGameEngine` object
+        - It should convert the `Peg`s from the `Level` object in `pegManager` into `SLPhysicsCircle`
+        - It should load the converted `Peg`s into the `SLPhysicsEngine`
+        - It should add the cannon ball to the `SLPhysicEngine`
+        - It should create a dictionary of `Peg` to its respective `SLPhysicsCircle` object and assign it to the mappings attribute in the `SLGameEngine` class.
+    - `addCannonBall()`
+        - It should create a `Peg` object with centre at `CGPoint(x: 400, y: 50)`to represent the cannon ball, and assign it to the `cannonBall` attribute in `SLGameEngine`.
+        - It should not create a `SLPhysicsCircle` object to represent the cannonBall, and add the key value pair of `cannonBall` to its respective `SLPhysicsCircle` object into the mappings attribute.
+        - It should add the cannon ball to the `SLPhysicsEngine`
+        - It should update the `mostRecentPosition` attribute of `SLGameEngine` to the centre of the cannonBall.
+    - `isCannonBallSamePosition()`
+        - Returns true if the cannonBall is within +/- 10 pixels away from its previous x and y coordinates.
+    - `contains(arr: [SLPhysicsBody], physicsBody: SLPhysicsBody)`
+        - When given an `arr` which has a `SLPhysicsBody` with the same centre as the `physicsBody` input, it should return true
+        - When given an `arr` which does not have a `SLPhysicsBody` with the same centre as the `physicsBody` input, it should return false.
+        - When given an empty `arr`, it should return false.
+    - `fireCannonBall(directionOf: CGPoint)`
+        - When given a direction below the cannonBall, it should create a `SLPhysicsCircle` to represent the cannonBall, with velocity from the centre of the cannonBall to `directionOf` and add it to the mappings attribute.
+        - When given a direction above the cannonBall, it should create a `SLPhysicsCircle` to represent the cannonBall, with velocity from the centre of the cannonBall to `directionOf`, with `dy` of at most the `x`value of the cannonBall’s position, and add it to the mappings attribute.
+- `SLPhysicsWorld.swift`
+    - `load(physicsBodies: [SLPhysicsBody], canvasDimensions: CGRect)`
+        - It should assign `self.physicsBodies` to `physicsBodies` and `self.canvasDimensions` to `canvasDimensions`
+    - `simulatePhysics(duration: TimeInterval)`
+        - It should simulate the `physicsBodies` for a duration of `duration`, calculating their new positions, resolving collisions, as well as generating their new velocity after the specified duration.
+    - `generateNewPositions(duration: TimeInterval)`
+        - It should generate the new positions of the `physicsBodies` , if they are dynamic objects.
+        - It should remove physicsBodies if they are out of the screen, so that it does not have to manage so many `SLPhysicsBody`
+    - `generateNewPosition(physicsBody: SLPhysicsBody, duration: TimeInterval)`
+        - It should generate new position of `physicsBody`, after a duration of `duration` , following the physics formula `s = ut + 1/2(a*t*t)`. It should also update the `SLPhysicsBody` from gravity after that duration.
+    - `isOutOfScreen(physicsBody: SLPhysicsBody)`
+        - Returns true if `SLPhysicsBody` is out of the screen by more than 2 * the height of the screen.
+        - Returns false if `SLPhysicsBody` is not out of the screen.
+        - Returns false if `SLPhysicsBody` is out of the screen but not by more than 2 * the height of the screen.
+    - `getCollision()`
+        - Creates `SLPhysicsCollision` objects if there are any overlapping `SLPhysicsBody` in the `physicsBodies` attribute, sets their `isCollided` attribute to true, and adds each other to their `collisionsWith` array in the `SLPhysicsBody` to track who they collided with this tick.
+    - `resolveCollision`
+        - It should call `SLPhysicsCollision#resolve` for all `SLPhysicsCollision` in the `collisions` array.
+    - `resolveEdgeCollision()`
+        - It should resolve all the `SLPhysicsBody` if they are colliding with the edges of the screen, and shift them back into the screen.
+        - It should set the velocity of the `SLPhysicsBody` to make the ball move in the opposite direction after collision with the edges.
+    - `updateVelocityOfNodes()`
+        - It should call the `SLPhysicsBody#resolveForces` method to resolve the forces on each `SLPhysicsBody`, and calculate its new velocity
+    - `resolveOverlaps()`
+        - It should resolve any overlaps between `SLPhysicsBody` in the `physicsBodies` array in the class, and move the dynamic objects backwards so it does not have any overlap.
+    - `getCircleIntersectAmount(_ firstBody: SLPhysicsBody, _ secondBody: SLPhysicsBody)`
+        - When 2 circles are overlapping, it should return a positive amount.
+        - When 2 circles are just touching, it should return 0.
+        - When 2 circles are not intersecting, it should return a negative amount.
+    - `addCannonBall(cannonBall: SLPhysicsCircle)`
+        - It should append the cannonBall into the `physicsBodies`
+- `SLPhysicsCircle.swift`
+    - `moveTo(position: CGPoint)`
+        - It should set the position of the `SLPhysicsCircle` to the given position
+    - `setVelocity(newVelocity: CGVector)`
+        - It should set the velocity of the `SLPhysicsCircle` to the given velocity.
+    - `intersectWithCircle(circleBody: SLPhysicsBody)`
+        - When given a `SLPhysicsCircle` , it should return true if the circle intersects with the given `circleBody`
+        - When not given a `SLPhysicsCircle`, it should return a fatal error
+    - `isColliding(collidingCircle: SLPhysicsCircle)`
+        - If the circle is overlapping with the object, it should return true
+        - If the circle is not overlapping with the object, it should return false.
+    - `resolveForces`
+        - It should calculate the resultant force of all the forces acting on this `SLPhysicsCircle`, and set its velocity to the resultant velocity.
+    - `setNotDynamic()`
+        - It should set the `isDynamic` attribute to false.
+    - `setCollided()`
+        - It should set the `hasCollided` attribute to true.
+    - `ignore()`
+        - It should set the `canIgnore` attribute to true.
+    - `moveBackBy(distance: Double)`
+        - Itt should move the object back by the given distance, in the opposite direction of its velocity.
+    - `setDynamic()`
+        - It should set the `isDynamic` attribute to true.
+    - `addCollisionWith(physicsBody: SLPhysicsBody)`
+        - It should add the `physicsBody` to its `collisionsWith` array.
+    - `clearCollisionsWith()`
+        - It should remove all elements from the `collisionsWith` array.
+    - `unignore()`
+        - It should set the `canIgnore` attribute to false.
+- TriangleBlock
+    - overlap
+        - Should return true given a peggle object within the triangle
+        - should return false given a peggle object outside the triangle
+        - should return true given a peggle object on the edges of the triangle
+        - should return true given a peggle object on the vertices of the triangle
+    - shiftTo
+        - should shift the triangle to the new position, and calculate the new position of all 3 of its vertices
+    - ResizeObject
+        - If new size is within the acceptable range, should resize the triangle
+        - If new size exceeds the acceptable range, should set the size to the upper bound
+        - If new size is below the acceptable range, should set the size to the lower bound
+
+## Integration Testing
+
+### Home Screen
+
+- Pressing of `Start` button
+    - When the `Start` Button is clicked, it should bring you to the page to choose levels to play.
+- Choosing level to play
+    - After selecting level to play, the level displayed on the screen should match the level selected.
+    - When choosing level to play, touching the dark areas outside the pop up box should not close the pop up box.
+- Pressing of `Edit Levels` Button
+    - When the `Edit Levels` button is clicked, it should bring you to the page to choose levels to edit levels.
+- Choosing level to edit
+    - After selecting level to edit, the level displayed on the screen should match the level selected.
+    - When choosing level to edit, touching the dark areas outside the pop up box should close the pop up box, and show the first level in the list.
+
+### Game play
+
+- Shooting of cannon ball
+    - Ball should fire in the direction which the cannon is facing
+    - Cannot ball should not fire in a direction that is not in the direction of the cannon
+- Collision with pegs
+    - When cannon ball collides with the pegs, it should bounce of in a reasonable manner. It will however, lose some of its energy, like normal objects upon collision.
+    - When cannon ball collides with spooky peg, it should have a blue shadow around it
+    - When cannon ball hits a kaboom peg which activates a spooky peg, the cannon ball should have a blue shadow around it
+    - When cannon ball hits a kaboom peg, it should get thrown off its original trajectory
+- Collision with Triangles
+    - When cannon ball collides with the Triangles, it should bounce off in a reasonable manner
+    - Triangle blocks should not get lit up when hit
+- Collision with edges
+    - When cannon bal collides with the left edge of the screen, it should bounce to the right in a reasonable manner, but with less speed.
+    - When cannon bal collides with the right edge of the screen, it should bounce to the left in a reasonable manner, but with less speed.
+    - The cannon bal should not collide with the top of the screen.
+    - The cannon ball should not collide with the bottom of the screen.
+- Removal of pegs
+    - When the cannon ball exits the screen, all lighted up pegs should be removed from the screen
+    - When the cannon ball exits the screen, all non lighted up pegs should not be removed from the screen.
+- Removal of triangle blocks
+    - Triangle blocks should not be removed when cannon ball exits the screen, as it is a block not a peg.
+- Removal of pegs when stuck
+    - When pegs are blocking the cannon ball from falling down, it should be removed to allow the ball from moving down. The other lighted pegs should not be removed.
+- Removal of triangles when stuck
+    - When triangle blocks are blocking the ball from fallling, it should be removed to allow the ball to fall, and added back after the ball passes through it since it is a blokc
+- Reloading of cannon balls
+    - After the cannon ball drops out of the screen, a new cannon ball should be reloaded and displayed at the top centre of the screen.
+    - If the cannon ball is still bouncing within the screen, no cannon ball should be reloaded and displayed at the top centre of the screen.
+- Turning of the cannon
+    - Cannon should follow the user’s finger when user drags the screen
+    - Cannon should not point anywhere else other than in the direction of the user’s finger
+
+### Level Designer
+
+- Add pegs
+    - When blue peg is selected, tapping on the screen should place a blue peg if it does not overlap with any other pegs.
+    - When orange peg is selected, tapping on the screen should place an orange peg if it does not overlap with any other pegs.
+    - When no pegs are selected, tapping anywhere on the screen should not add any peg.
+- Delete pegs (delete button)
+    - When the delete button is selected tapping a peg which is on the screen should delete the peg.
+    - When delete button is selected, tapping a location of the screen without a peg should not delete any pegs.
+- Delete pegs (press and hold)
+    - When holding down on a peg, it should delete the peg after 1.5s.
+    - When holding down on an empty spot, it should not delete any peg.
+- Move pegs
+    - When dragging a peg, the peg should follow your finger to anywhere it drags, as long as it does not overlap with any other peg or goes out of the screen.
+    - When dragging over another peg, the peg should animate and fly under the peg. It should not be stuck underneath/over that peg.
+- Load levels
+    - When the load button is pressed, a list of past levels created should be displayed.
+    - When the load button is pressed, a list of past levels created should be displayed, and pressing any level should display the layout of the pegs of that level.
+    - When the load button is pressed, a list of past levels created should be displayed, and pressing any level should not display the layout of the pegs of another level.
+- Reset
+    - When the reset button is pressed, all the pegs displayed on the screen should be removed.
+    - When the reset button is pressed, none of the pegs displayed on the screen should not be removed.
+- Save
+    - When the save button is pressed, the peg layout should be saved, and when the level is loaded again, it should reflect the new layout.
+    - When the save button is pressed, the peg layout should be saved, and when the new level is loaded again, it should not reflect the old layout.
+    - When the save button is not pressed, the peg layout should not be saved, and when the same level is loaded back, it should not reflect any changes, and should display the old layout.
+- Portrait
+    - The app should not be able to turn to landscape mode, and should only work in portrait mode.
+- Keyboard
+    - When the keyboard is up, the entire screen should be translated upwards, and none of them should be covered by the keyboard.
+    - When the keyboard is up, we should not be able to delete pegs from the screen.
+    - When the keyboard is up, we should not be able to move pegs on the screen.
+    - When the keyboard is up, we should be able to load levels.
+    - When the keyboard is up, we should be able to save levels.
+    - When the keyboard is up, we should be bale to reset levels.
+- Reloading the app
+    - When the app is reloaded, the data should be saved and the peg layout should be the same as the last saved layout.
+- PegsRow (to select the pegs to place on the board and delete button).
+    - When an unselected peg is pressed, all other buttons should be unselected and it should be selected (lighted up).
+    - When a selected peg is pressed again, it should be unselected.
+    - When the delete peg button is selected, all other buttons should be unselected and it should be selected (lighted up).
+- New level
+    - When a new level is pressed, it should load a new level with no pegs on the screen and the name should be “New Level \(number of levels)”
+- Saving of level names
+    - When a level’s name is unchanged and saved, the name should be unchanged.
+    - When a level’s name is changed and saved, the name should be changed only if the new name is not empty, or consists of only whitespaces.
+    - When a level’s name is changed and saved, if the name has whitespace at the front or the back and is not all whitespace, it should be trimmed and that should be the new level name.
+    - When saving a level with the same name as an old name, it should add an extra number at the back, to indicate it is a different level. Eg “same name (1)”
+- Resizing of PeggleObjects
+    - Resizing of PeggleObjects next to another peggle object should not cause overlap between the two.
+    - Resizing of peggle objects at the edges of the screen should not cause the peggle object to exceed the boundaries.
+    - Resizing should happen when the resize button is pressed
+    - Resizing should not happen when the resize button is not pressed
+- Start button
+    - pressing of start button should start the peggle game with that level which was shown in the level designer
+    - when start button is pressed from level designer, user does not have to select levels from the level loader
+
+## Others
+
+- exit button
+    - When exit button is pressed from level designer OR start game, it should bring the user back to the home page.
+- Background music
+    - Should be played throughout the entire app
 
 ## Written Answers
 
