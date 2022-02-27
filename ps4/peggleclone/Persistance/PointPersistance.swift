@@ -16,7 +16,7 @@ struct PointPersistance: Codable {
         self.yCoordinate = yCoordinate
     }
 
-    func convertToPoint() -> Point {
-        Point(xCoordinate: self.xCoordinate, yCoordinate: self.yCoordinate)
+    func convertToPoint(xScale: Double, yScale: Double) -> Point {
+        Point(xCoordinate: self.xCoordinate * xScale, yCoordinate: self.yCoordinate * yScale)
     }
 }

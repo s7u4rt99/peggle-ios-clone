@@ -112,7 +112,8 @@ struct GameCanvasView: View {
             }
         }
        .alert("Timer's up! You lose :( You earned \(gameEngineManager.points) points!",
-              isPresented: .constant(gameEngineManager.isTimerUp && !(gameEngineManager.isGameWon || gameEngineManager.isGameLost))) {
+              isPresented: .constant(gameEngineManager.isTimerUp &&
+                                     !(gameEngineManager.isGameWon || gameEngineManager.isGameLost))) {
            Button("Home") {
                goToHome()
            }

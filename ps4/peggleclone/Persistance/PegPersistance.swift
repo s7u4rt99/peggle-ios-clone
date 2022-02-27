@@ -13,22 +13,30 @@ class PegPersistance: PeggleObjectPersistance {
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
+    var minRadius: Double
+    var maxRadius: Double
 
     init(_ peg: Peg) {
         self.color = peg.color
         self.radius = peg.radius
+        self.minRadius = peg.pegMinRadius
+        self.maxRadius = peg.pegMaxRadius
         super.init(peg)
     }
 
-    init(id: UUID, center: PointPersistance, color: PegState, radius: Double) {
+    init(id: UUID, center: PointPersistance, color: PegState, radius: Double, minRadius: Double, maxRadius: Double) {
         self.color = color
         self.radius = radius
+        self.minRadius = minRadius
+        self.maxRadius = maxRadius
         super.init(id: id, center: center)
     }
 
     private enum CodingKeys: String, CodingKey {
         case color
         case radius
+        case minRadius
+        case maxRadius
         case id
         case center
     }
@@ -37,6 +45,8 @@ class PegPersistance: PeggleObjectPersistance {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.color = try container.decode(PegState.self, forKey: .color)
         self.radius = try container.decode(Double.self, forKey: .radius)
+        self.minRadius = try container.decode(Double.self, forKey: .minRadius)
+        self.maxRadius = try container.decode(Double.self, forKey: .maxRadius)
         self.shadow = .white
         self.shadowRadius = 0.0
         let id = try container.decode(UUID.self, forKey: .id)
@@ -48,6 +58,8 @@ class PegPersistance: PeggleObjectPersistance {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(color, forKey: .color)
         try container.encode(radius, forKey: .radius)
+        try container.encode(minRadius, forKey: .minRadius)
+        try container.encode(maxRadius, forKey: .maxRadius)
         try container.encode(id, forKey: .id)
         try container.encode(center, forKey: .center)
     }

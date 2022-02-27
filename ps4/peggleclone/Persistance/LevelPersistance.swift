@@ -14,10 +14,14 @@ struct LevelPersistance: Codable {
     var spookyPegPersistances: [SpookyPegPersitance] = []
     var kaboomPegPersistances: [KaboomPegPersistance] = []
     var trianglePegPersistances: [TrianglePegPersistance] = []
+    var width: Double
+    var height: Double
 
-    init(level: Level) {
+    init(level: Level, width: Double, height: Double) {
         self.id = level.id
         self.name = level.name
+        self.width = width
+        self.height = height
         initialisePegPersistanceArr(level.peggleObjects)
     }
 
@@ -35,32 +39,47 @@ struct LevelPersistance: Codable {
         }
     }
 
-    func convertToLevel() -> Level {
+    func convertToLevel(width: Double, height: Double) -> Level {
         var peggleObjects: [PeggleObject] = []
+        let widthRatio = width / self.width
+        let heightRatio = height / self.height
         for pegPersistance in normalPegPersistances {
             peggleObjects.append(Peg(id: pegPersistance.id,
-                            center: pegPersistance.center.convertToPoint(),
+                            center: pegPersistance.center.convertToPoint(xScale: widthRatio, yScale: heightRatio),
                             color: pegPersistance.color,
-                            radius: pegPersistance.radius))
+                                     radius: pegPersistance.radius * widthRatio,
+                                     minRadius: pegPersistance.minRadius * widthRatio,
+                                     maxRadius: pegPersistance.maxRadius * widthRatio))
         }
 
         for spookyPegPersistance in spookyPegPersistances {
             peggleObjects.append(SpookyPeg(id: spookyPegPersistance.id,
-                                           center: spookyPegPersistance.center.convertToPoint(),
-                                           radius: spookyPegPersistance.radius))
+                                           center: spookyPegPersistance.center
+                                            .convertToPoint(xScale: widthRatio, yScale: heightRatio),
+                                           radius: spookyPegPersistance.radius * widthRatio,
+                                           minRadius: spookyPegPersistance.minRadius * widthRatio,
+                                           maxRadius: spookyPegPersistance.maxRadius * widthRatio))
         }
 
         for kaboomPegPersistance in kaboomPegPersistances {
             peggleObjects.append(KaboomPeg(id: kaboomPegPersistance.id,
-                                           center: kaboomPegPersistance.center.convertToPoint(),
-                                           radius: kaboomPegPersistance.radius))
+                                           center: kaboomPegPersistance.center
+                                            .convertToPoint(xScale: widthRatio, yScale: heightRatio),
+                                           radius: kaboomPegPersistance.radius * widthRatio,
+                                           minRadius: kaboomPegPersistance.minRadius * widthRatio,
+                                           maxRadius: kaboomPegPersistance.maxRadius * widthRatio))
         }
 
         for trianglePegPersistance in trianglePegPersistances {
             peggleObjects.append(TriangleBlock(id: trianglePegPersistance.id,
-                                               center: trianglePegPersistance.center.convertToPoint(),
-                                               base: trianglePegPersistance.base,
-                                               height: trianglePegPersistance.height))
+                                               center: trianglePegPersistance.center
+                                                .convertToPoint(xScale: widthRatio, yScale: heightRatio),
+                                               base: trianglePegPersistance.base * widthRatio,
+                                               height: trianglePegPersistance.height * widthRatio,
+                                               minBase: trianglePegPersistance.minBase * widthRatio,
+                                               maxBase: trianglePegPersistance.maxBase * widthRatio,
+                                               minHeight: trianglePegPersistance.minHeight * heightRatio,
+                                               maxHeight: trianglePegPersistance.maxHeight * heightRatio))
         }
 
         return Level(id: self.id, name: self.name, peggleObjects: peggleObjects)

@@ -20,7 +20,7 @@ class LevelManager: ObservableObject, Identifiable {
         self.level = Level()
         self.canvasDimension = .zero
         self.bucket = Bucket(size: 150, center: Point(xCoordinate: 400,
-                                                      yCoordinate: 50))
+                                                      yCoordinate: canvasDimension.height / 15))
     }
 
     init(level: Level, canvasDimension: CGRect) {
@@ -69,22 +69,30 @@ class LevelManager: ObservableObject, Identifiable {
         if let selectedPeg = selectedPeg, safeToPlaceObjectAt(center: center, canvasDimensions: canvasDimensions) {
             if selectedPeg == .spookyPeg {
                 level.addPeggleObject(peggleObject: SpookyPeg(center:
-                                                                Point(xCoordinate: center.x, yCoordinate: center.y)))
+                                                                Point(xCoordinate: center.x, yCoordinate: center.y),
+                                                              radius: Peg.pegMinRadiusRatio * canvasDimensions.width))
             } else if selectedPeg == .kaboomPeg {
                 level.addPeggleObject(peggleObject: KaboomPeg(center:
-                                                                Point(xCoordinate: center.x, yCoordinate: center.y)))
+                                                                Point(xCoordinate: center.x, yCoordinate: center.y),
+                                                              radius: Peg.pegMinRadiusRatio * canvasDimensions.width))
             } else {
-                level.addPeggleObject(peggleObject: Peg(color: selectedPeg, center:
-                                                            Point(xCoordinate: center.x, yCoordinate: center.y)))
+                level.addPeggleObject(peggleObject: Peg(color: selectedPeg,
+                                                        center: Point(xCoordinate: center.x, yCoordinate: center.y),
+                                                        radius: Peg.pegMinRadiusRatio * canvasDimensions.width))
             }
         } else if isTriangleBlockSelected, safeToPlaceObjectAt(center: center, canvasDimensions: canvasDimensions) {
             level.addPeggleObject(peggleObject: TriangleBlock(center: Point(xCoordinate: center.x,
-                                                                            yCoordinate: center.y)))
+                                                                            yCoordinate: center.y),
+                                                              base: TriangleBlock.triangleBaseMinRatio
+                                                              * canvasDimensions.width,
+                                                              height: TriangleBlock.triangleHeightMinRatio
+                                                              * canvasDimensions.height))
         }
     }
 
     private func safeToPlaceObjectAt(center: CGPoint, canvasDimensions: CGRect) -> Bool {
-        if !isWithinScreen(point: center, radius: Peg.pegMinRadius, canvasDimensions: canvasDimensions) {
+        if !isWithinScreen(point: center, radius: Peg.pegMinRadiusRatio * canvasDimensions.width,
+                           canvasDimensions: canvasDimensions) {
             return false
         }
 
@@ -92,9 +100,12 @@ class LevelManager: ObservableObject, Identifiable {
         var object: PeggleObject?
 
         if let pegObject = selectedPeg {
-            object = Peg(color: pegObject, center: Point(xCoordinate: center.x, yCoordinate: center.y))
+            // TODO: change
+            object = Peg(color: pegObject, center: Point(xCoordinate: center.x, yCoordinate: center.y), radius: 25)
         } else if isTriangleBlockSelected {
-            object = TriangleBlock(center: Point(xCoordinate: center.x, yCoordinate: center.y))
+            object = TriangleBlock(center: Point(xCoordinate: center.x, yCoordinate: center.y),
+                                   base: TriangleBlock.triangleBaseMinRatio * canvasDimensions.width,
+                                   height: TriangleBlock.triangleHeightMinRatio * canvasDimensions.height)
         }
 
         guard let object = object else {
@@ -159,7 +170,7 @@ class LevelManager: ObservableObject, Identifiable {
     }
 
     func save(name: String, allLevelsManager: AllLevelsManager) {
-        allLevelsManager.save(levelToSave: self.level, newName: name)
+        allLevelsManager.save(levelToSave: self.level, newName: name, canvasDimensions: canvasDimension)
     }
 
     func changeLevel(level: Level) {
@@ -192,14 +203,11 @@ class LevelManager: ObservableObject, Identifiable {
         objectWillChange.send()
         bucket.shiftTo(location: newLocation)
     }
-//
-//    func scale(peggleObject: PeggleObject, scale: Double) {
-//        objectWillChange.send()
-//        level.scale(peggleObject: peggleObject, scale: scale)
-//    }
-    func resizeObject(peggleObject: PeggleObject, location: CGPoint) {
+
+    func resizeObject(peggleObject: PeggleObject, location: CGPoint, canvasDimensions: CGRect) {
         let point = Point(xCoordinate: location.x, yCoordinate: location.y)
         objectWillChange.send()
-        level.resizeObject(peggleObject: peggleObject, location: point)
+        level.resizeObject(peggleObject: peggleObject, location: point,
+                           width: canvasDimensions.width, height: canvasDimensions.height)
     }
 }

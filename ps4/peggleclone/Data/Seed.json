@@ -1,85 +1,188 @@
 [
    {
-      "id":"FDEC4F07-87CE-4BD7-9E78-6D8A1903AF34",
+      "height":1060,
+      "id":"6059CB65-A7B5-4BA4-B245-D5521607F413",
       "spookyPegPersistances":[
          {
-            "radius":25,
-            "id":"D8FBE88D-4813-4690-A4C2-5A58AAE80FA6",
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"C2BF6268-C2A8-4923-A7D7-7607D75DD160",
             "center":{
-               "xCoordinate":367,
-               "yCoordinate":840.5
-            },
-            "color":"peg-green"
-         },
-         {
-            "radius":25,
-            "id":"4195205D-E239-4B07-A136-9AB82A764E1F",
-            "center":{
-               "xCoordinate":477,
-               "yCoordinate":744.5
-            },
-            "color":"peg-green"
-         },
-         {
-            "radius":25,
-            "id":"A1867069-46B5-4D66-A560-28AE2DDECF76",
-            "center":{
-               "xCoordinate":522,
-               "yCoordinate":772.5
+               "xCoordinate":775,
+               "yCoordinate":836.5
             },
             "color":"peg-green"
          }
       ],
+      "width":810,
+      "kaboomPegPersistances":[
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"3D377FD2-F084-4747-8163-C69FCC6B6A91",
+            "center":{
+               "xCoordinate":766.5,
+               "yCoordinate":152
+            },
+            "color":"peg-green"
+         }
+      ],
+      "trianglePegPersistances":[
+         {
+            "base":48.600000000000001,
+            "height":52.673964843749999,
+            "center":{
+               "xCoordinate":420.5,
+               "yCoordinate":449.5
+            },
+            "id":"705C33AE-442D-41C9-B1E0-21ED8B0B9AF5",
+            "minBase":48.600000000000001,
+            "maxHeight":105.3479296875,
+            "maxBase":97.200000000000003,
+            "minHeight":52.673964843749999
+         }
+      ],
+      "normalPegPersistances":[
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"1A8528D4-BDFD-4B14-BAC9-BD2E688E32B3",
+            "center":{
+               "xCoordinate":40,
+               "yCoordinate":140.5
+            },
+            "color":"peg-orange"
+         },
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"D6C3203F-C958-45AD-A742-302BDBDBCBEC",
+            "center":{
+               "xCoordinate":33.5,
+               "yCoordinate":836.5
+            },
+            "color":"peg-blue"
+         }
+      ],
+      "name":"Default level 1"
+   },
+   {
+      "height":1060,
+      "id":"13E02619-258C-45B6-BE52-E92CC4CC9C68",
+      "spookyPegPersistances":[
+         
+      ],
+      "width":810,
+      "kaboomPegPersistances":[
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"E694400D-9D32-48B8-9255-0C1EB2F3E404",
+            "center":{
+               "xCoordinate":379.5,
+               "yCoordinate":176
+            },
+            "color":"peg-green"
+         }
+      ],
+      "trianglePegPersistances":[
+         
+      ],
+      "normalPegPersistances":[
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"F315ECD6-B101-45C9-B445-BC34AD90F785",
+            "center":{
+               "xCoordinate":55.5,
+               "yCoordinate":817.5
+            },
+            "color":"peg-orange"
+         },
+         {
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"8F37ABD8-03CB-45E4-AD77-A7CA60E9CAA9",
+            "center":{
+               "xCoordinate":744,
+               "yCoordinate":815
+            },
+            "color":"peg-orange"
+         }
+      ],
+      "name":"Default level 2"
+   },
+   {
+      "height":1060,
+      "id":"F532FB45-A0D1-430E-B130-601BCB026226",
+      "spookyPegPersistances":[
+         
+      ],
+      "width":810,
       "kaboomPegPersistances":[
          
       ],
-      "name":"Default LEVEL 1",
+      "trianglePegPersistances":[
+         {
+            "base":48.600000000000001,
+            "height":52.673964843749999,
+            "center":{
+               "xCoordinate":55.5,
+               "yCoordinate":818.5
+            },
+            "id":"C2721F0E-9463-40BB-A7DC-34D1B076CD98",
+            "minBase":48.600000000000001,
+            "maxHeight":105.3479296875,
+            "maxBase":97.200000000000003,
+            "minHeight":52.673964843749999
+         },
+         {
+            "base":48.600000000000001,
+            "height":52.673964843749999,
+            "center":{
+               "xCoordinate":750.5,
+               "yCoordinate":824
+            },
+            "id":"2430477C-8F54-45ED-BE88-015F3D46F579",
+            "minBase":48.600000000000001,
+            "maxHeight":105.3479296875,
+            "maxBase":97.200000000000003,
+            "minHeight":52.673964843749999
+         },
+         {
+            "base":48.600000000000001,
+            "height":52.673964843749999,
+            "center":{
+               "xCoordinate":381,
+               "yCoordinate":508.5
+            },
+            "id":"73B23A48-2276-4D41-94E7-1BC66AAC5B8C",
+            "minBase":48.600000000000001,
+            "maxHeight":105.3479296875,
+            "maxBase":97.200000000000003,
+            "minHeight":52.673964843749999
+         }
+      ],
       "normalPegPersistances":[
          {
-            "radius":25,
-            "id":"A8FF5993-FCAC-484C-B5C7-456261FF2D82",
+            "radius":24.300000000000001,
+            "maxRadius":48.600000000000001,
+            "minRadius":24.300000000000001,
+            "id":"BFC07712-5341-414D-ACA9-6D8F495B8E26",
             "center":{
-               "xCoordinate":236,
-               "yCoordinate":647
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"8FE59661-1FB9-4DA3-8AC3-405FBB3EDF75",
-            "center":{
-               "xCoordinate":439.5,
-               "yCoordinate":514.5
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"A68268B4-5B95-4C53-A5BC-2A4B39BC7352",
-            "center":{
-               "xCoordinate":627.5,
-               "yCoordinate":463
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"A94F32D0-AC7A-4224-9801-25C6610D1091",
-            "center":{
-               "xCoordinate":438,
-               "yCoordinate":635
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"1B7E2D33-22E7-4E59-A4CE-C2CD37EAC677",
-            "center":{
-               "xCoordinate":213.5,
-               "yCoordinate":806
+               "xCoordinate":385.5,
+               "yCoordinate":611
             },
             "color":"peg-orange"
          }
-      ]
+      ],
+      "name":"Default level 3"
    }
 ]

@@ -13,27 +13,34 @@ class KaboomPeg: Peg {
     var explosionState = 1
     var radiusOfPeg: Double
 
-    init(center: Point, radius: Double = 25) {
+    init(center: Point, radius: Double) {
         self.radiusOfPeg = radius
         super.init(color: .greenPeg, center: center, radius: radius)
         self.shadow = .red
         self.shadowRadius = 30.0
     }
 
-    init(id: UUID, center: Point, radius: Double = 25) {
+    init(center: Point, radius: Double, minRadius: Double, maxRadius: Double) {
         self.radiusOfPeg = radius
-        super.init(id: id, center: center, color: .greenPeg, radius: radius)
+        super.init(color: .greenPeg, center: center, radius: radius, minRadius: minRadius, maxRadius: maxRadius)
+        self.shadow = .red
+        self.shadowRadius = 30.0
+    }
+
+    init(id: UUID, center: Point, radius: Double, minRadius: Double, maxRadius: Double) {
+        self.radiusOfPeg = radius
+        super.init(id: id, center: center, color: .greenPeg, radius: radius,
+                   minRadius: minRadius, maxRadius: maxRadius)
         self.shadow = .red
         self.shadowRadius = 30.0
     }
 
     override func glow() {
         renderExplosion()
-        //        self.color = .greenGlow
     }
 
     override func copy() -> Peg {
-        KaboomPeg(center: self.center, radius: self.radius)
+        KaboomPeg(center: self.center, radius: self.radius, minRadius: pegMinRadius, maxRadius: pegMaxRadius)
     }
 
     func setActivated() {

@@ -47,13 +47,28 @@ struct Level: Identifiable {
         }
     }
 
-    mutating func save(name: String, peggleObjects: [PeggleObject]) {
+    mutating func save(name: String, peggleObjects: [PeggleObject], levels: [Level]) {
         self.peggleObjects = peggleObjects
         let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmedName.isEmpty {
-            self.name = trimmedName
+            var nameToSave = trimmedName
+            var count = 1
+            while containsSameName(name: nameToSave, levels: levels) {
+                nameToSave = "\(trimmedName) (\(count))"
+                count += 1
+            }
+            self.name = nameToSave
         }
         countDifferentPegs()
+    }
+
+    private func containsSameName(name: String, levels: [Level]) -> Bool {
+        for level in levels {
+            if level.name.trimmingCharacters(in: .whitespacesAndNewlines) == name && level.id != self.id {
+                return true
+            }
+        }
+        return false
     }
 
     mutating func move(peggleObject: PeggleObject, newLocation: Point) {
@@ -124,14 +139,9 @@ struct Level: Identifiable {
         }
     }
 
-//    func scale(peggleObject: PeggleObject, scale: Double) {
-//        for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
-//            peggleObj.scale(scale)
-//        }
-//    }
-    func resizeObject(peggleObject: PeggleObject, location: Point) {
+    func resizeObject(peggleObject: PeggleObject, location: Point, width: Double, height: Double) {
         for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
-            peggleObj.resizeObject(location: location, peggleObjects: peggleObjects)
+            peggleObj.resizeObject(location: location, peggleObjects: peggleObjects, width: width, height: height)
         }
     }
 }

@@ -9,15 +9,18 @@ import Foundation
 import SwiftUI
 
 class Peg: PeggleObject {
-    static let pegMinRadius = 25.0
-    static let pegMaxRadius = 50.0
+    // TODO: change
+    static let pegMinRadiusRatio = 0.03
+    static let pegMaxRadiusRatio = 0.06
+    var pegMinRadius: Double
+    var pegMaxRadius: Double
     var color: PegState
     var radius: Double
     var shadow: Color = .white
     var shadowRadius: Double = 0.0
     var points: Int
 
-    init(color: PegState, center: Point, radius: Double = 25) {
+    init(color: PegState, center: Point, radius: Double) {
         self.color = color
         self.radius = radius
         if self.color == .orangePeg {
@@ -25,10 +28,12 @@ class Peg: PeggleObject {
         } else {
             self.points = 10
         }
+        self.pegMinRadius = radius
+        self.pegMaxRadius = 2 * radius
         super.init(center: center)
     }
 
-    init(id: UUID, center: Point, color: PegState, radius: Double = 25) {
+    init(color: PegState, center: Point, radius: Double, minRadius: Double, maxRadius: Double) {
         self.color = color
         self.radius = radius
         if self.color == .orangePeg {
@@ -36,6 +41,34 @@ class Peg: PeggleObject {
         } else {
             self.points = 10
         }
+        self.pegMinRadius = minRadius
+        self.pegMaxRadius = maxRadius
+        super.init(center: center)
+    }
+
+    init(id: UUID, center: Point, color: PegState, radius: Double) {
+        self.color = color
+        self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
+        self.pegMinRadius = radius
+        self.pegMaxRadius = 2 * radius
+        super.init(id: id, center: center)
+    }
+
+    init(id: UUID, center: Point, color: PegState, radius: Double, minRadius: Double, maxRadius: Double) {
+        self.color = color
+        self.radius = radius
+        if self.color == .orangePeg {
+            self.points = 100
+        } else {
+            self.points = 10
+        }
+        self.pegMinRadius = minRadius
+        self.pegMaxRadius = maxRadius
         super.init(id: id, center: center)
     }
 
@@ -67,25 +100,36 @@ class Peg: PeggleObject {
     }
 
     override func copy() -> Peg {
-        Peg(color: self.color, center: self.center, radius: self.radius)
+        Peg(color: self.color, center: self.center, radius: self.radius,
+            minRadius: self.pegMinRadius, maxRadius: self.pegMaxRadius)
     }
 
 //    override func scale(_ scale: Double) {
 //        self.radius = radius + 50// radius * (1 + scale)
 //    }
-    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
+    override func resizeObject(location: Point, peggleObjects: [PeggleObject], width: Double, height: Double) {
         var distance = center.distanceFrom(point: location)
-        if distance < Peg.pegMinRadius {
-            distance = Peg.pegMinRadius
-        } else if distance > Peg.pegMaxRadius {
-            distance = Peg.pegMaxRadius
+        if distance < pegMinRadius {
+            distance = pegMinRadius
+        } else if distance > pegMaxRadius {
+            distance = pegMaxRadius
         }
         for peggleObject in peggleObjects where peggleObject.id != self.id {
             if peggleObject.overlap(peggleObject: Peg(color: self.color, center: self.center, radius: distance)) {
                 return
             }
         }
-        self.radius = distance
+        if withinScreen(peg: Peg(color: self.color, center: self.center, radius: distance),
+                        width: width, height: height) {
+            self.radius = distance
+        }
+    }
+
+    private func withinScreen(peg: Peg, width: Double, height: Double) -> Bool {
+        peg.center.xCoordinate >= peg.radius
+        && peg.center.xCoordinate <= (width - peg.radius)
+        && peg.center.yCoordinate >= peg.radius
+        && peg.center.yCoordinate <= (height - peg.radius)
     }
 
     // TODO: refactor into own cannonball class

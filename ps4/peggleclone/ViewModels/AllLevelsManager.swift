@@ -11,14 +11,15 @@ import SwiftUI
 class AllLevelsManager: ObservableObject {
 
     @Published var levels: [Level]
+    private var defaultLevels: [String] = ["Default level 1", "Default level 2", "Default level 3"]
+    private var defaultLevelsId: [UUID] = []
 
     init() {
-        self.levels = StorageManager.loadLevels()
-//        self.levels = []
+        self.levels = []
     }
 
-    func saveToFile() {
-        StorageManager.saveLevels(levels: levels)
+    func saveToFile(canvasDimensions: CGRect) {
+        StorageManager.saveLevels(levels: levels, canvasDimensions: canvasDimensions)
     }
 
     func createNewLevel() -> Level {
@@ -27,14 +28,26 @@ class AllLevelsManager: ObservableObject {
         return newLevel
     }
 
-    func save(levelToSave: Level, newName: String) {
+    func save(levelToSave: Level, newName: String, canvasDimensions: CGRect) {
         for index in 0..<levels.count where levels[index].id == levelToSave.id {
-            levels[index].save(name: newName, peggleObjects: levelToSave.peggleObjects)
+            if defaultLevelsId.contains(levels[index].id) {
+                createNewLevel()
+                levels[levels.count - 1].save(name: newName, peggleObjects: levelToSave.peggleObjects, levels: levels)
+            } else {
+                levels[index].save(name: newName, peggleObjects: levelToSave.peggleObjects, levels: levels)
+            }
         }
-        saveToFile()
+        saveToFile(canvasDimensions: canvasDimensions)
     }
 
     func initialiseLevelManager(canvasDimension: CGRect) -> LevelManager {
+        self.levels = StorageManager.loadLevels(canvasDimensions: canvasDimension)
+        for level in levels {
+            if defaultLevels.contains(level.name) {
+                defaultLevelsId.append(level.id)
+            }
+        }
+
         if levels.isEmpty {
             return LevelManager(level: createNewLevel(), canvasDimension: canvasDimension)
         }
