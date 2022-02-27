@@ -49,7 +49,6 @@
 		6882BA9327CB2650009F3DAD /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9227CB264F009F3DAD /* TimerView.swift */; };
 		6882BA9527CB4293009F3DAD /* MusicManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6882BA9427CB4293009F3DAD /* MusicManager.swift */; };
 		6882BA9727CB467D009F3DAD /* background-music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9627CB467D009F3DAD /* background-music.mp3 */; };
-		6882BA9A27CB483D009F3DAD /* ball-bounce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */; };
 		6882BA9C27CB490E009F3DAD /* ball-bounce.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6882BA9B27CB490E009F3DAD /* ball-bounce.wav */; };
 		68861F0627C92DB500D2AEF7 /* SLPhysicsTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */; };
 		689A4A0027A2CD0D00A2E4E6 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689A49FF27A2CD0D00A2E4E6 /* Level.swift */; };
@@ -115,7 +114,6 @@
 		6882BA9227CB264F009F3DAD /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		6882BA9427CB4293009F3DAD /* MusicManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicManager.swift; sourceTree = "<group>"; };
 		6882BA9627CB467D009F3DAD /* background-music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "background-music.mp3"; sourceTree = "<group>"; };
-		6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "ball-bounce.mp3"; sourceTree = "<group>"; };
 		6882BA9B27CB490E009F3DAD /* ball-bounce.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "ball-bounce.wav"; sourceTree = "<group>"; };
 		68861F0527C92DB500D2AEF7 /* SLPhysicsTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLPhysicsTriangle.swift; sourceTree = "<group>"; };
 		689A49FF27A2CD0D00A2E4E6 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
@@ -251,7 +249,6 @@
 			isa = PBXGroup;
 			children = (
 				6882BA9B27CB490E009F3DAD /* ball-bounce.wav */,
-				6882BA9927CB483C009F3DAD /* ball-bounce.mp3 */,
 				6882BA9627CB467D009F3DAD /* background-music.mp3 */,
 				6882BA9427CB4293009F3DAD /* MusicManager.swift */,
 			);
@@ -391,7 +388,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6882BA9A27CB483D009F3DAD /* ball-bounce.mp3 in Resources */,
 				6882BA9727CB467D009F3DAD /* background-music.mp3 in Resources */,
 				68C1B1E7279DCCD3002DF357 /* Preview Assets.xcassets in Resources */,
 				68C1B1E4279DCCD3002DF357 /* Assets.xcassets in Resources */,

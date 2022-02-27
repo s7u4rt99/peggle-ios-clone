@@ -1,85 +1,178 @@
 [
    {
-      "id":"FDEC4F07-87CE-4BD7-9E78-6D8A1903AF34",
+      "height":1150,
+      "id":"CD1EE9B1-FBF6-4B02-A3C8-2C8141F02146",
       "spookyPegPersistances":[
+         
+      ],
+      "width":834,
+      "kaboomPegPersistances":[
          {
-            "radius":25,
-            "id":"D8FBE88D-4813-4690-A4C2-5A58AAE80FA6",
+            "radius":25.02,
+            "id":"D1DA6D9E-673E-404F-9C52-7F0153B5D58E",
             "center":{
-               "xCoordinate":367,
-               "yCoordinate":840.5
+               "xCoordinate":56.629629629629626,
+               "yCoordinate":111.74528301886792
             },
             "color":"peg-green"
          },
          {
-            "radius":25,
-            "id":"4195205D-E239-4B07-A136-9AB82A764E1F",
+            "radius":25.02,
+            "id":"9766AF2D-3237-46B2-863B-C658992251EB",
             "center":{
-               "xCoordinate":477,
-               "yCoordinate":744.5
-            },
-            "color":"peg-green"
-         },
-         {
-            "radius":25,
-            "id":"A1867069-46B5-4D66-A560-28AE2DDECF76",
-            "center":{
-               "xCoordinate":522,
-               "yCoordinate":772.5
+               "xCoordinate":785.0925925925925,
+               "yCoordinate":112.2877358490566
             },
             "color":"peg-green"
          }
       ],
+      "trianglePegPersistances":[
+         
+      ],
+      "normalPegPersistances":[
+         {
+            "radius":25.02,
+            "id":"04F8B802-BC58-44CF-A469-EF414F3F3EB2",
+            "center":{
+               "xCoordinate":389.71481481481482,
+               "yCoordinate":914.03301886792451
+            },
+            "color":"peg-orange"
+         }
+      ],
+      "name":"NEW LEVEL 1"
+   },
+   {
+      "height":1150,
+      "id":"549A30B7-459D-4C4B-9ECC-58476FA9F0DD",
+      "spookyPegPersistances":[
+         
+      ],
+      "width":834,
       "kaboomPegPersistances":[
          
       ],
-      "name":"Default LEVEL 1",
+      "trianglePegPersistances":[
+         {
+            "id":"8DE4A5AD-711B-4D52-B725-6C4C0DDCA7F0",
+            "base":58.073964843749998,
+            "height":58.073964843749998,
+            "center":{
+               "xCoordinate":431.5,
+               "yCoordinate":662.5
+            }
+         },
+         {
+            "id":"1C848A6C-22F7-453D-B95B-1149B08034A7",
+            "base":116.1479296875,
+            "height":116.1479296875,
+            "center":{
+               "xCoordinate":391.5,
+               "yCoordinate":530
+            }
+         },
+         {
+            "id":"735E8879-9E4C-4A7C-9174-FAA2E333E933",
+            "base":58.073964843749998,
+            "height":58.073964843749998,
+            "center":{
+               "xCoordinate":165,
+               "yCoordinate":633
+            }
+         },
+         {
+            "id":"B19A7A30-02DC-4724-9830-92B23AE2A227",
+            "base":58.073964843749998,
+            "height":58.073964843749998,
+            "center":{
+               "xCoordinate":578,
+               "yCoordinate":660.5
+            }
+         },
+         {
+            "id":"6F8BBAC4-2FE5-42CF-B272-7877CC81BDF1",
+            "base":58.073964843749998,
+            "height":58.073964843749998,
+            "center":{
+               "xCoordinate":698,
+               "yCoordinate":778.5
+            }
+         },
+         {
+            "id":"FD23E66A-24AB-4411-99F1-FA15F6223A88",
+            "base":116.1479296875,
+            "height":116.1479296875,
+            "center":{
+               "xCoordinate":526.5,
+               "yCoordinate":280.5
+            }
+         },
+         {
+            "id":"845F6C4E-F663-4BDE-919A-7B8331BFC685",
+            "base":50.039999999999999,
+            "height":58.073964843749998,
+            "center":{
+               "xCoordinate":163,
+               "yCoordinate":280
+            }
+         },
+         {
+            "id":"B61CD978-E7CE-47B9-BEB1-7661C4C3A3E9",
+            "base":116.1479296875,
+            "height":116.1479296875,
+            "center":{
+               "xCoordinate":269.5,
+               "yCoordinate":338
+            }
+         }
+      ],
       "normalPegPersistances":[
          {
-            "radius":25,
-            "id":"A8FF5993-FCAC-484C-B5C7-456261FF2D82",
+            "radius":50.039999999999999,
+            "id":"09E3C6BC-9B49-4670-B0DF-498FF05F6CF4",
             "center":{
-               "xCoordinate":236,
-               "yCoordinate":647
+               "xCoordinate":74.5,
+               "yCoordinate":914.5
+            },
+            "color":"peg-blue"
+         },
+         {
+            "radius":25.02,
+            "id":"9F6D6CC2-B1EE-4AFD-99D5-D649111F2077",
+            "center":{
+               "xCoordinate":64,
+               "yCoordinate":539.5
+            },
+            "color":"peg-blue"
+         },
+         {
+            "radius":25.02,
+            "id":"FE0A9221-821D-46E2-918C-93E49FDEAC7D",
+            "center":{
+               "xCoordinate":681,
+               "yCoordinate":855
+            },
+            "color":"peg-blue"
+         },
+         {
+            "radius":50.039999999999999,
+            "id":"1DCC0BFC-E443-4403-B386-F5BF7745B986",
+            "center":{
+               "xCoordinate":369.5,
+               "yCoordinate":895.5
             },
             "color":"peg-orange"
          },
          {
-            "radius":25,
-            "id":"8FE59661-1FB9-4DA3-8AC3-405FBB3EDF75",
+            "radius":25.02,
+            "id":"5720540B-EBDC-49A2-999E-77DA3E657641",
             "center":{
-               "xCoordinate":439.5,
-               "yCoordinate":514.5
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"A68268B4-5B95-4C53-A5BC-2A4B39BC7352",
-            "center":{
-               "xCoordinate":627.5,
-               "yCoordinate":463
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"A94F32D0-AC7A-4224-9801-25C6610D1091",
-            "center":{
-               "xCoordinate":438,
-               "yCoordinate":635
-            },
-            "color":"peg-orange"
-         },
-         {
-            "radius":25,
-            "id":"1B7E2D33-22E7-4E59-A4CE-C2CD37EAC677",
-            "center":{
-               "xCoordinate":213.5,
-               "yCoordinate":806
+               "xCoordinate":801.5,
+               "yCoordinate":492.5
             },
             "color":"peg-orange"
          }
-      ]
+      ],
+      "name":"NEW LEVEL 2"
    }
 ]

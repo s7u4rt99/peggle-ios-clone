@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class StorageManager {
 
@@ -14,7 +15,7 @@ class StorageManager {
         .first?.appendingPathComponent("Source.json")
     static let seedURL = Bundle.main.url(forResource: "Seed", withExtension: "json")
 
-    static func loadLevels() -> [Level] {
+    static func loadLevels(canvasDimensions: CGRect) -> [Level] {
         guard var url = sourceURL else {
             fatalError("Source URL is invalid")
         }
@@ -40,29 +41,22 @@ class StorageManager {
         var levels: [Level] = []
 
         for persistanceLevel in persistanceLevels {
-            levels.append(persistanceLevel.convertToLevel())
+            levels.append(persistanceLevel.convertToLevel(width: canvasDimensions.width,
+                                                          height: canvasDimensions.height))
         }
-//        print(levels)
-//        for level in levels {
-//            for peg in level.pegs {
-//                if let peg1 = peg as? Peg {
-//                    print(true)
-//                print("peg \(peg.radius), \(peg.center)")
-//                } else {
-//                    print(false)
-//                }
-//            }
-//        }
+
         return levels
     }
 
-    static func saveLevels(levels: [Level]) {
+    static func saveLevels(levels: [Level], canvasDimensions: CGRect) {
         let encoder = JSONEncoder()
 
         var persistanceLevels: [LevelPersistance] = []
 
         for level in levels {
-            persistanceLevels.append(LevelPersistance(level: level))
+            persistanceLevels.append(LevelPersistance(level: level,
+                                                      width: canvasDimensions.width,
+                                                      height: canvasDimensions.height))
         }
 
         guard let levelJSONData = try? encoder.encode(persistanceLevels) else {

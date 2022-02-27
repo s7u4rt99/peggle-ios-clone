@@ -88,7 +88,8 @@ class SLGameEngine {
         }
         let middleOfTopScreen = CGPoint(x: canvasDimensions.width / 2,
                                         y: canvasDimensions.height / 15)
-        let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen))
+        // TODO: change
+        let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen), radius: 25)
         self.cannonBall = cannonBall
         guard let cannonBallCheck = self.cannonBall else {
             print("failed to add")

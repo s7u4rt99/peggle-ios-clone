@@ -8,18 +8,20 @@
 import Foundation
 
 class TriangleBlock: PeggleObject {
-    static var triangleHeightMin = 50.0
-    static var triangleBaseMin = 50.0
+    static var triangleHeightMinRatio = 0.06
+    static var triangleBaseMinRatio = 0.06
     // TODO: review the max height and base
-    static var triangleHeightMax = 100.0
-    static var triangleBaseMax = 100.0
+    var triangleBaseMin: Double
+    var triangleHeightMin: Double
+    var triangleHeightMax: Double
+    var triangleBaseMax: Double
     var base: Double
     var height: Double
     var vertexOne: Point
     var vertexTwo: Point
     var vertexThree: Point
 
-    init(center: Point, base: Double = 50, height: Double = 50) {
+    init(center: Point, base: Double, height: Double) {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
@@ -28,10 +30,14 @@ class TriangleBlock: PeggleObject {
                                yCoordinate: center.yCoordinate + height / 2)
         self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
                                  yCoordinate: center.yCoordinate + height / 2)
+        self.triangleBaseMin = base
+        self.triangleHeightMin = height
+        self.triangleBaseMax = base * 2
+        self.triangleHeightMax = height * 2
         super.init(center: center)
     }
 
-    init(id: UUID, center: Point, base: Double = 50, height: Double = 50) {
+    init(center: Point, base: Double, height: Double, minBase: Double, maxBase: Double, minHeight: Double, maxHeight: Double) {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
@@ -40,11 +46,50 @@ class TriangleBlock: PeggleObject {
                                yCoordinate: center.yCoordinate + height / 2)
         self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
                                  yCoordinate: center.yCoordinate + height / 2)
+        self.triangleBaseMin = minBase
+        self.triangleHeightMin = minHeight
+        self.triangleBaseMax = maxBase
+        self.triangleHeightMax = maxHeight
+        super.init(center: center)
+    }
+
+    init(id: UUID, center: Point, base: Double, height: Double) {
+        self.base = base
+        self.height = height
+        self.vertexOne = Point(xCoordinate: center.xCoordinate,
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
+        self.triangleBaseMin = base
+        self.triangleHeightMin = height
+        self.triangleBaseMax = base * 2
+        self.triangleHeightMax = height * 2
+        super.init(id: id, center: center)
+    }
+
+    init(id: UUID, center: Point, base: Double, height: Double,
+         minBase: Double, maxBase: Double, minHeight: Double, maxHeight: Double) {
+        self.base = base
+        self.height = height
+        self.vertexOne = Point(xCoordinate: center.xCoordinate,
+                               yCoordinate: center.yCoordinate - height / 2)
+        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
+                               yCoordinate: center.yCoordinate + height / 2)
+        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
+                                 yCoordinate: center.yCoordinate + height / 2)
+        self.triangleBaseMin = minBase
+        self.triangleHeightMin = minHeight
+        self.triangleBaseMax = maxBase
+        self.triangleHeightMax = maxHeight
         super.init(id: id, center: center)
     }
 
     override func copy() -> TriangleBlock {
-        TriangleBlock(center: self.center, base: self.base, height: self.height)
+        TriangleBlock(center: self.center, base: self.base, height: self.height,
+                      minBase: self.triangleBaseMin, maxBase: self.triangleBaseMax,
+                      minHeight: self.triangleHeightMin, maxHeight: self.triangleHeightMax)
     }
 
     override func overlap(peggleObject: PeggleObject) -> Bool {
@@ -69,43 +114,6 @@ class TriangleBlock: PeggleObject {
         self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
                                  yCoordinate: center.yCoordinate + height / 2)
     }
-
-//    private func triangleTriangleOverlapCheck(triangle: TriangleBlock) -> Bool {
-//        let result = trianglePointOverlapCheck(triangle: self, point: triangle.vertexOne)
-//        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexTwo)
-//        || trianglePointOverlapCheck(triangle: self, point: triangle.vertexThree)
-//        || trianglePointOverlapCheck(triangle: self, point: triangle.center)
-//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexOne)
-//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexTwo)
-//        || trianglePointOverlapCheck(triangle: triangle, point: self.vertexThree)
-//        || trianglePointOverlapCheck(triangle: triangle, point: self.center)
-//        || pegWithinTriangle(peg: Peg(color: .bluePeg, center: triangle.center))
-//        || triangle.pegWithinTriangle(peg: Peg(color: .bluePeg, center: self.center))
-//        print(result)
-//        return result
-//    }
-//
-//    private func trianglePointOverlapCheck(triangle: TriangleBlock, point: Point) -> Bool {
-//        let areaOfSelf = 0.5 * base * height // abs((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1) );
-//        let area1 = 0.5 * abs((triangle.vertexOne.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate)
-//                              - (triangle.vertexTwo.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexOne.yCoordinate - point.yCoordinate))
-//        let area2 = 0.5 * abs((triangle.vertexTwo.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexThree.yCoordinate - point.yCoordinate)
-//                              - (triangle.vertexThree.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexTwo.yCoordinate - point.yCoordinate))
-//        let area3 = 0.5 * abs((triangle.vertexThree.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexOne.yCoordinate - point.yCoordinate)
-//                              - (triangle.vertexOne.xCoordinate - point.xCoordinate)
-//                              * (triangle.vertexThree.yCoordinate - point.yCoordinate))
-//        let result = area1 + area2 + area3 <= areaOfSelf
-//        if result == true {
-//            print("area1 \(area1) area2 \(area2) area3 \(area3) area of self\(areaOfSelf)")
-//            print("triangle \(triangle.center) point \(point)")
-//        }
-//        return result
-//    }
 
     func cross(_ triangleOne: TriangleBlock, _ triangleTwo: TriangleBlock) -> Bool {
         let pointA = triangleOne.vertexOne
@@ -263,27 +271,40 @@ class TriangleBlock: PeggleObject {
         return false
     }
 
-    override func resizeObject(location: Point, peggleObjects: [PeggleObject]) {
+    override func resizeObject(location: Point, peggleObjects: [PeggleObject], width: Double, height: Double) {
         var distance = center.distanceFrom(point: location)
-        if distance < TriangleBlock.triangleHeightMin / 2 {
-            distance = TriangleBlock.triangleHeightMin / 2
-        } else if distance > TriangleBlock.triangleHeightMax / 2 {
-            distance = TriangleBlock.triangleHeightMax / 2
+        if distance < triangleBaseMin / 2 {
+            distance = triangleBaseMin / 2
+        } else if distance > triangleBaseMax / 2 {
+            distance = triangleBaseMax / 2
         }
         for peggleObject in peggleObjects where peggleObject.id != self.id {
             if peggleObject.overlap(peggleObject: TriangleBlock(center: self.center,
-                                                                base: distance,
-                                                                height: distance)) {
+                                                                base: distance * 2,
+                                                                height: distance * 2)) {
                 return
             }
         }
-        self.base = distance * 2
-        self.height = distance * 2
-        self.vertexOne = Point(xCoordinate: center.xCoordinate,
-                               yCoordinate: center.yCoordinate - height / 2)
-        self.vertexTwo = Point(xCoordinate: center.xCoordinate - base / 2,
-                               yCoordinate: center.yCoordinate + height / 2)
-        self.vertexThree = Point(xCoordinate: center.xCoordinate + base / 2,
-                                 yCoordinate: center.yCoordinate + height / 2)
+        if withinScreen(triangle: TriangleBlock(center: self.center,
+                                                base: distance * 2,
+                                                height: distance * 2),
+                        width: width,
+                        height: height) {
+            self.base = distance * 2
+            self.height = distance * 2
+            self.vertexOne = Point(xCoordinate: center.xCoordinate,
+                                   yCoordinate: center.yCoordinate - self.height / 2)
+            self.vertexTwo = Point(xCoordinate: center.xCoordinate - self.base / 2,
+                                   yCoordinate: center.yCoordinate + self.height / 2)
+            self.vertexThree = Point(xCoordinate: center.xCoordinate + self.base / 2,
+                                     yCoordinate: center.yCoordinate + self.height / 2)
+        }
+    }
+
+    private func withinScreen(triangle: TriangleBlock, width: Double, height: Double) -> Bool {
+        triangle.center.xCoordinate >= triangle.base / 2
+        && triangle.center.xCoordinate <= (width - triangle.base / 2)
+        && triangle.center.yCoordinate >= triangle.height / 2
+        && triangle.center.yCoordinate <= (height - triangle.height / 2)
     }
 }

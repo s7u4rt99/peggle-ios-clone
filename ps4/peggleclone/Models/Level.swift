@@ -129,9 +129,9 @@ struct Level: Identifiable {
 //            peggleObj.scale(scale)
 //        }
 //    }
-    func resizeObject(peggleObject: PeggleObject, location: Point) {
+    func resizeObject(peggleObject: PeggleObject, location: Point, width: Double, height: Double) {
         for peggleObj in peggleObjects where peggleObj.id == peggleObject.id {
-            peggleObj.resizeObject(location: location, peggleObjects: peggleObjects)
+            peggleObj.resizeObject(location: location, peggleObjects: peggleObjects, width: width, height: height)
         }
     }
 }

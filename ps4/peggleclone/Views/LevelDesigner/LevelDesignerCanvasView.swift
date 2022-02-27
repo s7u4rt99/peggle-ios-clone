@@ -35,7 +35,8 @@ struct LevelDesignerCanvasView: View {
                                 if keyboardResponder.currentHeight == 0 {
                                     if isResize {
                                         let locationOfFinger = value.location
-                                        levelManager.resizeObject(peggleObject: peg, location: locationOfFinger)
+                                        levelManager.resizeObject(peggleObject: peg, location: locationOfFinger,
+                                                                  canvasDimensions: canvasDimensions)
                                     } else {
                                         let locationOfPeg = value.location
                                         levelManager.dragObject(peggleObject: peg,
@@ -44,18 +45,6 @@ struct LevelDesignerCanvasView: View {
                                     }
                                 }
                             }))
-//                            .gesture(MagnificationGesture().onChanged { val in
-//        //                                let delta = val / self.lastScaleValue
-//        //                                self.lastScaleValue = val
-//        //                                let newScale = self.scale * delta
-//                                print("hello")
-//                                print(val)
-//                                levelManager.scale(peggleObject: peg, scale: val)
-//                            //... anything else e.g. clamping the newScale
-//                            }.onEnded { val in
-//                              // without this the next gesture will be broken
-//                              self.lastScaleValue = 1.0
-//                            })
             )
         } else if let triangle = peggleObject as? TriangleBlock {
             return AnyView(
@@ -78,7 +67,9 @@ struct LevelDesignerCanvasView: View {
                                 if keyboardResponder.currentHeight == 0 {
                                     if isResize {
                                         let locationOfFinger = value.location
-                                        levelManager.resizeObject(peggleObject: triangle, location: locationOfFinger)
+                                        levelManager.resizeObject(peggleObject: triangle,
+                                                                  location: locationOfFinger,
+                                                                  canvasDimensions: canvasDimensions)
                                     } else {
                                         let locationOfTriangle = value.location
                                         levelManager.dragObject(peggleObject: triangle,
@@ -87,15 +78,7 @@ struct LevelDesignerCanvasView: View {
                                     }
                                 }
                             }))
-//                    .simultaneousGesture(MagnificationGesture().onChanged { val in
-////                                let delta = val / self.lastScaleValue
-////                                self.lastScaleValue = val
-////                                let newScale = self.scale * delta
-//                        print("hello")
-//                        print(val)
-//                        levelManager.scale(peggleObject: triangle, scale: val)
-//                    //... anything else e.g. clamping the newScale
-//                    })
+
                     Circle()
                         .fill(Color.black)
                         .frame(width: 15, height: 15)

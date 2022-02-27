@@ -13,12 +13,12 @@ class AllLevelsManager: ObservableObject {
     @Published var levels: [Level]
 
     init() {
-        self.levels = StorageManager.loadLevels()
-//        self.levels = []
+//        self.levels = StorageManager.loadLevels(canvasDimensions: canvasDimensions)
+        self.levels = []
     }
 
-    func saveToFile() {
-        StorageManager.saveLevels(levels: levels)
+    func saveToFile(canvasDimensions: CGRect) {
+        StorageManager.saveLevels(levels: levels, canvasDimensions: canvasDimensions)
     }
 
     func createNewLevel() -> Level {
@@ -27,14 +27,15 @@ class AllLevelsManager: ObservableObject {
         return newLevel
     }
 
-    func save(levelToSave: Level, newName: String) {
+    func save(levelToSave: Level, newName: String, canvasDimensions: CGRect) {
         for index in 0..<levels.count where levels[index].id == levelToSave.id {
             levels[index].save(name: newName, peggleObjects: levelToSave.peggleObjects)
         }
-        saveToFile()
+        saveToFile(canvasDimensions: canvasDimensions)
     }
 
     func initialiseLevelManager(canvasDimension: CGRect) -> LevelManager {
+        self.levels = StorageManager.loadLevels(canvasDimensions: canvasDimension)
         if levels.isEmpty {
             return LevelManager(level: createNewLevel(), canvasDimension: canvasDimension)
         }
