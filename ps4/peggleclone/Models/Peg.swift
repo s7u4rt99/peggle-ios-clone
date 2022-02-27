@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 class Peg: PeggleObject {
-    // TODO: change
     static let pegMinRadiusRatio = 0.03
     static let pegMaxRadiusRatio = 0.06
     var pegMinRadius: Double
@@ -104,9 +103,6 @@ class Peg: PeggleObject {
             minRadius: self.pegMinRadius, maxRadius: self.pegMaxRadius)
     }
 
-//    override func scale(_ scale: Double) {
-//        self.radius = radius + 50// radius * (1 + scale)
-//    }
     override func resizeObject(location: Point, peggleObjects: [PeggleObject], width: Double, height: Double) {
         var distance = center.distanceFrom(point: location)
         if distance < pegMinRadius {

@@ -78,23 +78,6 @@ struct LevelDesignerCanvasView: View {
                                     }
                                 }
                             }))
-
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 15, height: 15)
-                        .position(x: triangle.vertexOne.xCoordinate, y: triangle.vertexOne.yCoordinate)
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 15, height: 15)
-                        .position(x: triangle.vertexTwo.xCoordinate, y: triangle.vertexTwo.yCoordinate)
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 15, height: 15)
-                        .position(x: triangle.vertexThree.xCoordinate, y: triangle.vertexThree.yCoordinate)
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: 15, height: 15)
-                        .position(x: triangle.center.xCoordinate, y: triangle.center.yCoordinate)
                 }
                     )
         } else {

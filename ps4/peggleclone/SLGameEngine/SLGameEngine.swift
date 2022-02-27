@@ -88,8 +88,8 @@ class SLGameEngine {
         }
         let middleOfTopScreen = CGPoint(x: canvasDimensions.width / 2,
                                         y: canvasDimensions.height / 15)
-        // TODO: change
-        let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen), radius: 25)
+        let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen),
+                             radius: Peg.pegMinRadiusRatio * canvasDimensions.width)
         self.cannonBall = cannonBall
         guard let cannonBallCheck = self.cannonBall else {
             print("failed to add")
@@ -134,6 +134,49 @@ class SLGameEngine {
         render(cannonBallCount: numberOfCannonBalls)
     }
 
+    private func handleCannonBallMovement(_ cannonBallCount: Int, _ currentCollisions: [Peg]) {
+        guard let cannonBall = cannonBall,
+              let cannonBallPhysicsBody = mappings[cannonBall],
+              let gameDisplayDelegate = gameDisplayDelegate,
+              let gameLogicDelegate = gameLogicDelegate else {
+            return
+        }
+
+        let similarPositionLimit = 75
+
+        if cannonBallCount == 0 {
+            cannonBallPhysicsBody.ignore()
+            mappings.removeValue(forKey: cannonBall)
+            gameDisplayDelegate.didRemove(peg: cannonBall)
+            if cannonBallInBucket {
+                numOfCannonBallsLeft += 1
+                gameLogicDelegate.addCannonball()
+                cannonBallInBucket = false
+            }
+            addCannonBall()
+            self.similarPositionCounter = 0
+        } else {
+            if isCannonBallSamePosition() {
+                if similarPositionCounter > similarPositionLimit {
+                    for peg in currentCollisions {
+                        guard let pegInTouch = mappings[peg] else {
+                            continue
+                        }
+                        if pegInTouch.hasCollided {
+                            pegInTouch.ignore()
+                            gameDisplayDelegate.didRemove(peg: peg)
+                        }
+                    }
+                } else {
+                    similarPositionCounter += 1
+                }
+            } else {
+                self.mostRecentPosition = cannonBallPhysicsBody.position
+                similarPositionCounter = 0
+            }
+        }
+    }
+
     func render(cannonBallCount: Int) {
         guard let gameLogicDelegate = gameLogicDelegate else {
             return
@@ -169,39 +212,7 @@ class SLGameEngine {
                                                  cannonBallCount,
                                                  cannonBall)
 
-        let similarPositionLimit = 75
-
-        if cannonBallCount == 0 {
-            cannonBallPhysicsBody.ignore()
-            mappings.removeValue(forKey: cannonBall)
-            gameDisplayDelegate.didRemove(peg: cannonBall)
-            if cannonBallInBucket {
-                numOfCannonBallsLeft += 1
-                gameLogicDelegate.addCannonball()
-                cannonBallInBucket = false
-            }
-            addCannonBall()
-            self.similarPositionCounter = 0
-        } else {
-            if isCannonBallSamePosition() {
-                if similarPositionCounter > similarPositionLimit {
-                    for peg in currentCollisions {
-                        guard let pegInTouch = mappings[peg] else {
-                            continue
-                        }
-                        if pegInTouch.hasCollided {
-                            pegInTouch.ignore()
-                            gameDisplayDelegate.didRemove(peg: peg)
-                        }
-                    }
-                } else {
-                    similarPositionCounter += 1
-                }
-            } else {
-                self.mostRecentPosition = cannonBallPhysicsBody.position
-                similarPositionCounter = 0
-            }
-        }
+        handleCannonBallMovement(cannonBallCount, currentCollisions)
 
         if numOfCannonBallsLeft == 0 && cannonBallCount == 0 {
             if numOfOrangePegs == 0 {

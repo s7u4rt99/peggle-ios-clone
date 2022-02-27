@@ -100,8 +100,8 @@ class LevelManager: ObservableObject, Identifiable {
         var object: PeggleObject?
 
         if let pegObject = selectedPeg {
-            // TODO: change
-            object = Peg(color: pegObject, center: Point(xCoordinate: center.x, yCoordinate: center.y), radius: 25)
+            object = Peg(color: pegObject, center: Point(xCoordinate: center.x, yCoordinate: center.y),
+                         radius: Peg.pegMinRadiusRatio * canvasDimensions.width)
         } else if isTriangleBlockSelected {
             object = TriangleBlock(center: Point(xCoordinate: center.x, yCoordinate: center.y),
                                    base: TriangleBlock.triangleBaseMinRatio * canvasDimensions.width,

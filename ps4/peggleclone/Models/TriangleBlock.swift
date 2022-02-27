@@ -10,7 +10,6 @@ import Foundation
 class TriangleBlock: PeggleObject {
     static var triangleHeightMinRatio = 0.06
     static var triangleBaseMinRatio = 0.06
-    // TODO: review the max height and base
     var triangleBaseMin: Double
     var triangleHeightMin: Double
     var triangleHeightMax: Double
@@ -38,7 +37,7 @@ class TriangleBlock: PeggleObject {
     }
 
     init(center: Point, base: Double, height: Double, minBase: Double,
-        maxBase: Double, minHeight: Double, maxHeight: Double) {
+         maxBase: Double, minHeight: Double, maxHeight: Double) {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
