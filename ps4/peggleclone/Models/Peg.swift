@@ -73,8 +73,6 @@ class Peg: PeggleObject {
 
     override func overlap(peggleObject: PeggleObject) -> Bool {
         if let peg = peggleObject as? Peg {
-            print("self.radius \(self.radius)")
-            print("peg.radius \(peg.radius)")
             return distanceSquared(peg: peg) <= (self.radius + peg.radius) * (self.radius + peg.radius)
         } else if let triangle = peggleObject as? TriangleBlock {
             return triangle.overlap(peggleObject: self)
@@ -128,7 +126,6 @@ class Peg: PeggleObject {
         && peg.center.yCoordinate <= (height - peg.radius)
     }
 
-    // TODO: refactor into own cannonball class
     override func spooked() {
         self.shadowRadius = 30.0
         self.shadow = .blue

@@ -11,6 +11,7 @@ import SwiftUI
 class SLGameEngine {
     private var physicsEngine = SLPhysicsWorld()
     private var mappings: [PeggleObject: SLPhysicsBody] = [:]
+    private var trianglesRemovedTemporarily: [TriangleBlock: SLPhysicsBody] = [:]
     private let msPerUpdate = TimeInterval(0.016)
     private var lag = 0.0
     private var previous: Date?
@@ -71,12 +72,10 @@ class SLGameEngine {
         mappings[bucket] = bucketPhysicsBody
         physicsObjects.append(bucketPhysicsBody)
         physicsEngine.load(physicsBodies: physicsObjects, canvasDimensions: canvasDimensions)
-        print(level.peggleObjects)
         addCannonBall()
-        guard let cannonBall = cannonBall else {
+        guard cannonBall != nil else {
             return
         }
-        print(cannonBall)
         if numOfOrangePegs == 0 {
             gameLogicDelegate.gameWin()
         }
@@ -91,11 +90,6 @@ class SLGameEngine {
         let cannonBall = Peg(color: PegState.cannonPeg, center: toPoint(point: middleOfTopScreen),
                              radius: Peg.pegMinRadiusRatio * canvasDimensions.width)
         self.cannonBall = cannonBall
-        guard let cannonBallCheck = self.cannonBall else {
-            print("failed to add")
-            return
-        }
-        print("cannon ball added \(cannonBallCheck)")
         gameDisplayDelegate.didAddCannonBall(cannonBall: cannonBall)
         self.mostRecentPosition = cannonBall.center
     }
@@ -134,20 +128,19 @@ class SLGameEngine {
         render(cannonBallCount: numberOfCannonBalls)
     }
 
-    private func handleCannonBallMovement(_ cannonBallCount: Int, _ currentCollisions: [Peg]) {
+    private func handleCannonBallMovement(_ cannonBallCount: Int, _ currentCollisions: [PeggleObject]) {
         guard let cannonBall = cannonBall,
               let cannonBallPhysicsBody = mappings[cannonBall],
               let gameDisplayDelegate = gameDisplayDelegate,
               let gameLogicDelegate = gameLogicDelegate else {
             return
         }
-
         let similarPositionLimit = 75
 
         if cannonBallCount == 0 {
             cannonBallPhysicsBody.ignore()
             mappings.removeValue(forKey: cannonBall)
-            gameDisplayDelegate.didRemove(peg: cannonBall)
+            gameDisplayDelegate.didRemove(peggleObject: cannonBall)
             if cannonBallInBucket {
                 numOfCannonBallsLeft += 1
                 gameLogicDelegate.addCannonball()
@@ -158,13 +151,17 @@ class SLGameEngine {
         } else {
             if isCannonBallSamePosition() {
                 if similarPositionCounter > similarPositionLimit {
-                    for peg in currentCollisions {
-                        guard let pegInTouch = mappings[peg] else {
+                    for peggleObject in currentCollisions {
+                        guard let peggleObjInTouch = mappings[peggleObject] else {
                             continue
                         }
-                        if pegInTouch.hasCollided {
-                            pegInTouch.ignore()
-                            gameDisplayDelegate.didRemove(peg: peg)
+                        if peggleObjInTouch.hasCollided {
+                            peggleObjInTouch.ignore()
+                            gameDisplayDelegate.didRemove(peggleObject: peggleObject)
+                            if let triangle = peggleObject as? TriangleBlock {
+                                // handle them -> put in an array or whatever
+                                trianglesRemovedTemporarily[triangle] = peggleObjInTouch
+                            }
                         }
                     }
                 } else {
@@ -206,12 +203,9 @@ class SLGameEngine {
         moveCannonBall(cannonBall, cannonBallPhysicsBody, gameDisplayDelegate)
 
         let collisions = cannonBallPhysicsBody.collisionsWith
-        let currentCollisions = handleCollisions(collisions,
-                                                 gameDisplayDelegate,
-                                                 gameLogicDelegate,
-                                                 cannonBallCount,
-                                                 cannonBall)
+        let currentCollisions = handleCollisions(collisions, cannonBallCount)
 
+        checkCollidedTriangles()
         handleCannonBallMovement(cannonBallCount, currentCollisions)
 
         if numOfCannonBallsLeft == 0 && cannonBallCount == 0 {
@@ -224,17 +218,38 @@ class SLGameEngine {
         }
     }
 
+    private func checkCollidedTriangles() {
+        for (key, value) in trianglesRemovedTemporarily {
+            if !touchingCannonBall(value) {
+                gameDisplayDelegate?.didAdd(peggleObject: key)
+                mappings[key] = value
+                value.unignore()
+                trianglesRemovedTemporarily.removeValue(forKey: key)
+            }
+        }
+    }
+
+    private func touchingCannonBall(_ physicsBody: SLPhysicsBody) -> Bool {
+        guard let cannonBall = cannonBall, let cannonBallMapping = mappings[cannonBall] else {
+            return false
+        }
+        return cannonBallMapping.intersectWith(physicsBody: physicsBody)
+    }
+
     private func moveBucket(
         _ bucket: Bucket, _ bucketPhysicsBody: SLPhysicsBody, _ gameDisplayDelegate: GameDisplayDelegate) {
         bucket.center = bucketPhysicsBody.position
         gameDisplayDelegate.didMove(peggleObject: bucket, newLocation: bucketPhysicsBody.position)
     }
 
-    private func handleCollisions(
-        _ collisions: [SLPhysicsBody], _ gameDisplayDelegate: GameDisplayDelegate,
-        _ gameLogicDelegate: GameLogicDelegate,
-        _ cannonBallCount: Int, _ cannonBall: Peg) -> [Peg] {
-        var currentCollisions: [Peg] = []
+    private func handleCollisions(_ collisions: [SLPhysicsBody], _ cannonBallCount: Int) -> [PeggleObject] {
+        guard let gameLogicDelegate = gameLogicDelegate,
+              let gameDisplayDelegate = gameDisplayDelegate,
+              let cannonBall = cannonBall else {
+            return []
+        }
+
+        var currentCollisions: [PeggleObject] = []
 
         for (key, value) in mappings where value.hasCollided {
             if let peg = key as? Peg {
@@ -246,8 +261,8 @@ class SLGameEngine {
                     powerUpHandler.handlePowerUp(powerPeg: peg, mappings: mappings,
                                                  cannonBall: cannonBall, gameDisplayDelegate: gameDisplayDelegate)
                 }
-                if cannonBallCount == 0 {
-                    gameDisplayDelegate.didRemove(peg: peg)
+                if cannonBallCount == 0 && peg != cannonBall {
+                    gameDisplayDelegate.didRemove(peggleObject: peg)
                     mappings.removeValue(forKey: peg)
                     if peg.color != cannonBall.color {
                         gameLogicDelegate.didAddPoints(peg.points)
@@ -260,6 +275,10 @@ class SLGameEngine {
                             gameLogicDelegate.gameWin()
                         }
                     }
+                }
+            } else if let triangle = key as? TriangleBlock {
+                if contains(arr: collisions, physicsBody: value) {
+                    currentCollisions.append(triangle)
                 }
             }
         }
@@ -320,20 +339,15 @@ class SLGameEngine {
     }
 
     func fireCannonBall(directionOf: Point) -> Bool {
-        print("fire cannon ball")
         guard let cannonBall = cannonBall else {
-            print("no cannon ball")
             return false
         }
 
         if mappings[cannonBall] != nil {
-            print("no cannon ball mapping")
             return false
         }
 
-        print("fired cannon ball")
         self.numOfCannonBallsLeft -= 1
-        print(numOfCannonBallsLeft)
         var modifiedDirection = directionOf
         if directionOf.yCoordinate < cannonBall.center.yCoordinate {
             modifiedDirection = Point(xCoordinate: directionOf.xCoordinate,

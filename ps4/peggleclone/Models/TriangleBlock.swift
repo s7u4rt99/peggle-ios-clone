@@ -96,9 +96,6 @@ class TriangleBlock: PeggleObject {
         if let peg = peggleObject as? Peg {
             return trianglePegOverlapCheck(peg: peg)
         } else if let triangle = peggleObject as? TriangleBlock {
-//            print("self \(self.base) \(self.height)")
-//            print("triangle \(triangle.base) \(triangle.height)")
-//            return triangleTriangleOverlapCheck(triangle: triangle)
             return trianglesIntersect(self, triangle)
         } else {
             return false

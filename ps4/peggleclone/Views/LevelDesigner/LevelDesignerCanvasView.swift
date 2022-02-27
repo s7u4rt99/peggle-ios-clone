@@ -78,8 +78,7 @@ struct LevelDesignerCanvasView: View {
                                     }
                                 }
                             }))
-                }
-                    )
+                })
         } else {
             return AnyView(EmptyView())
         }

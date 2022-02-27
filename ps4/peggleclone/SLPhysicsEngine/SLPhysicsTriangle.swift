@@ -231,4 +231,8 @@ class SLPhysicsTriangle: SLPhysicsBody {
     func addForceToVelocity(force: Vector) {
         setVelocity(newVelocity: force.addTo(vector: self.velocity))
     }
+
+    func unignore() {
+        self.canIgnore = false
+    }
 }

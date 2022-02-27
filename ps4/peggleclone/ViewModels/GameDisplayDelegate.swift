@@ -9,8 +9,9 @@ import Foundation
 
 protocol GameDisplayDelegate: AnyObject {
     func didMove(peggleObject: PeggleObject, newLocation: Point)
-    func didRemove(peg: Peg)
+    func didRemove(peggleObject: PeggleObject)
     func didAddCannonBall(cannonBall: Peg)
     func spookCannonBall(cannonBall: Peg)
     func renderExplosion(kaboomPeg: KaboomPeg)
+    func didAdd(peggleObject: PeggleObject)
 }

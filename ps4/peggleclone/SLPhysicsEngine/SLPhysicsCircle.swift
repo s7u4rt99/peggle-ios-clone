@@ -125,4 +125,8 @@ class SLPhysicsCircle: SLPhysicsBody {
     func containsPoint(_ point: Point) -> Bool {
         point.distanceFrom(point: position) <= radius
     }
+
+    func unignore() {
+        self.canIgnore = false
+    }
 }

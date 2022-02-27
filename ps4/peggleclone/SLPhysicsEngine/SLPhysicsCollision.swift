@@ -39,63 +39,24 @@ class SLPhysicsCollision {
     }
 
     private func resolveTriangleCircleCollision(triangle: SLPhysicsTriangle, circle: SLPhysicsCircle) {
-//        let collisionVector = Vector(xDirection: circle.position.xCoordinate
-//                                     - triangle.position.xCoordinate,
-//                                     yDirection: circle.position.yCoordinate
-//                                     - triangle.position.yCoordinate)
-//        let distance = 2 * max(triangle.width / 2, circle.radius)
-//        let collisionNormalVector = Vector(xDirection: collisionVector.xDirection / (distance),
-//                                           yDirection: collisionVector.yDirection / (distance))
-//        let relativeVelocity = triangle.velocity.subtract(vector: circle.velocity)
-//        let tempSpeed = (relativeVelocity.xDirection * collisionVector.xDirection +
-//                         relativeVelocity.yDirection * collisionVector.yDirection)
-//        let speedAfterScale = Double(tempSpeed) * speedScale
-//        let speedAfterRestitution = speedAfterScale * restitution
-//        if speedAfterRestitution >= 0 {
-//            triangle.forces.append(collisionNormalVector
-//                                        .multiplyWithScalar(scalar: -1 * speedAfterRestitution))
-//            circle.forces.append(collisionNormalVector
-//                                        .multiplyWithScalar(scalar: speedAfterRestitution))
-//        }
         var restitution = 0.85
         if circleIntersectTriangleVertices(triangle: triangle, circle: circle) {
             restitution = 0.95
             circle.setVelocity(newVelocity: circle.velocity.negate().multiplyWithScalar(scalar: restitution))
         } else if circleIntersectEdge(circle: circle, vertexOne: triangle.vertexOne, vertexTwo: triangle.vertexTwo) {
             // rebound counter clockwise
-//            let line = Vector(xDirection: triangle.vertexTwo.xCoordinate - triangle.vertexOne.xCoordinate,
-//                              yDirection: triangle.vertexTwo.yCoordinate - triangle.vertexOne.yCoordinate)
-//            let normal = Vector(xDirection: -line.yDirection, yDirection: line.xDirection)
-//            let normalUnitVector = normal.multiplyWithScalar(scalar: 1/normal.magnitude)
             let resultant = Vector(xDirection: -circle.velocity.yDirection,
                                    yDirection: circle.velocity.xDirection)
-//            let resultant = circle.velocity
-//                .subtract(vector: normalUnitVector
-//                            .multiplyWithScalar(scalar: 2 * circle.velocity.dotProductWith(vector: normalUnitVector)))
             circle.setVelocity(newVelocity: resultant.multiplyWithScalar(scalar: restitution))
         } else if circleIntersectEdge(circle: circle, vertexOne: triangle.vertexTwo, vertexTwo: triangle.vertexThree) {
             // rebound clockwise
-//            let line = Vector(xDirection: triangle.vertexThree.xCoordinate - triangle.vertexTwo.xCoordinate,
-//                              yDirection: triangle.vertexThree.yCoordinate - triangle.vertexTwo.yCoordinate)
-//            let normal = Vector(xDirection: line.yDirection, yDirection: -line.xDirection)
-//            let normalUnitVector = normal.multiplyWithScalar(scalar: 1/normal.magnitude)
             let resultant = Vector(xDirection: circle.velocity.yDirection,
                                    yDirection: -circle.velocity.xDirection)
-//            let resultant = circle.velocity
-//                .subtract(vector: normalUnitVector
-//                            .multiplyWithScalar(scalar: 2 * circle.velocity.dotProductWith(vector: normalUnitVector)))
             circle.setVelocity(newVelocity: resultant.multiplyWithScalar(scalar: restitution))
         } else if circleIntersectEdge(circle: circle, vertexOne: triangle.vertexThree, vertexTwo: triangle.vertexOne) {
             // rebound clockwise
-//            let line = Vector(xDirection: triangle.vertexOne.xCoordinate - triangle.vertexThree.xCoordinate,
-//                              yDirection: triangle.vertexOne.yCoordinate - triangle.vertexThree.yCoordinate)
-//            let normal = Vector(xDirection: line.yDirection, yDirection: -line.xDirection)
-//            let normalUnitVector = normal.multiplyWithScalar(scalar: 1/normal.magnitude)
             let resultant = Vector(xDirection: circle.velocity.yDirection,
                                    yDirection: -circle.velocity.xDirection)
-//            let resultant = circle.velocity
-//                .subtract(vector: normalUnitVector
-//                            .multiplyWithScalar(scalar: 2 * circle.velocity.dotProductWith(vector: normalUnitVector)))
             circle.setVelocity(newVelocity: resultant.multiplyWithScalar(scalar: restitution))
         }
     }

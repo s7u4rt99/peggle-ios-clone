@@ -17,14 +17,12 @@ class PowerUpHandler {
         if let spookyPeg = powerPeg as? SpookyPeg {
             if !spookyPeg.activated {
                 spookyBallsActivated += 1
-                print(spookyBallsActivated)
                 spookyPeg.setActivated()
             }
         } else if let kaboomPeg = powerPeg as? KaboomPeg {
             if !kaboomPeg.activated {
                 // find area of hit
                 for (key, value) in mappings where isWithinExplosionRadius(kaboomPeg: kaboomPeg, physicsBody: value) {
-                    // TODO: make peggleobject have a glow method?
                     if let peg = key as? Peg {
                         peg.glow()
                         value.setCollided()
@@ -72,7 +70,6 @@ class PowerUpHandler {
             cannonBallPhysicsBody
                 .setVelocity(newVelocity: cannonBallPhysicsBody.velocity.multiplyWithScalar(scalar: 0.5))
             spookyBallsActivated -= 1
-            print("used one spooky ball, \(spookyBallsActivated) left")
         }
     }
 

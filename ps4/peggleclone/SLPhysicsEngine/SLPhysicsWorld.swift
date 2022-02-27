@@ -75,13 +75,13 @@ class SLPhysicsWorld {
                 let nextBody = physicsBodies[secondIndex]
                 let canIgnore = currentBody.canIgnore || nextBody.canIgnore
                 if !canIgnore && currentBody.intersectWith(physicsBody: nextBody) {
-                    MusicManager.shared.ballBounceMusic()
                     currentBody.setCollided()
                     nextBody.setCollided()
                     collisions.append(SLPhysicsCollision(firstBody: currentBody,
                                                               secondBody: nextBody))
                     currentBody.addCollisionWith(physicsBody: nextBody)
                     nextBody.addCollisionWith(physicsBody: currentBody)
+//                    MusicManager.shared.ballBounceMusic()
                 }
             }
          }
@@ -160,6 +160,10 @@ class SLPhysicsWorld {
 
     func addCannonBall(cannonBall: SLPhysicsCircle) {
         self.physicsBodies.append(cannonBall)
+    }
+
+    func add(_ physicsBody: SLPhysicsBody) {
+        self.physicsBodies.append(physicsBody)
     }
 
     func removeBodies() {

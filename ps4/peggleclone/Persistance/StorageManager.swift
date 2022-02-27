@@ -33,7 +33,6 @@ class StorageManager {
             fatalError("Unable to decode data")
         }
 
-        print(url)
         guard let persistanceLevels = try? decoder.decode([LevelPersistance].self, from: data) else {
             fatalError("Failed to decode JSON from data")
         }

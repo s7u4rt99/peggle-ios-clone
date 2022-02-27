@@ -113,4 +113,8 @@ class SLPhysicsBucket: SLPhysicsBody {
     func addForceToVelocity(force: Vector) {
         // do nothing
     }
+
+    func unignore() {
+        self.canIgnore = false
+    }
 }

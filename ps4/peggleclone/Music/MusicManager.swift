@@ -28,7 +28,7 @@ class MusicManager {
                 audioPlayer.prepareToPlay()
                 audioPlayer.play()
             } catch {
-                print(error)
+//                print(error)
             }
         }
     }
@@ -43,7 +43,7 @@ class MusicManager {
                 }
                 audioPlayer.play()
             } catch {
-                print(error)
+//                print(error)
             }
         }
     }

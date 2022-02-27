@@ -12,17 +12,15 @@ extension LevelManager: GameDisplayDelegate {
         if let peg = peggleObject as? Peg {
             movePeg(peg: peg, newLocation: newLocation)
         } else if peggleObject is Bucket {
-//            print("bucket at \(newLocation)")
             moveBucket(newLocation: newLocation)
         }
     }
 
-    func didRemove(peg: Peg) {
-        delete(peggleObject: peg)
+    func didRemove(peggleObject: PeggleObject) {
+        delete(peggleObject: peggleObject)
     }
 
     func didAddCannonBall(cannonBall: Peg) {
-        // add cannon ball at center
         level.addPeggleObject(peggleObject: cannonBall)
     }
 
@@ -32,5 +30,9 @@ extension LevelManager: GameDisplayDelegate {
 
     func renderExplosion(kaboomPeg: KaboomPeg) {
         level.renderExplosion(kaboomPeg: kaboomPeg)
+    }
+
+    func didAdd(peggleObject: PeggleObject) {
+        level.addPeggleObject(peggleObject: peggleObject)
     }
 }
