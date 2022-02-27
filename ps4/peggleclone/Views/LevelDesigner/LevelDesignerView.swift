@@ -34,9 +34,9 @@ struct LevelDesignerView: View {
             if load {
                 GeometryReader { geometry in
                     LevelSelectorView(allLevelsManager: allLevelsManager,
-                                  levelManager: levelManager,
-                                  load: $load,
-                                  levelName: $levelName)
+                                      levelManager: levelManager,
+                                      load: $load,
+                                      levelName: $levelName)
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }.background(
                     Color.black.opacity(0.65)

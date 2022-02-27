@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SpookyPegPersitance: PegPersistance {
+class SpookyPegPersistance: PegPersistance {
     init(_ spookyPeg: SpookyPeg) {
         super.init(spookyPeg)
         self.shadow = spookyPeg.shadow

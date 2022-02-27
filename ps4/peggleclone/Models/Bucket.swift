@@ -16,6 +16,6 @@ class Bucket: PeggleObject {
     }
 
     override func overlap(peggleObject: PeggleObject) -> Bool {
-        return false
+        false
     }
 }

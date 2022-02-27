@@ -95,7 +95,7 @@ class SLGameEngine {
     }
 
     func toPoint(point: CGPoint) -> Point {
-        return Point(xCoordinate: point.x, yCoordinate: point.y)
+        Point(xCoordinate: point.x, yCoordinate: point.y)
     }
 
     func createDisplayLink() {

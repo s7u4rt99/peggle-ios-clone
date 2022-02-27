@@ -49,35 +49,35 @@ struct LevelDesignerCanvasView: View {
         } else if let triangle = peggleObject as? TriangleBlock {
             return AnyView(
                 ZStack {
-                TriangleView(location: .constant(CGPoint(x: triangle.center.xCoordinate,
-                                                         y: triangle.center.yCoordinate)),
-                             triangleBase: triangle.base,
-                             triangleHeight: triangle.height)
-                            .onTapGesture {
-                                if keyboardResponder.currentHeight == 0 && levelManager.isDeleteSelected {
-                                    levelManager.delete(peggleObject: triangle)
-                                }
-                            }
-                            .onLongPressGesture(minimumDuration: 1.5) {
-                                if keyboardResponder.currentHeight == 0 {
-                                    levelManager.delete(peggleObject: triangle)
-                                }
-                            }
-                            .gesture(DragGesture().onChanged({ value in
-                                if keyboardResponder.currentHeight == 0 {
-                                    if isResize {
-                                        let locationOfFinger = value.location
-                                        levelManager.resizeObject(peggleObject: triangle,
-                                                                  location: locationOfFinger,
-                                                                  canvasDimensions: canvasDimensions)
-                                    } else {
-                                        let locationOfTriangle = value.location
-                                        levelManager.dragObject(peggleObject: triangle,
-                                                                  newLocation: locationOfTriangle,
-                                                                  canvasDimensions: canvasDimensions)
+                    TriangleView(location: .constant(CGPoint(x: triangle.center.xCoordinate,
+                                                             y: triangle.center.yCoordinate)),
+                                 triangleBase: triangle.base,
+                                 triangleHeight: triangle.height)
+                                .onTapGesture {
+                                    if keyboardResponder.currentHeight == 0 && levelManager.isDeleteSelected {
+                                        levelManager.delete(peggleObject: triangle)
                                     }
                                 }
-                            }))
+                                .onLongPressGesture(minimumDuration: 1.5) {
+                                    if keyboardResponder.currentHeight == 0 {
+                                        levelManager.delete(peggleObject: triangle)
+                                    }
+                                }
+                                .gesture(DragGesture().onChanged({ value in
+                                    if keyboardResponder.currentHeight == 0 {
+                                        if isResize {
+                                            let locationOfFinger = value.location
+                                            levelManager.resizeObject(peggleObject: triangle,
+                                                                      location: locationOfFinger,
+                                                                      canvasDimensions: canvasDimensions)
+                                        } else {
+                                            let locationOfTriangle = value.location
+                                            levelManager.dragObject(peggleObject: triangle,
+                                                                    newLocation: locationOfTriangle,
+                                                                    canvasDimensions: canvasDimensions)
+                                        }
+                                    }
+                                }))
                 })
         } else {
             return AnyView(EmptyView())

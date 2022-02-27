@@ -78,7 +78,7 @@ class SLPhysicsWorld {
                     currentBody.setCollided()
                     nextBody.setCollided()
                     collisions.append(SLPhysicsCollision(firstBody: currentBody,
-                                                              secondBody: nextBody))
+                                                         secondBody: nextBody))
                     currentBody.addCollisionWith(physicsBody: nextBody)
                     nextBody.addCollisionWith(physicsBody: currentBody)
 //                    MusicManager.shared.ballBounceMusic()

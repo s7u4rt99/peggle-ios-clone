@@ -141,15 +141,15 @@ class TriangleBlock: PeggleObject {
         if temp < 0 {
             return ((sizeA >= 0 && sizeB >= 0 && sizeC >= 0) ||
                          (tempA >= 0 && tempB >= 0 && tempC >= 0) ||
-                         (sizeA+tempA <= temp && sizeB+tempB <= temp && sizeC+tempC <= temp))
+                         (sizeA + tempA <= temp && sizeB + tempB <= temp && sizeC + tempC <= temp))
         }
         return ((sizeA <= 0 && sizeB <= 0 && sizeC <= 0) ||
               (tempA <= 0 && tempB <= 0 && tempC <= 0) ||
-              (sizeA+tempA >= temp && sizeB+tempB >= temp && sizeC+tempC >= temp))
+              (sizeA + tempA >= temp && sizeB + tempB >= temp && sizeC + tempC >= temp))
     }
 
     func trianglesIntersect(_ triangleOne: TriangleBlock, _ triangleTwo: TriangleBlock) -> Bool {
-      return !(cross(triangleOne, triangleTwo) ||
+        !(cross(triangleOne, triangleTwo) ||
                cross(triangleTwo, triangleOne))
     }
 

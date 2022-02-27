@@ -65,7 +65,7 @@ class PowerUpHandler {
 
         if spookyBallsActivated > 0 && isOutOfScreen(peg: cannonBall, canvasDimensions: canvasDimension) {
             gameDisplayDelegate.didMove(peggleObject: cannonBall,
-                                      newLocation: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
+                                        newLocation: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
             cannonBallPhysicsBody.moveTo(position: Point(xCoordinate: cannonBall.center.xCoordinate, yCoordinate: 0))
             cannonBallPhysicsBody
                 .setVelocity(newVelocity: cannonBallPhysicsBody.velocity.multiplyWithScalar(scalar: 0.5))

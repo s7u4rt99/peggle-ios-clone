@@ -11,7 +11,7 @@ struct LevelPersistance: Codable {
     var id: UUID
     var name: String
     var normalPegPersistances: [PegPersistance] = []
-    var spookyPegPersistances: [SpookyPegPersitance] = []
+    var spookyPegPersistances: [SpookyPegPersistance] = []
     var kaboomPegPersistances: [KaboomPegPersistance] = []
     var trianglePegPersistances: [TrianglePegPersistance] = []
     var width: Double
@@ -30,7 +30,7 @@ struct LevelPersistance: Codable {
             if let kaboomPeg = peggleObject as? KaboomPeg {
                 kaboomPegPersistances.append(KaboomPegPersistance(kaboomPeg))
             } else if let spookyPeg = peggleObject as? SpookyPeg {
-                spookyPegPersistances.append(SpookyPegPersitance(spookyPeg))
+                spookyPegPersistances.append(SpookyPegPersistance(spookyPeg))
             } else if let peg = peggleObject as? Peg {
                 normalPegPersistances.append(PegPersistance(peg))
             } else if let triangle = peggleObject as? TriangleBlock {
@@ -45,8 +45,8 @@ struct LevelPersistance: Codable {
         let heightRatio = height / self.height
         for pegPersistance in normalPegPersistances {
             peggleObjects.append(Peg(id: pegPersistance.id,
-                            center: pegPersistance.center.convertToPoint(xScale: widthRatio, yScale: heightRatio),
-                            color: pegPersistance.color,
+                                     center: pegPersistance.center.convertToPoint(xScale: widthRatio, yScale: heightRatio),
+                                     color: pegPersistance.color,
                                      radius: pegPersistance.radius * widthRatio,
                                      minRadius: pegPersistance.minRadius * widthRatio,
                                      maxRadius: pegPersistance.maxRadius * widthRatio))

@@ -9,16 +9,16 @@ import Foundation
 
 class SLPhysicsBucket: SLPhysicsBody {
     var mass: Double = 0.0
-    var velocity: Vector = Vector(xDirection: 100, yDirection: 0)
+    var velocity = Vector(xDirection: 100, yDirection: 0)
     var position: Point
-    var gravity: Vector = Vector()
-    var isDynamic: Bool = true
+    var gravity = Vector()
+    var isDynamic = true
     var forces: [Vector] = []
     var collisionsWith: [SLPhysicsBody] = []
     var height: Double
     var width: Double
-    var hasCollided: Bool = false
-    var canIgnore: Bool = false
+    var hasCollided = false
+    var canIgnore = false
     var previousPosition: Point
 
     init(position: Point, height: Double, width: Double) {

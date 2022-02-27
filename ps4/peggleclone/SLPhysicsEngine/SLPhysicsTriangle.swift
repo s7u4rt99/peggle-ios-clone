@@ -34,7 +34,7 @@ class SLPhysicsTriangle: SLPhysicsBody {
         self.position = position
         self.gravity = gravity
         self.isDynamic = isDynamic
-        self.mass = 1/2 * height * width
+        self.mass = 1 / 2 * height * width
         self.height = height
         self.width = width
         self.vertexOne = Point(xCoordinate: position.xCoordinate,
@@ -51,7 +51,7 @@ class SLPhysicsTriangle: SLPhysicsBody {
         self.position = position
         self.gravity = Vector(xDirection: 0, yDirection: 9.81)
         self.isDynamic = isDynamic
-        self.mass = 1/2 * height * width
+        self.mass = 1 / 2 * height * width
         self.height = height
         self.width = width
         self.vertexOne = Point(xCoordinate: position.xCoordinate,

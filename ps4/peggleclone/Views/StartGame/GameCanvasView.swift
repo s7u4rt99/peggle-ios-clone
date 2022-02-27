@@ -127,7 +127,7 @@ struct GameCanvasView: View {
     }
 
     private func toCGPoint(point: Point) -> CGPoint {
-        return CGPoint(x: point.xCoordinate, y: point.yCoordinate)
+        CGPoint(x: point.xCoordinate, y: point.yCoordinate)
     }
 
     private func setRotation(_ aim: CGPoint) {
@@ -144,8 +144,8 @@ struct GameCanvasView: View {
 
     private func calculateRotation(_ firstVector: Vector, _ secondVector: Vector) -> Double {
         let output = -atan2(
-            firstVector.yDirection*secondVector.xDirection - firstVector.xDirection*secondVector.yDirection,
-            firstVector.xDirection*secondVector.xDirection + firstVector.yDirection*secondVector.yDirection)
+            firstVector.yDirection * secondVector.xDirection - firstVector.xDirection * secondVector.yDirection,
+            firstVector.xDirection * secondVector.xDirection + firstVector.yDirection * secondVector.yDirection)
         if output > Double.pi / 2 {
             return Double.pi / 2
         } else if output < -Double.pi / 2 {
