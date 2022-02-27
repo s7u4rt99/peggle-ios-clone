@@ -254,4 +254,8 @@ tests in code, please delete this section.
 > - if you were to redo the entire application, is there anything you would
 >   have done differently?
 
-Your answer here
+I feel that I did not design my code in the previous problem sets well enough. There were lots of coupling, and it was not very extensible. One example was, instead of creating PeggleObjects, i only created a Pegs class, which could only represent Pegs. When i had to represent Triangles, it was pretty hard.
+
+Yes there were technical debt i had to clean up, mainly was to refactor and reconstruct my classes, like the PeggleObject class mentioned. Also, there was coupling between my model and persistance, and i had to refactor them and decouple it so that it would be easier for me to save more information in JSON format.
+
+If i were to redo the entire application, I would want to first read all the problem sets, so i know roughly what i have to do for the application. Then i would be able to plan my code well, and the structure of my code. I would have liked to use more patterns taught in CS3217, like the delegate, decorator, publisher subscriber pattern, had i known about them earlier. I am sure that if i were to incorporate these patterns, it would be able to solve more problems for me.
