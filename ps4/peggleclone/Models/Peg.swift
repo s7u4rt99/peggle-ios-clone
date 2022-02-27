@@ -100,7 +100,8 @@ class Peg: PeggleObject {
     }
 
     override func copy() -> Peg {
-        Peg(color: self.color, center: self.center, radius: self.radius, minRadius: self.pegMinRadius, maxRadius: self.pegMaxRadius)
+        Peg(color: self.color, center: self.center, radius: self.radius,
+            minRadius: self.pegMinRadius, maxRadius: self.pegMaxRadius)
     }
 
 //    override func scale(_ scale: Double) {

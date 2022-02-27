@@ -37,7 +37,8 @@ class TriangleBlock: PeggleObject {
         super.init(center: center)
     }
 
-    init(center: Point, base: Double, height: Double, minBase: Double, maxBase: Double, minHeight: Double, maxHeight: Double) {
+    init(center: Point, base: Double, height: Double, minBase: Double,
+        maxBase: Double, minHeight: Double, maxHeight: Double) {
         self.base = base
         self.height = height
         self.vertexOne = Point(xCoordinate: center.xCoordinate,
