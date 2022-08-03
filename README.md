@@ -1,21 +1,4 @@
-# CS3217 Problem Set 4
-
-**Name:** Stuart Long Chay Boon
-
-**Matric No:** A0217528B
-
-## Tips
-1. CS3217's docs is at https://cs3217.github.io/cs3217-docs. Do visit the docs often, as
-   it contains all things relevant to CS3217.
-2. A Swiftlint configuration file is provided for you. It is recommended for you
-   to use Swiftlint and follow this configuration. We opted in all rules and
-   then slowly removed some rules we found unwieldy; as such, if you discover
-   any rule that you think should be added/removed, do notify the teaching staff
-   and we will consider changing it!
-
-   In addition, keep in mind that, ultimately, this tool is only a guideline;
-   some exceptions may be made as long as code quality is not compromised.
-3. Do not burn out. Have fun!
+# Peggle Clone
 
 ## Dev Guide
 ## How to play
@@ -204,15 +187,10 @@ The player wins the game by clearing all orange pegs before the timer runs out o
 
 ## Level Designer Additional Features
 
-### Peg Rotation
-Please explain how the player rotates the triangular pegs.
-
 ### Peg Resizing
 The player can resize the peg by pressing the resize button, and then dragging the pegs away from its center to increase its size, and towards its center to decrease its size
 
 ## Bells and Whistles
-Please write all of the additional features that you have implemented so that
-your grader can award you credit.
 ### Background music
 
 Background music has been added to the game, and plays throughout the duration of the game. Credits to  [https://www.bensound.com/](https://www.bensound.com/) for the free music clips.
@@ -537,20 +515,3 @@ A visual representation of the number of cannon balls the user has left is displ
     - When exit button is pressed from level designer OR start game, it should bring the user back to the home page.
 - Background music
     - Should be played throughout the entire app
-
-## Written Answers
-
-### Reflecting on your Design
-> Now that you have integrated the previous parts, comment on your architecture
-> in problem sets 2 and 3. Here are some guiding questions:
-> - do you think you have designed your code in the previous problem sets well
->   enough?
-> - is there any technical debt that you need to clean in this problem set?
-> - if you were to redo the entire application, is there anything you would
->   have done differently?
-
-I feel that I did not design my code in the previous problem sets well enough. There were lots of coupling, and it was not very extensible. One example was, instead of creating PeggleObjects, i only created a Pegs class, which could only represent Pegs. When i had to represent Triangles, it was pretty hard.
-
-Yes there were technical debt i had to clean up, mainly was to refactor and reconstruct my classes, like the PeggleObject class mentioned. Also, there was coupling between my model and persistance, and i had to refactor them and decouple it so that it would be easier for me to save more information in JSON format.
-
-If i were to redo the entire application, I would want to first read all the problem sets, so i know roughly what i have to do for the application. Then i would be able to plan my code well, and the structure of my code. I would have liked to use more patterns taught in CS3217, like the delegate, decorator, publisher subscriber pattern, had i known about them earlier. I am sure that if i were to incorporate these patterns, it would be able to solve more problems for me.
